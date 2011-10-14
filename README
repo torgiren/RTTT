@@ -1,1 +1,32 @@
 Risky Tic Tac Toe jest połączeniem gry "Kółko i Krzyżyk" oraz elementów z gry "Ryzyko"
+
+--ZASADY--
+	--POCZATEK--
+	Na początku, gracz dostaje 5 jednostek, które może dowolnie rozplanować na planszy
+	--ROZGRYWKA--
+	Gracz wybiera swoją prowincję na której ma >1 jednosktę z której chce wysłaś jednoski, oraz docelową, którą chce przejąć.
+	Atakujący i obroniący się "rzucają kostką" K6 w liczbie odpowiadająch jednostek walczących w danej potyczce. Porównywane są odpowiednio największe wyniki, np:
+		--NIEUDANY--
+		Atakujący wyrzuci: 3 4 6 6, natomiast:
+		Broniący wyrzuci: 5 5 5. porównujemy odpowiednio:
+		6>5 wygrywa atakujący
+		6>5 wygrywa atakujący
+		4<5 przegrywa atakujący
+		wynik takiej potyczki jest taki, że prowincja broniąca obroniła się, i pozostał jej jeden wojownik, natomiast atakujący stracił 1 wojownika. Wojska które przeżyły atak, wracają na prowincję z której wyruszyły.
+		--UDANY--
+		Atakujący wyrzuci 3 4 6 6, natomiast:
+		Broniący wyrzuci: 5 5 3, porównujemy odpowiednio:
+		6>5 wygrywa atakujący
+		6>5 wygrywa atakujący
+		4>3 wygrywa atakujący
+		broniący sie nie ma już jednostek, dlatego atakujący podbija tą prowincję i przenosi tam swoje jednostki. Liczba przeniesionych jednostek nie może być mniejsza niż pozostałych przy życiu po walce ani większa niż suma jednostek pozostałych na prowincji oraz pozostałych przy życiu minus 1. Jedna jednostka musi zostać na prowincji.
+		--PRZEJOWANIE PROWINCJI--
+		Po udanym ataku na prowincje, dana prowincja staje się prowincją okupowaną przez danego gracz. Aby ją przejąc, gracz musi zawiesić na niej swoją flagę. Proces trwa 5 tur.
+		Jeśli gracz podbije prowincje która już należy do innego gracza (już ma jego flagę) gracz ten musi poczekać 5 tur na zdjęcie flagi przeciwnika oraz kolejne 5 tur na zawieszenie swojej.
+		W przypadku jeżeli jeden gracz wiesza swoją flage i w tym czasie prowincja zostanie przejęta przez innego gracza, podbijający musi poczekać tyle tur na zdjęcie flagi przeciwnika, ile ten poświęcił na jej wzniesienie. np:
+			Gracz X okupuje prowincje i ma ją przez 2 tury, jego flaga jest na "drugim poziomie". Następnie gracz Y podbija tą prowincje i musi poczekać 2 tury aż zdejmie flage przeciwnika a następnie 5 tur aby zawiesić swoją.
+			Analogicznie, jeśli w powyższym przypadku gracz Y podbija prowincje i ma ją przez jedną turę, to flaga przeciwnika spada z drugiego poziomu na pierwszy. Jeśli w tym czasie gracz X ponownie podbije prowincję musi czekać tylko 4 tury na oznaczenie tej prowincji jako jego, gdyż prowincja miałą już jego flagę na poziomie pierwszym.
+		Jeżeli gracz X podbije prowincje należącą do gracza Y, prowincja należy nadal do gracza Y do czasu gdy gracz X nie zdejmie jego flagi. Gracz Y jednak nie ma prawa wstawiać tam nowych jednostek.
+	Co turę każdy gracz otrzymuje nowe jednostki w liczbie (LiczbaPosiadanychProwincji+LiczbaOkupowanychProwincji/3) które może dowolnie dołożyć do posiadaych lub okupowanych przez siebie prowincji.
+	--KONIEC--
+	Koniec gry następuje gdy jeden z graczy przejmie (postawi w pełni flagę) na 5 prowincjach ułożonych w lini prostej, bądź gdy jeden z graczy się podda.
