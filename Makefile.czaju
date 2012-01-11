@@ -1,0 +1,13 @@
+SRC=$(wildcard *.cpp)
+CLIENT=client
+SERVER=server
+CXX=g++
+CXXFLAGS+=-c -Wall -g --MMD -MP
+LDFLAGS+=-lboost_thread -lpthread -lboost_filesystem -lcrypto -lssl
+OBJ=$(SRC:.cpp=.o)
+
+$(CLIENT): $(CLIENT).cpp $(SERVER)
+        $(CXX) $(LDFLAGS) $(CLIENT).cpp -o $@
+$(SERVER): $(SERVER).cpp
+        $(CXX) $(LDFLAGS) $(SERVER).cpp -o $@
+
