@@ -1,13 +1,19 @@
 LDFLAGS= -lSDL
-CXXFLAGS= -I./../include/ 
-BIN=./../bin
 CXX=g++
-TMP=./../tmp
+BASE=${shell pwd}
+SRC=${BASE}/src
+INCLUDE=${BASE}/include
+BIN=${BASE}/bin
+TMP=${BASE}/tmp
+CXXFLAGS= -I${BASE}/include/ 
 export LDFLAGS
 export CXXFLAGS
 export BIN
 export CXX
 export TMP
+export BASE
+export SRC
+export INCLUDE
 RTTT: torgiren creammy czaju
 	${CXX} ${BIN}/*.o -o $@ ${LDFLAGS}
 torgiren:
