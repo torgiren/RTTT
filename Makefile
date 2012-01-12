@@ -1,11 +1,13 @@
 LDFLAGS= -lSDL
 CXXFLAGS= -Iinclude/ 
-BIN=bin/
+BIN=bin
+CXX=g++
 export LDFLAGS
 export CXXFLAGS
 export BIN
+export CXX
 RTTT: torgiren creammy czaju
-	g++ bin/*.o -o RTTT ${LDFLAGS}
+	${CXX} ${BIN}/*.o -o $@ ${LDFLAGS}
 torgiren:
 	${MAKE} -f Makefile.torgiren
 czaju:
