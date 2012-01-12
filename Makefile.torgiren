@@ -1,2 +1,4 @@
+CXXFLAGS+= -Wall
 main:
-	echo "a";
+	echo ${CXXFLAGS}
+	touch ${BIN}/aa.txt
