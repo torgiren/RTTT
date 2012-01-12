@@ -1,3 +1,4 @@
 CXXFLAGS+= -Wall
-GameEngine: 
+gameengine.o: gameengine.cpp gameengine.h
+	${CXX} -c gameengine.cpp -o ${BIN}/$@ ${CXXFLAGS}
 
