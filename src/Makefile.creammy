@@ -1,2 +1,16 @@
-main: ${SRC}/main.creammy.cpp 
+main: ${SRC}/main.creammy.cpp
 	${CXX} ${SRC}/main.creammy.cpp -o ${TMP}/main.creammy ${CXXFLAGS}
+	
+gameengine.o: ${SRC}/windowengine.cpp ${INCLUDE}/windowengine.h
+	${CXX} -c ${SRC}/windowengine.cpp -o ${BIN}/$@ ${CXXFLAGS}
+	
+drawing.o: ${SRC}/drawing.cpp ${INCLUDE}/drawing.h
+	${CXX} -c ${SRC}/drawing.cpp -o ${BIN}/$@ ${CXXFLAGS}
+screen.o: ${SRC}/screen.cpp ${INCLUDE}/screen.h
+	${CXX} -c ${SRC}/screen.cpp -o ${BIN}/$@ ${CXXFLAGS}
+sprite.o: ${SRC}/sprite.cpp ${INCLUDE}/sprite.h
+	${CXX} -c ${SRC}/sprite.cpp -o ${BIN}/$@ ${CXXFLAGS}
+sprite_sdl_2d.o: ${SRC}/sprite_sdl_2d.cpp ${INCLUDE}/sprite_sdl_2d.h
+	${CXX} -c ${SRC}/sprite_sdl_2d.cpp -o ${BIN}/$@ ${CXXFLAGS}
+windowengine.o: ${SRC}/windowengine.cpp ${INCLUDE}/windowengine.h
+	${CXX} -c ${SRC}/windowengine.cpp -o ${BIN}/$@ ${CXXFLAGS} 
