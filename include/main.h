@@ -9,4 +9,9 @@
  * Natomiast, jeśli podczas okupacji wróg najedzie na planetę która była okupowana przez 2 dni, pokona jednostki gracza i sam zacznie ją okupować, musi odczekać tylko 2 tury na obalenie tworzonego tam rządu. Dokładnie tyle ile gracz poświęcił na jego utworzenie.
  * \subsection zdobywanie_jednostek Zdobywanie jednostek
  * Na każdej pobitej przez gracza planecie produkowane są statki kosmiczne. Tempo tworzenia statków wynisi jeden na turę i zawsze jest tworzony na koniec tury danego gracza. Tak się po wykonaniu swoich manewrów na każdej planecie tworzona jest jedna nowa jednostka. Tyczy sie to również planet gracza, okupowanych przez wroga.
+ * \subsection wygrana Wygrana
+ * Aby wygrać rozgrywkę, należy odeprzeć atak kosmitów. Można to zrobić poprzez eliminację wszystkich wrogich jednostek bądź wykorzystanie <i>Broni ostatecznej</i>. Aby móc z niej skorzystać, nalezy zdobyć planety znajdujące się w jednej lini na przestrzeni całego obszaru bitwy. Zostaje wtedy aktywowana <i>Bron ostateczna</i> i wszystkie wrogie jednostki zostają zniszczone.
+ * @page algorytmy Algorytmy
+ * \section algorytm_walki Algorytm walki
+ * W walce uczestniczy dwóch różnych graczy - atakujący i broniący się. Na każdą rundę walki wystawiana jest maksymalnie flota składająca się z 3 jednostek.
  */
