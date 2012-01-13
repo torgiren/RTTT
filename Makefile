@@ -1,6 +1,6 @@
 LDFLAGS= -lSDL
 CXX=g++
-BASE=${shell pwd}
+BASE=${CURDIR}
 SRC=${BASE}/src
 INCLUDE=${BASE}/include
 BIN=${BASE}/bin
@@ -22,3 +22,5 @@ czaju:
 	${MAKE} -f src/Makefile.czaju
 creammy:
 	${MAKE} -f src/Makefile.creammy
+clean:
+	rm -f ${BIN}/*

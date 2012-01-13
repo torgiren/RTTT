@@ -1,5 +1,4 @@
 CXXFLAGS+= -Wall
 gameengine.o: ${SRC}/gameengine.cpp ${INCLUDE}/gameengine.h
-	echo ${CXXFLAGS}
 	${CXX} -c ${SRC}/gameengine.cpp -o ${BIN}/$@ ${CXXFLAGS}
 
