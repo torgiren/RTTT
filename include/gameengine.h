@@ -23,24 +23,20 @@ class GameEngine
 		 * @details Metoda kończąca ture danego gracza. W tej chwili dodawane są jednoski dla "jeszcze" aktualnego gracza.
 		 * @return Zwraca numer następnego gracza.
 		 */
-		int NextTurn();
+		int EndTurn();
 		/**
 		 * @brief Aktualny gracz
-		 * @details Zwraca numer aktualnego gracz.
+		 * @details Zwraca numer aktualnego gracza.
 		 * @return Numer aktualnego gracza.
 		 */
 		int ActPlayer() const;
 		/**
 		 * @brief Przenosi jednoski z jednej planety na drugą
-		 * @details Wykonuje operacje przeniesienia jednostek z planety źródłowej na docelową. Metoda sprawdza czy dana operacja jest możliwe (czy <b>num</b> <= liczba_jednostek-1) 
+		 * @details Wykonuje operacje przeniesienia jednostek z planety źródłowej na docelową. Metoda sprawdza czy dana operacja jest możliwa (np: czy <b>num</b> <= liczba_jednostek-1) 
 		 * @param[in] src Współrzędne planety źródłowej
 		 * @param[in] dst Współrzędne planety docelowej
 		 * @param[in] num Liczba jednostek do przeniesienia
-		 * @return Zwraca:<ul>
-		 * <li>TOO_MUCH - jeśli wybrana ilość jednostek jest większa niż możliwa
-		 * <li>OUT_OF_AREA - jeśli wybrane źródło i/lub cel jest poza obszarem gry (normalnie nie występuje)
-		 * <li>NOT_ANY - jeśli gracz nie posiada żadnych jednostek na danej planecie źródłowej
-		 * </ol>
+		 * @return Zwraca ERRORS::MOVE
 		 */
 		ERRORS::MOVE Move(const Point& src,const Point& dst,uint16 num);
 		/**
