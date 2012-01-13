@@ -8,7 +8,7 @@
 #ifndef DRAWING_H_
 #define DRAWING_H_
 
-#include "main.h"
+#include "main.creammy.h"
 
 namespace Drawing
 	{

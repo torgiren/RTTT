@@ -1,5 +1,5 @@
 /*
- * Ini.h
+ * ini.h
  *
  *  Created on: 18-10-2011
  *      Author: crm

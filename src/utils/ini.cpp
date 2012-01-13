@@ -7,7 +7,7 @@
 
 #include <fstream>
 
-#include "Ini.h"
+#include "ini.h"
 
 using namespace std;
 

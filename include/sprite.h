@@ -6,7 +6,7 @@
 #include <map>
 #include <set>
 
-#include "engine.h"
+#include "windowengine.h"
 
 class Sprite
 	{

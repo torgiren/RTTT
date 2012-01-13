@@ -1,4 +1,4 @@
-#include "main.h"
+#include "main.creammy.h"
 #include "sprite.h"
 #include "utils/resource.h"
 #include "drawing.h"

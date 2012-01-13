@@ -2,7 +2,7 @@
 #define SPRITE_SDL_2D_H
 
 #include "sprite.h"
-#include "main.h"
+#include "main.creammy.h"
 
 class SpriteSDL2D: public Sprite
 	{

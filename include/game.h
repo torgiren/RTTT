@@ -1,20 +1,20 @@
 /*
- * game.h
+ * screen.h
  *
  *  Created on: 12-01-2012
  *      Author: crm
  */
 
-#ifndef GAME_H_
-#define GAME_H_
+#ifndef SCREEN_H_
+#define SCREEN_H_
 
-#include "main.h"
+#include "main.creammy.h"
 
-namespace Game
+namespace Screen
 	{
 	void init();
 	void update();
 	void draw();
 	}
 
-#endif /* GAME_H_ */
+#endif /* SCREEN_H_ */

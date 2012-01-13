@@ -1,9 +1,9 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef WINDOWENGINE_H
+#define WINDOWENGINE_H
 
 struct SDL_Surface;
 
-namespace Engine
+namespace WindowEngine
 	{
 	enum RenderType {SDL, OPENGL};
 	enum WaitType {DELAY, DELTA};
@@ -46,4 +46,4 @@ namespace Engine
 	//bool setScreen(int w, int h, int bpp, int fullscreen);	// Tworzy okienko
 	}
 
-#endif // ENGINE_H
+#endif // WINDOWENGINE_H

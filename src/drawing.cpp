@@ -3,7 +3,6 @@
  *
  *  Created on: 12-01-2012
  *      Author: crm
- *      Author: Xiaolin Wu, wikipedia
  */
 
 #include "drawing.h"
