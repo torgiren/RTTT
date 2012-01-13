@@ -1,2 +1,2 @@
-main:
-	echo "a";
+main: ${SRC}/main.czaju.cpp 
+	${CXX} ${SRC}/main.czaju.cpp -o ${TMP}/main.czaju ${CXXFLAGS}

@@ -1,2 +1,2 @@
-main:
-	echo "c";
+main: ${SRC}/main.creammy.cpp 
+	${CXX} ${SRC}/main.creammy.cpp -o ${TMP}/main.creammy ${CXXFLAGS}

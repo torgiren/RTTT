@@ -18,10 +18,16 @@ RTTT: torgiren creammy czaju
 	${CXX} ${BIN}/*.o -o $@ ${LDFLAGS}
 torgiren:
 	${MAKE} -f src/Makefile.torgiren
+torgiren_run: torgiren
+	./tmp/main.torgiren
 czaju:
 	${MAKE} -f src/Makefile.czaju
+czaju_run: czaju
+	./tmp/main.czaji
 creammy:
 	${MAKE} -f src/Makefile.creammy
+creammy_run: creammy
+	./tmp/main.creammy
 docs:
 	doxygen Doxyfile
 clean:

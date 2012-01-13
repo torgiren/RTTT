@@ -1,4 +1,8 @@
 CXXFLAGS+= -Wall
+main: ${SRC}/main.torgiren.cpp gameengine.o planet.o
+	${CXX} ${SRC}/main.torgiren.cpp -o ${TMP}/main.torgiren ${CXXFLAGS}
 gameengine.o: ${SRC}/gameengine.cpp ${INCLUDE}/gameengine.h
 	${CXX} -c ${SRC}/gameengine.cpp -o ${BIN}/$@ ${CXXFLAGS}
+planet.o: ${SRC}/planet.cpp ${INCLUDE}/planet.h
+	${CXX} -c ${SRC}/planet.cpp -o ${BIN}/$@ ${CXXFLAGS}
 
