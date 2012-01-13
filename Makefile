@@ -1,4 +1,4 @@
-LDFLAGS= -lSDL
+LDFLAGS= -lSDL -lboost_filesystem -lboost_thread
 CXX=g++
 BASE=${CURDIR}
 SRC=${BASE}/src

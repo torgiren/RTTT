@@ -59,7 +59,7 @@ public:
   void encode_header(){
     using namespace std; // For sprintf and memcpy.
     char header[header_length + 1] = "";
-    sprintf(header, "%4d", _body_length);
+    sprintf(header, "%4d", (int)_body_length);
     memcpy(_data, header, header_length);
   }
 
