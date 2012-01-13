@@ -22,5 +22,9 @@ czaju:
 	${MAKE} -f src/Makefile.czaju
 creammy:
 	${MAKE} -f src/Makefile.creammy
+docs:
+	doxygen Doxyfile
 clean:
 	rm -f ${BIN}/*
+
+.PHONY: torgiren creammy czaju clean docs
