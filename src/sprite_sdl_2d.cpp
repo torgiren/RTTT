@@ -58,6 +58,6 @@ void SpriteSDL2D::print(float x, float y, float , int anim, int frame, unsigned 
 	SDL_Rect offset, clip;
 	offset.x=x-frm.spotx; offset.y=y-frm.spoty; offset.w=frm.w; offset.w=frm.h;
 	clip.x=frm.x; clip.y=frm.y; clip.w=frm.w; clip.h=frm.h;
-	SDL_BlitSurface(sprite, &clip, Engine::getScreen(), &offset);
+	SDL_BlitSurface(sprite, &clip, WindowEngine::getScreen(), &offset);
 	}
 

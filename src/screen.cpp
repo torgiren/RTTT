@@ -96,9 +96,9 @@ namespace Screen
 	{
 	void init()
 		{
-		Engine::addMouseDownEventHandler	(mdown);
-		Engine::addMouseUpEventHandler		(mup);
-		Engine::addMouseMotionEventHandler	(mmove);
+		WindowEngine::addMouseDownEventHandler		(mdown);
+		WindowEngine::addMouseUpEventHandler		(mup);
+		WindowEngine::addMouseMotionEventHandler	(mmove);
 		}
 
 	void update()

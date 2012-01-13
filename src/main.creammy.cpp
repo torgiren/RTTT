@@ -2,7 +2,7 @@
 #include "sprite.h"
 #include "utils/resource.h"
 #include "drawing.h"
-#include "game.h"
+#include "screen.h"
 
 #undef main
 int main(int , char *[])
@@ -12,17 +12,17 @@ int main(int , char *[])
 
 	srand(time(NULL));
 
-	if(!Engine::init(Engine::SDL, Engine::DELAY))
+	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
 		{
 		printf("Nie udalo sie stworzyc okienka\n");
 		return 100;
 		}
-	Drawing::setSurface(Engine::getScreen());
+	Drawing::setSurface(WindowEngine::getScreen());
 	Resource::init(RESLIST);
-	Game::init();
+	Screen::init();
 
 	unsigned int fpsfr=0, fpsft=SDL_GetTicks();
-	while(Engine::update())
+	while(WindowEngine::update())
 		{
 		fpsfr++;
 		if(fpsft+1000<SDL_GetTicks())
@@ -40,14 +40,14 @@ int main(int , char *[])
 		Drawing::drawLineShr(SCREENWIDTH*3/4, 0, SCREENWIDTH, SCREENHEIGHT);
 
 		Drawing::setColor(0xFFFFFFFF);
-		Game::update();
-		Game::draw();
+		Screen::update();
+		Screen::draw();
 
-		Engine::print();
+		WindowEngine::print();
 		}
 
 	Sprite::clear();
-	Engine::quit();
+	WindowEngine::quit();
 	printf("Stop");
 	return 0;
 	}

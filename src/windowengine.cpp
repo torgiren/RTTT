@@ -6,7 +6,7 @@ const float SCREENFAR=1000;
 const float SCREENNEAR=-1000;
 const float DELTA_MIN=0.000001f;
 
-namespace WindowWindowEngine
+namespace WindowEngine
 	{
 	bool initSDL();
 

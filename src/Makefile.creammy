@@ -1,16 +1,28 @@
-main: ${SRC}/main.creammy.cpp
+main: ${SRC}/main.creammy.cpp ${BIN}/drawing.o ${BIN}/screen.o ${BIN}/sprite.o ${BIN}/sprite_sdl_2d.o ${BIN}/windowengine.o ${BIN}/utils/*.o
 	${CXX} ${SRC}/main.creammy.cpp -o ${TMP}/main.creammy ${CXXFLAGS}
-	
-gameengine.o: ${SRC}/windowengine.cpp ${INCLUDE}/windowengine.h
-	${CXX} -c ${SRC}/windowengine.cpp -o ${BIN}/$@ ${CXXFLAGS}
-	
-drawing.o: ${SRC}/drawing.cpp ${INCLUDE}/drawing.h
+		
+${BIN}/drawing.o: ${SRC}/drawing.cpp ${INCLUDE}/drawing.h
 	${CXX} -c ${SRC}/drawing.cpp -o ${BIN}/$@ ${CXXFLAGS}
-screen.o: ${SRC}/screen.cpp ${INCLUDE}/screen.h
+${BIN}/screen.o: ${SRC}/screen.cpp ${INCLUDE}/screen.h
 	${CXX} -c ${SRC}/screen.cpp -o ${BIN}/$@ ${CXXFLAGS}
-sprite.o: ${SRC}/sprite.cpp ${INCLUDE}/sprite.h
+${BIN}/sprite.o: ${SRC}/sprite.cpp ${INCLUDE}/sprite.h
 	${CXX} -c ${SRC}/sprite.cpp -o ${BIN}/$@ ${CXXFLAGS}
-sprite_sdl_2d.o: ${SRC}/sprite_sdl_2d.cpp ${INCLUDE}/sprite_sdl_2d.h
+${BIN}/sprite_sdl_2d.o: ${SRC}/sprite_sdl_2d.cpp ${INCLUDE}/sprite_sdl_2d.h
 	${CXX} -c ${SRC}/sprite_sdl_2d.cpp -o ${BIN}/$@ ${CXXFLAGS}
-windowengine.o: ${SRC}/windowengine.cpp ${INCLUDE}/windowengine.h
+${BIN}/windowengine.o: ${SRC}/windowengine.cpp ${INCLUDE}/windowengine.h
 	${CXX} -c ${SRC}/windowengine.cpp -o ${BIN}/$@ ${CXXFLAGS} 
+
+${BIN}/utils/database.o: ${SRC}/utils/database.cpp ${INCLUDE}/utils/database.h
+	${CXX} -c ${SRC}/utils/database.cpp -o ${BIN}/$@ ${CXXFLAGS}
+${BIN}/utils/ini.o: ${SRC}/utils/ini.cpp ${INCLUDE}/utils/ini.h
+	${CXX} -c ${SRC}/utils/ini.cpp -o ${BIN}/$@ ${CXXFLAGS}
+${BIN}/utils/listdir.o: ${SRC}/utils/listdir.cpp ${INCLUDE}/utils/listdir.h
+	${CXX} -c ${SRC}/utils/listdir.cpp -o ${BIN}/$@ ${CXXFLAGS}
+${BIN}/utils/log.o: ${SRC}/utils/log.cpp ${INCLUDE}/utils/log.h
+	${CXX} -c ${SRC}/utils/log.cpp -o ${BIN}/$@ ${CXXFLAGS}
+${BIN}/utils/parser.o: ${SRC}/utils/parser.cpp ${INCLUDE}/utils/parser.h
+	${CXX} -c ${SRC}/utils/parser.cpp -o ${BIN}/$@ ${CXXFLAGS}
+${BIN}/utils/resfile.o: ${SRC}/utils/resfile.cpp ${INCLUDE}/utils/resfile.h
+	${CXX} -c ${SRC}/utils/resfile.cpp -o ${BIN}/$@ ${CXXFLAGS}
+${BIN}/utils/resource.o: ${SRC}/utils/resource.cpp ${INCLUDE}/utils/resource.h
+	${CXX} -c ${SRC}/utils/resource.cpp -o ${BIN}/$@ ${CXXFLAGS}

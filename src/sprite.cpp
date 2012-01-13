@@ -81,7 +81,7 @@ Sprite* Sprite::load(const std::string& name, bool force)
 
 	try
 		{
-		if(Engine::getRenderType()==Engine::SDL)
+		if(WindowEngine::getRenderType()==WindowEngine::SDL)
 			spr=new SpriteSDL2D(name);
 		}
 	catch(std::bad_alloc&)
@@ -252,9 +252,9 @@ void Sprite::animate(int anim, float& frame, float spd)
 	{
 	Anim& a=getAnim(anim);
 	if(spd<0.0f)
-		frame+=a.getAspd()*Engine::getDelta();
+		frame+=a.getAspd()*WindowEngine::getDelta();
 	else
-		frame+=spd*Engine::getDelta();
+		frame+=spd*WindowEngine::getDelta();
 	if((int)frame>=a.getFrameCount())
 		{
 		float diff=frame-(int)(frame);
