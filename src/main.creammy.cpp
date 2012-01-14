@@ -1,6 +1,5 @@
 #include "main.creammy.h"
 #include "sprite.h"
-#include "utils/resource.h"
 #include "drawing.h"
 #include "screen.h"
 
@@ -12,13 +11,12 @@ int main(int , char *[])
 
 	srand(time(NULL));
 
-	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
+	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELTA))
 		{
 		printf("Nie udalo sie stworzyc okienka\n");
 		return 100;
 		}
 	Drawing::setSurface(WindowEngine::getScreen());
-	Resource::init(RESLIST);
 	Screen::init();
 
 	unsigned int fpsfr=0, fpsft=SDL_GetTicks();
@@ -32,14 +30,21 @@ int main(int , char *[])
 			fpsft=SDL_GetTicks();
 			}
 
-		Drawing::setColor(0x80808080);
-		Drawing::drawLineShr(0, 0, SCREENWIDTH, SCREENHEIGHT);
-		Drawing::drawLineShr(0, SCREENHEIGHT/2, SCREENWIDTH, SCREENHEIGHT/2);
-		Drawing::drawLineShr(0, SCREENHEIGHT, SCREENWIDTH*3/4, 0);
-		Drawing::drawLineShr(SCREENWIDTH/2, 0, SCREENWIDTH/2, SCREENHEIGHT);
-		Drawing::drawLineShr(SCREENWIDTH*3/4, 0, SCREENWIDTH, SCREENHEIGHT);
+		/*Drawing::setColor(0xFFFF0000);
+		Drawing::drawLine(Vertex(96, 96, 96), Vertex(128, 128, 128));
+		Drawing::drawLine(Vertex(160, 68, 128), Vertex(160, 100, 128));
+		Drawing::drawLine(Vertex(212, 192, 128), Vertex(180, 160, 128));
 
-		Drawing::setColor(0xFFFFFFFF);
+		Drawing::drawLine(Vertex(340, 285, 24), Vertex(365, 435, 69));
+
+		Drawing::setColor(0xFF00FF00);
+		Drawing::drawTriangle(Vertex(128, 128, 128), Vertex(160, 100, 128), Vertex(180, 160, 128));
+		Drawing::drawTriangle(Vertex(280, 260, 228), Vertex(260, 200, 228), Vertex(228, 228, 228));
+
+		Drawing::setColor(0xFF0000FF);
+		Drawing::drawQuad(Vertex(24, 200, 32), Vertex(8, 216, 32), Vertex(24, 232, 32), Vertex(40, 216, 32));
+		Drawing::drawQuad(Vertex(300, 305, 32), Vertex(315, 420, 64), Vertex(405, 415, 32), Vertex(410, 320, 64));*/
+
 		Screen::update();
 		Screen::draw();
 

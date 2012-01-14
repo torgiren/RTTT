@@ -8,6 +8,9 @@
 #include "screen.h"
 #include "drawing.h"
 
+const int CUBE_SIZE=64;
+const int CUBE_DIST=32; //CUBE_SIZE*6;
+
 inline void sincos(float ang, float& s, float& c)
 	{
 	asm	(
@@ -17,11 +20,52 @@ inline void sincos(float ang, float& s, float& c)
 		);
 	}
 
+struct Cube
+	{
+	Cube(int x=0, int y=0, int z=0):
+		x(x), y(y), z(z)
+		{
+		reset();
+		}
+
+	void reset()
+		{
+	// Przod
+		verts[ 0]=Vertex(0, 0, 0);
+		verts[ 1]=Vertex(1, 0, 0);
+		verts[ 2]=Vertex(1, 1, 0);
+		verts[ 3]=Vertex(0, 1, 0);
+	// Tyl
+		verts[ 4]=Vertex(0, 0, 1);
+		verts[ 5]=Vertex(1, 0, 1);
+		verts[ 6]=Vertex(1, 1, 1);
+		verts[ 7]=Vertex(0, 1, 1);
+	// Tyl
+		verts[ 4]=Vertex(0, 0, 1);
+		verts[ 5]=Vertex(1, 0, 1);
+		verts[ 6]=Vertex(1, 1, 1);
+		verts[ 7]=Vertex(0, 1, 1);
+
+
+		for(int i=0; i<VERT_COUNT; ++i)
+			verts[i]=verts[i]*CUBE_SIZE+Vertex(x, y, z)*(CUBE_SIZE+CUBE_DIST);
+		}
+
+	static const int VERT_COUNT=24;
+
+	int x, y, z;
+	unsigned int col;
+
+	Vertex verts[VERT_COUNT];
+	};
+
 /************************************************/
 /****************** Funkcje *********************/
 /************************************************/
 namespace Screen
 	{
+	void drawCube(Cube c);
+
 	void mdown(int x, int y, int key);
 	void mup(int x, int y, int key);
 	void mmove(int x, int y, int key);
@@ -39,6 +83,8 @@ namespace Screen
 
 	int lx=-1;			// Ostatni x myszy
 	int ly=-1;			// Ostatni y myszy
+	int mx=0;			// Ostatni ruch w x
+	int my=0;			// Ostatni ruch w y
 
 	float rx=	0.0f;	// Aktualny obrot w x
 	float ry=	0.0f;	// Aktualny obrot w y
@@ -49,45 +95,9 @@ namespace Screen
 	float spdx=	0.0f;	// Szybkosc obrotu w x
 	float spdy= 0.0f;	// Szybkosc obrotu w y
 
-	int size;
-	vector<vector<vector<int> > > area;
+	int size=4;
+	vector<vector<vector<Cube> > > area;
 	}
-
-struct Vertex
-	{
-	Vertex(float x, float y, float z):
-		x(x), y(y), z(z) {};
-
-	Vertex& operator=(const Vertex& v)
-		{
-		x=v.x;
-		y=v.y;
-		z=v.z;
-		return *this;
-		}
-
-	Vertex operator+(const Vertex& v)
-		{
-		return Vertex(x+v.x, y+v.y, z+v.z);
-		}
-
-	Vertex operator-(const Vertex& v)
-		{
-		return Vertex(x-v.x, y-v.y, z-v.z);
-		}
-
-	Vertex operator*(float v)
-		{
-		return Vertex(x*v, y*v, z*v);
-		}
-
-	Vertex operator/(float v)
-		{
-		return Vertex(x/v, y/v, z/v);
-		}
-
-	float x, y, z;
-	};
 
 /************************************************/
 /****************** Funkcje glowne **************/
@@ -96,9 +106,15 @@ namespace Screen
 	{
 	void init()
 		{
+		WindowEngine::delMouseDownEventHandler		(mdown);
+		WindowEngine::delMouseUpEventHandler		(mup);
+		WindowEngine::delMouseMotionEventHandler	(mmove);
+
 		WindowEngine::addMouseDownEventHandler		(mdown);
 		WindowEngine::addMouseUpEventHandler		(mup);
 		WindowEngine::addMouseMotionEventHandler	(mmove);
+
+		setSize(4);
 		}
 
 	void update()
@@ -108,91 +124,38 @@ namespace Screen
 
 	void draw()
 		{
-		Vertex verts[]={
-			// Przod
-				Vertex(0, 0, 0),
-				Vertex(0, 1, 0),
+		Drawing::clearZBuff();
 
-				Vertex(0, 1, 0),
-				Vertex(1, 1, 0),
-
-				Vertex(1, 1, 0),
-				Vertex(1, 0, 0),
-
-				Vertex(1, 0, 0),
-				Vertex(0, 0, 0),
-			// Tyl
-				Vertex(0, 0, 1),
-				Vertex(0, 1, 1),
-
-				Vertex(0, 1, 1),
-				Vertex(1, 1, 1),
-
-				Vertex(1, 1, 1),
-				Vertex(1, 0, 1),
-
-				Vertex(1, 0, 1),
-				Vertex(0, 0, 1),
-			// Lewo
-				Vertex(0, 0, 0),
-				Vertex(0, 0, 1),
-
-				Vertex(1, 0, 0),
-				Vertex(1, 0, 1),
-			// Prawo
-				Vertex(0, 1, 0),
-				Vertex(0, 1, 1),
-
-				Vertex(1, 1, 0),
-				Vertex(1, 1, 1)
-				};
-
-		Vertex tl(SCREENWIDTH/2-75, SCREENHEIGHT/2-75, 0);
-
-		//rx=30;
-		//ry++;
-
-		float sinrx, cosrx;
-		float sinry, cosry;
-
-		sincos(rx*DEGTORAD, sinrx, cosrx);
-		sincos(ry*DEGTORAD, sinry, cosry);
-
-		//lrx=rx;
-		//lry=ry;
-
-		for(unsigned int i=0; i<sizeof(verts)/sizeof(Vertex); ++i)
+		for(int x=0; x<size; ++x)
 			{
-			Vertex& v=verts[i];
-
-			v=v+Vertex(-0.5, -0.5, -0.5);
-
-		// Obrot w x
-			/*v.x=v.x;
-			v.y=v.y*cos(rx*DEGTORAD)-v.z*sin(rx*DEGTORAD);
-			v.z=v.y*sin(rx*DEGTORAD)+v.z*cos(rx*DEGTORAD);
-
-		// Obrot w y
-			v.x=v.x*cos(ry*DEGTORAD)+v.z*sin(ry*DEGTORAD);
-			v.y=v.y;
-			v.z=v.z*cos(ry*DEGTORAD)-v.x*sin(ry*DEGTORAD);*/
-
-		// Obrot
-			v.x=v.x*cosry+v.y*sinrx*sinry+v.z*cosrx*sinry;
-			v.y=v.y*cosrx-v.z*sinrx;
-			v.z=-v.x*sinrx+v.y*sinrx*cosry+v.z*cosrx*cosry;
-
-			v=v+Vertex( 0.5,  0.5,  0.5);
-			v=v*150.0f+tl;
+			for(int y=0; y<size; ++y)
+				{
+				for(int z=0; z<size; ++z)
+					{
+					//area[x][y][z].reset();
+					//drawCube(area[x][y][z]);
+					}
+				}
 			}
+		}
 
-		for(unsigned int i=1; i<sizeof(verts)/sizeof(Vertex); i+=2)
+	void setSize(int ss)
+		{
+		size=ss;
+
+		area.resize(size);
+		for(int x=0; x<size; ++x)
 			{
-			Vertex& lv=verts[i-1];
-			Vertex& cv=verts[i];
-
-			Drawing::setColor(0x08080808*i);
-			Drawing::drawLineShr(lv.x, lv.y, cv.x, cv.y);
+			area[x].resize(size);
+			for(int y=0; y<size; ++y)
+				{
+				area[x][y].resize(size);
+				for(int z=0; z<size; ++z)
+					{
+					area[x][y][z]=Cube(x, y, z);
+					area[x][y][z].col=rand();
+					}
+				}
 			}
 		}
 	}
@@ -235,8 +198,8 @@ namespace Screen
 		if(!lmb)
 			return;
 
-		rx-=(y-ly);
-		ry+=(x-lx);
+		mx=-(y-ly);
+		my= (x-lx);
 
 		lx=x;
 		ly=y;

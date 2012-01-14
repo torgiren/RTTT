@@ -6,13 +6,13 @@
  */
 
 #include "sprite_sdl_2d.h"
-#include "utils/resource.h"
 
 bool SpriteSDL2D::loadGfx(const std::string& name)
 	{
+	return false;
 // Wczytywanie grafiki
 	SDL_Surface *tmp;
-	char *resGfx=Resource::load(name);
+	/*char *resGfx=Resource::load(name);
 	if(resGfx==NULL)
 		{
 		printf("Sprite.loadGfx: Nie udalo sie wczytac grafiki \"%s\"\n", name.c_str());
@@ -20,7 +20,7 @@ bool SpriteSDL2D::loadGfx(const std::string& name)
 		}
 // Dekodowanie
 	tmp=IMG_Load_RW(SDL_RWFromMem(resGfx, Resource::getLastSize()), 1);	// Ustawianie gfx do sprite
-	delete [] resGfx;
+	delete [] resGfx;*/
 	if(tmp==NULL)
 		{
 		printf("Sprite.loadGfx: Nie udalo sie zdekompresowac grafiki \"%s\"\n", name.c_str());

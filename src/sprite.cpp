@@ -1,8 +1,6 @@
 #include "main.creammy.h"
 #include "sprite.h"
 #include "sprite_sdl_2d.h"
-#include "utils/resource.h"
-#include "utils/parser.h"
 
 void Sprite::SpritePtr::animate()
 	{
@@ -73,7 +71,7 @@ Sprite* Sprite::load(const std::string& name, bool force)
 	if(!force && sprites.find(name)!=sprites.end())
 		return sprites[name];
 /**** Sprawdzanie typu obrazka ****/
-	Sprite *spr;
+	Sprite *spr=NULL;
 
 	//std::string name3d=name+MDLEXT;
 	std::string nameimg=name+IMGEXT;
@@ -141,7 +139,8 @@ bool Sprite::loadMask(void *vpixs, int w, int h, int bpp)	// bpp ignorowane, tyl
 
 bool Sprite::loadAnims(const string& name)
 	{
-	if(name.length()<2)
+	return 0;
+	/*if(name.length()<2)
 		return 0;
 	//printf("> \"%s\"\n", name);
 	map<string, int> animNamesTmp;
@@ -244,7 +243,7 @@ bool Sprite::loadAnims(const string& name)
 	for(unsigned int i=0; i<anims.size(); i++)
 		if(anims[i].getFrameCount()<1)
 			anims[i].addFrame(0, 0, 0, 0);
-	//printf("INFO: Sprite.loadAnim: Ilosc animacji: %d\n", anims.size());
+	//printf("INFO: Sprite.loadAnim: Ilosc animacji: %d\n", anims.size());*/
 	return 1;
 	}
 
