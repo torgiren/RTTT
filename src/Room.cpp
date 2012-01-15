@@ -11,6 +11,14 @@
   }
 
   void Room::deliver(const Message& msg){
+
+    std::cout << "Musze wyjsc" << msg.body() << std::endl;
+    char tmp[512];
+    std::memcpy(tmp,msg.body(),msg.body_length());
+    tmp[msg.body_length()]='\0';
+    std::string body(tmp);
+    if(body=="NIEE") return;
+    
     _recent_msgs.push_back(msg);
     while (_recent_msgs.size() > max_recent_msgs)
       _recent_msgs.pop_front();

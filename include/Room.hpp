@@ -3,6 +3,9 @@
 #include "Participant.hpp"
 #include <algorithm>
 #include <set>
+#include <map>
+#include <string>
+#include <iostream>
 #include <boost/bind.hpp>
 
 class Room
@@ -14,6 +17,7 @@ public:
 
 private:
   std::set<Participant_ptr> _participants;
+  unsigned _current_id;
   enum { max_recent_msgs = 100 };
   Message_queue _recent_msgs;
 };

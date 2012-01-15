@@ -7,6 +7,7 @@
 
   void Session::deliver(const Message& msg){
     bool write_in_progress = !_write_msgs.empty();
+    
     _write_msgs.push_back(msg);
     if (!write_in_progress)
     {
@@ -28,6 +29,7 @@
   {
     if (!error){
       _room.deliver(_read_msg);
+      std::cout << &_socket;  // < - to jest to co nam powie ktory to zawodnik pisze ;)
       boost::asio::async_read(_socket, boost::asio::buffer(_read_msg.data(), Message::header_length),
           boost::bind(&Session::handle_read_header, shared_from_this(), boost::asio::placeholders::error));
     }

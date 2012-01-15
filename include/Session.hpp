@@ -3,6 +3,7 @@
 #include "Participant.hpp"
 #include "Room.hpp"
 #include "Message.hpp"
+#include <string>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 
