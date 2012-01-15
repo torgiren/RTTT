@@ -25,7 +25,7 @@ int main(int , char *[])
 		fpsfr++;
 		if(fpsft+1000<SDL_GetTicks())
 			{
-			printf("fps: %0.2f (%d/%d)", (fpsfr*1000.0)/(SDL_GetTicks()-fpsft), fpsfr, SDL_GetTicks()-fpsft);
+			//printf("fps: %0.2f (%d/%d)", (fpsfr*1000.0)/(SDL_GetTicks()-fpsft), fpsfr, SDL_GetTicks()-fpsft);
 			fpsfr=0;
 			fpsft=SDL_GetTicks();
 			}
