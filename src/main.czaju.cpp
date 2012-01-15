@@ -6,57 +6,53 @@
 #include "Client.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <string>
+
+
 
 int main(int argc, char** argv){
 
 int choose;
 
+
 std::cout << "0 - client \n 1 - server \n wybor: \n";
 std::cin >> choose;
 
-if (choose){
 try
   {
+///////// TYLE JEŚLI CHODZI O SERVER \\\\\\\\\\
+
+boost::asio::io_service io_service_server;
+boost::asio::io_service io_service_client;
+char* port;
+std::string host="localhost";
+
+
+    if(choose){
     if (argc < 2)
     {
-      std::cerr << "Usage: Server <port> [<port> ...]\n";
+      std::cerr << "Usage: Server <port>\n";
       return 1;
     }
-    boost::asio::io_service io_service;
-    Server_list servers;
-    for (int i = 1; i < argc; ++i)
-    {
-      using namespace std; // For atoi.
-      tcp::endpoint endpoint(tcp::v4(), atoi(argv[i]));
-      Server_ptr server(new Server(io_service, endpoint));
-      servers.push_back(server);
+    port=argv[1];
+    tcp::endpoint endpoint(tcp::v4(), std::atoi(port));
+    new Server(io_service_server, endpoint);  // tak wiem bardzo nieładnie
+    }
+    boost::thread server_t(boost::bind(&boost::asio::io_service::run, &io_service_server)); 
+//\
+\\\\\\\\\\\ MAMY SERVER TO TERAZ KLIENT ///////////
+
+    if (argc == 3){
+        port=argv[2];
+        host=argv[1];
     }
 
-    io_service.run();
-  }
-  catch (std::exception& e)
-  {
-    std::cerr << "Exception: " << e.what() << "\n";
-  }
-}
-else{
-     try
-  {
-    if (argc != 3)
-    {
-      std::cerr << "Usage: Client <host> <port>\n";
-      return 1;
-    }
+///////////      TEN NAJWAŻNIEJSZY FRAGMENT KLIENCKI                    \\\\\\\\\\\\\ 
 
-    boost::asio::io_service io_service;
+    Client c(io_service_client, host.c_str(), port);
+    boost::thread client_t(boost::bind(&boost::asio::io_service::run, &io_service_client)); //\
+\\\\\\\\\\\     I TERAZ JUŻ TYLKO c.write(Message)                      /////////////
 
-    tcp::resolver resolver(io_service);
-    tcp::resolver::query query(argv[1], argv[2]);
-    tcp::resolver::iterator iterator = resolver.resolve(query);
-
-    Client c(io_service, iterator);
-
-    boost::thread t(boost::bind(&boost::asio::io_service::run, &io_service));
 
     char line[Message::max_body_length + 1];
     while (std::cin.getline(line, Message::max_body_length + 1))
@@ -70,14 +66,15 @@ else{
     }
 
     c.close();
-    t.join();
+    server_t.join();
+    client_t.join();
+
+
   }
   catch (std::exception& e)
   {
     std::cerr << "Exception: " << e.what() << "\n";
   }
-
-}
 
 return 0;
 }
