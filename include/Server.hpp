@@ -2,6 +2,7 @@
 #define SERVER_HPP
 #include "Room.hpp"
 #include "Session.hpp"
+#include "Message.hpp"
 #include <boost/asio.hpp>
 #include <boost/shared_ptr.hpp>
 #include <list>
@@ -14,7 +15,13 @@ public:
   }
 
   void handle_accept(Session_ptr session, const boost::system::error_code& error);
-
+  void send(const std::string& m){
+      Message msg;
+      msg.body_length(strlen(m.c_str()));
+      memcpy(msg.body(), m.c_str(), msg.body_length());
+      msg.encode_header();
+      _room.deliver(msg);      
+  }
 private:
   boost::asio::io_service& _io_service;
   tcp::acceptor _acceptor;

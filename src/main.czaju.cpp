@@ -13,7 +13,7 @@
 int main(int argc, char** argv){
 
 int choose;
-
+Server* s;
 
 std::cout << "0 - client \n 1 - server \n wybor: \n";
 std::cin >> choose;
@@ -36,7 +36,7 @@ std::string host="localhost";
     }
     port=argv[1];
     tcp::endpoint endpoint(tcp::v4(), std::atoi(port));
-    new Server(io_service_server, endpoint);  // tak wiem bardzo nieładnie
+    s = new Server(io_service_server, endpoint);  // tak wiem bardzo nieładnie
     }
     boost::thread server_t(boost::bind(&boost::asio::io_service::run, &io_service_server)); 
 //\
@@ -57,14 +57,16 @@ std::string host="localhost";
     char line[Message::max_body_length + 1];
     while (std::cin.getline(line, Message::max_body_length + 1))
     {
-      using namespace std; // For strlen and memcpy.
-      Message msg;
-      msg.body_length(strlen(line));
-      memcpy(msg.body(), line, msg.body_length());
-      msg.encode_header();
-      c.write(msg);
+        c.send(line);
+//      using namespace std; // For strlen and memcpy.
+//      Message msg;
+//      msg.body_length(strlen(line));
+//      memcpy(msg.body(), line, msg.body_length());
+//      msg.encode_header();
+      if(choose) s->send("JOKE");
+//      c.write(msg);*/
     }
-
+    
     c.close();
     server_t.join();
     client_t.join();

@@ -55,7 +55,13 @@ public:
   void close(){
     _io_service.post(boost::bind(&Client::do_close, this));
   }
-
+  void send(const std::string& m){
+      Message msg;
+      msg.body_length(strlen(m.c_str()));
+      memcpy(msg.body(), m.c_str(), msg.body_length());
+      msg.encode_header();
+      write(msg);
+  }
 private:
   ///@brief handler łączący
   void handle_connect(const boost::system::error_code& error, tcp::resolver::iterator endpoint_iterator){
