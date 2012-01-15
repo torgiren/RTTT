@@ -74,8 +74,8 @@ Sprite* Sprite::load(const std::string& name, bool force)
 	Sprite *spr=NULL;
 
 	//std::string name3d=name+MDLEXT;
-	std::string nameimg=name+IMGEXT;
-	std::string nameani=name+ANIMEXT;
+	std::string nameimg=name;//+IMGEXT;
+	std::string nameani=name;//+ANIMEXT;
 
 	try
 		{

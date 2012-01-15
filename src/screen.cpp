@@ -9,7 +9,7 @@
 #include "drawing.h"
 
 const int CUBE_SIZE=64;
-const int CUBE_DIST=32; //CUBE_SIZE*6;
+const int CUBE_DIST=64; //CUBE_SIZE*6;
 
 inline void sincos(float ang, float& s, float& c)
 	{
@@ -22,8 +22,13 @@ inline void sincos(float ang, float& s, float& c)
 
 struct Cube
 	{
-	Cube(int x=0, int y=0, int z=0):
-		x(x), y(y), z(z)
+	Cube(int x=0, int y=0, int z=0, unsigned int col=0xFFFFFFFF):
+		x(x), y(y), z(z), col(col)
+		{
+		reset();
+		}
+
+	Cube(const Cube& c): x(c.x), y(c.y), z(c.z), col(c.col)
 		{
 		reset();
 		}
@@ -40,11 +45,26 @@ struct Cube
 		verts[ 5]=Vertex(1, 0, 1);
 		verts[ 6]=Vertex(1, 1, 1);
 		verts[ 7]=Vertex(0, 1, 1);
-	// Tyl
-		verts[ 4]=Vertex(0, 0, 1);
-		verts[ 5]=Vertex(1, 0, 1);
-		verts[ 6]=Vertex(1, 1, 1);
-		verts[ 7]=Vertex(0, 1, 1);
+	// Gora
+		verts[ 8]=Vertex(0, 0, 0);
+		verts[ 9]=Vertex(1, 0, 0);
+		verts[10]=Vertex(1, 0, 1);
+		verts[11]=Vertex(0, 0, 1);
+	// Dol
+		verts[12]=Vertex(0, 1, 0);
+		verts[13]=Vertex(1, 1, 0);
+		verts[14]=Vertex(1, 1, 1);
+		verts[15]=Vertex(0, 1, 1);
+	// Lewo
+		verts[16]=Vertex(0, 0, 0);
+		verts[17]=Vertex(0, 0, 1);
+		verts[18]=Vertex(0, 1, 1);
+		verts[19]=Vertex(0, 1, 0);
+	// Prawo
+		verts[20]=Vertex(1, 0, 0);
+		verts[21]=Vertex(1, 0, 1);
+		verts[22]=Vertex(1, 1, 1);
+		verts[23]=Vertex(1, 1, 0);
 
 
 		for(int i=0; i<VERT_COUNT; ++i)
@@ -133,7 +153,8 @@ namespace Screen
 				for(int z=0; z<size; ++z)
 					{
 					//area[x][y][z].reset();
-					//drawCube(area[x][y][z]);
+					Drawing::setObj((void *)&area[x][y][z]);
+					drawCube(area[x][y][z]);
 					}
 				}
 			}
@@ -152,11 +173,58 @@ namespace Screen
 				area[x][y].resize(size);
 				for(int z=0; z<size; ++z)
 					{
+					unsigned char col=rand()%255;
 					area[x][y][z]=Cube(x, y, z);
-					area[x][y][z].col=rand();
+					area[x][y][z].col=(col<<16)+(col<< 8)+col;
 					}
 				}
 			}
+		}
+
+	void drawCube(Cube c)
+		{
+		Vertex tl(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
+		Vertex scrtl(SCREENWIDTH/size, SCREENHEIGHT/size, 0);
+
+		rx+=mx;
+		ry+=my;
+
+		float sx, cx;
+		float sy, cy;
+
+		sincos(rx*DEGTORAD, sx, cx);
+		sincos(ry*DEGTORAD, sy, cy);
+
+		for(int i=0; i<Cube::VERT_COUNT; i++)
+			{
+			Vertex& v=c.verts[i];
+			v=v-tl/2;
+
+			float vx, vy, vz;
+
+			vx=v.x;
+			vy=cx*v.y-sx*v.z;
+			vz=sx*v.y+cx*v.z;
+
+			v.x=vx; v.y=vy; v.z=vz;
+
+			vx=cy*v.x+sy*v.z;
+			vy=v.y;
+			vz=-sy*v.x+cx*v.z;
+
+			v.x=vx; v.y=vy; v.z=vz;
+
+			v=v+tl/2+scrtl;
+			}
+
+		for(int i=0; i<Cube::VERT_COUNT; i+=4)
+			{
+			Drawing::setColor(c.col);
+			Drawing::drawQuad(c.verts[i+0], c.verts[i+1], c.verts[i+2], c.verts[i+3]);
+			}
+
+		mx=0;
+		my=0;
 		}
 	}
 
@@ -191,6 +259,10 @@ namespace Screen
 			mmb=false;
 		else if(key==SDL_BUTTON_RIGHT)
 			rmb=false;
+
+		Cube *c=(Cube *)Drawing::getObj(x, y);
+		if(c)
+			printf("kliknieto x, y, z: %d, %d, %d", c->x, c->y, c->z);
 		}
 
 	void mmove(int x, int y, int key)
