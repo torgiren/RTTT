@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-
+#include <boost/asio.hpp>
 /**
 * @details Klasa odpowiedzialna za poprawne informacje o wiadomości
 * @author Paweł Ściegienny
@@ -72,8 +72,15 @@ public:
     sprintf(header, "%4d", (int)_body_length);
     memcpy(_data, header, header_length);
   }
+  void source(unsigned src){
+      _src=src;
+  }
+  unsigned source() const{
+      return _src;
+  }
 
 private:
+  unsigned _src;
   char _data[header_length + max_body_length];
   size_t _body_length;
 };
