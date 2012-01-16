@@ -22,6 +22,12 @@ public:
   ///@details Konstruktor domyślny - inicjalizuje długość wiadomości 
   Message(): _body_length(0){
   }
+  Message(const Message& src){
+    std::memcpy(_data, src.data(), src.length());
+    _src=src.source();
+    _body_length=src.body_length();
+    
+  }
   ///@brief metoda zwracająca treść wiadomości razem z nagłówkiem
   const char* data() const {
     return _data;

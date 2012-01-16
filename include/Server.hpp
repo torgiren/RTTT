@@ -22,6 +22,9 @@ public:
       msg.encode_header();
       _room.deliver(msg);      
   }
+  Message& receive(){
+         _room.todo();
+     }
 private:
   boost::asio::io_service& _io_service;
   tcp::acceptor _acceptor;
