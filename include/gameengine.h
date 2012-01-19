@@ -1,7 +1,8 @@
 #ifndef __GAMEENGINE_H
 #define __GAMEENGINE_H
-#include "typedefs.h"
-#include "point.h"
+#include "consts.h"
+#include "vertex.h"
+#include "planet.h"
 /**
  *
  * @details Klasa zajmuje się przeliczaniem rozgrywki, położeniem jednostek, systemem walki
@@ -38,7 +39,7 @@ class GameEngine
 		 * @param[in] num Liczba jednostek do przeniesienia
 		 * @return Zwraca ERRORS::MOVE
 		 */
-		ERRORS::MOVE Move(const Point& src,const Point& dst,uint16 num);
+		RETURNS::MOVE Move(const Vertex& src,const Vertex& dst,uint16 num);
 		/**
 		 * @brief Usuwa gracza
 		 * @details Metoda usuwajaca gracza z rozgrywki. Wszystkie ewentualne jednostki należące do tego gracza stają się jednosktami neutralnymi. Posiadane planety również stają się neutralne.<br/>
@@ -47,6 +48,7 @@ class GameEngine
 		 */
 		void RemovePlayer(uint16 player);
 	private:
+		Planet** itsPlanety;
 };
 #endif
 

@@ -15,7 +15,7 @@ export BASE
 export SRC
 export INCLUDE
 RTTT: torgiren creammy czaju
-	${CXX} ${BIN}/*.o ${BIN}/utils -o $@ ${LDFLAGS}
+	${CXX} ${BIN}/*.o ${BIN}/utils/*.o -o $@ ${LDFLAGS}
 torgiren:
 	${MAKE} -f src/Makefile.torgiren
 torgiren_run: torgiren
@@ -31,6 +31,6 @@ creammy_run: creammy
 docs:
 	doxygen Doxyfile
 clean:
-	rm -f ${BIN}/*
+	rm -fr ${BIN}/*
 
 .PHONY: torgiren creammy czaju clean docs
