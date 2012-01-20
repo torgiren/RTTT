@@ -14,4 +14,5 @@ int main()
 		ziemia.Atak(10,0);
 	};
 	cout<<"Hello"<<endl;
+	GameEngine eng(5,5);
 };

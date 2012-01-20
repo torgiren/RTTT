@@ -20,6 +20,10 @@ class GameEngine
 		 */
 		GameEngine(uint16 size,uint16 players);
 		/**
+		 * @brief Destruktor zwalniający pamięć
+		 */
+		~GameEngine();	
+		/**
 		 * @brief Konczy ture
 		 * @details Metoda kończąca ture danego gracza. W tej chwili dodawane są jednoski dla "jeszcze" aktualnego gracza.
 		 * @return Zwraca numer następnego gracza.
@@ -48,7 +52,9 @@ class GameEngine
 		 */
 		void RemovePlayer(uint16 player);
 	private:
-		Planet** itsPlanety;
+		Planet*** itsPlanety;
+		uint16 itsSize;
+		uint16 itsPlayers;
 };
 #endif
 
