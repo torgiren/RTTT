@@ -2,6 +2,9 @@
 #define CONSTS_H
 #include<stdint.h>
 #include<vector>
+/**
+ * @file consts.h
+ */
 
 const int SCREENWIDTH=640;
 const int SCREENHEIGHT=480;
@@ -22,8 +25,13 @@ typedef uint32_t uint;
  * Liczba całkowita o rozmiarze 16 bitów
  */
 typedef uint16_t uint16;
-
+/**
+ * Struktura wiersza logów z walki
+ */
 typedef std::pair<std::vector<uint16>,std::vector<uint16> >FightResultRow;
+/**
+ * Wektor wierszy logów z walki
+ */
 typedef std::vector<FightResultRow> FightResult;
 
 /**
