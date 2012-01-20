@@ -10,7 +10,7 @@ const int SCREENWIDTH=640;
 const int SCREENHEIGHT=480;
 const int BPP=32;
 
-const char GAMENAME[]="RTTTT - Bitwa o Alfa Centauri 4000AD";
+const char GAMENAME[]="RTTTT - Risky Tic Tak Toe - Bitwa o Alfa Centauri 4000AD";
 const int FPSDELAY=1000/50;
 
 const float DEGTORAD=3.141592653589793f/180.0f;
