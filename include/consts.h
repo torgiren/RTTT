@@ -1,6 +1,7 @@
 #ifndef CONSTS_H
 #define CONSTS_H
 #include<stdint.h>
+#include<vector>
 
 const int SCREENWIDTH=640;
 const int SCREENHEIGHT=480;
@@ -22,10 +23,13 @@ typedef uint32_t uint;
  */
 typedef uint16_t uint16;
 
+typedef std::pair<std::vector<uint16>,std::vector<uint16> >FightResultRow;
+typedef std::vector<FightResultRow> FightResult;
+
 /**
  * Maksymalny poziom okupowanej planety powodujący jej przejęcie
  */
-const int OCUPY_MAX=5;
+const int OCCUPY_MAX=5;
 /**
  * Zawiera komunikaty zwracane z funkcjii
  */

@@ -1,6 +1,8 @@
 #ifndef __PLANET_H
 #define __PLANET_H
 #include "consts.h"
+#include <list>
+#include <vector>
 /**
  * @brief Klasa planety
  * @details Opisuje właściwości planety - elementrarnej jednoski przestrzeni
@@ -28,8 +30,8 @@ class Planet
 		uint16 RetOkupant() const;
 		/**
 		 * @brief Zwracam poziom zaawansowania okupacji
-		 * @details Zwraca aktualny poziom okupacji. Wartość OCUPY_MAX oznacza, ze planeta nie jest juz okupowana i jest w pełni przejęta
-		 * @return Poziom okupacji, bądź OCUPY_MAX w przypadku gdy planeta nie jest okupowana i jest w pełni przejęta
+		 * @details Zwraca aktualny poziom okupacji. Wartość OCCUPY_MAX oznacza, ze planeta nie jest juz okupowana i jest w pełni przejęta
+		 * @return Poziom okupacji, bądź OCCUPY_MAX w przypadku gdy planeta nie jest okupowana i jest w pełni przejęta
 		 */
 		uint16 RetPoziom() const;
 		/**
@@ -38,9 +40,19 @@ class Planet
 		 * @return Liczba jednostek właściciela planety. W przypadku gdy planeta jest okupowana, to jest liczba jednostek okupanta
 		 */
 		uint16 RetJednostki() const;
+		/**
+		 * @brief Przeprowadza atak na planete
+		 * @detail Przeprowadza atak zadanej ilości jednostek na planete.
+		 * @param ile Liczba jednostek wroga, biąrąca udział w ataku
+		 * @param kogo Numer gracza który przeprowadza atak
+		 * @return Zwraca ciąg liczb przedstawiających kolejne rzuty. Dane skladają się z serii po 3: 3 rzuty atakującego, 3 rzuty obrony, 3 rzuty atakującego, 3 rzuty obrony<br>
+		 * W przypadku mniejszej ilości jednostek po którejś ze stron, w miejsce rzutu wstawiana jest wartość 0
+		 */
+		FightResult Atak(uint16 ile, uint16 kogo);
 	private:
 		uint16 itsGracz;
 		uint16 itsPoziom;
 		uint16 itsJednostki;
+		uint16 itsOkupant;
 };
 #endif
