@@ -45,10 +45,15 @@ class Planet
 		 * @detail Przeprowadza atak zadanej ilości jednostek na planete.
 		 * @param ile Liczba jednostek wroga, biąrąca udział w ataku
 		 * @param kogo Numer gracza który przeprowadza atak
-		 * @return Zwraca ciąg liczb przedstawiających kolejne rzuty. Dane skladają się z serii po 3: 3 rzuty atakującego, 3 rzuty obrony, 3 rzuty atakującego, 3 rzuty obrony<br>
+		 * @return Zwraca wektor reprezentujący kolejne starcia, zawierający pary wektorów rzutów 
 		 * W przypadku mniejszej ilości jednostek po którejś ze stron, w miejsce rzutu wstawiana jest wartość 0
 		 */
 		FightResult Atak(uint16 ile, uint16 kogo);
+		/**
+		 * @brief Symuluje zdobywanie flagi na okupowanej planecie
+		 * @details Jeśli planeta jest w posiadaniu innego gracza to jego flaga jest zdejmowana o poziom niżej, natomiast jeśli planeta jest neutralna bądź w posiadaniu gracza, wtedy flaga podnoszona jest o jeden poziom
+		 */
+		void Flaga();
 	private:
 		uint16 itsGracz;
 		uint16 itsPoziom;

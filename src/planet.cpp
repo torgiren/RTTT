@@ -67,13 +67,25 @@ FightResult Planet::Atak(uint16 ile, uint16 kogo)
 		//		printf("%d ",*iter);
 		//	printf("\n");
 	};
-	if(itsJednostki)
+	if(!itsJednostki)
 	{
-		printf("Broniący wygrywa\n");
-	}
-	else
-	{
-		printf("Atakujący wygrywa\n");
+		itsOkupant=kogo;
+		itsJednostki=ile;
+		Flaga();
 	};
 	return wynik;
+};
+void Planet::Flaga()
+{
+	if(itsJednostki)
+	{
+		if(itsOkupant&&itsGracz)
+			itsPoziom--;
+		else if(itsOkupant&&!itsGracz)
+			itsPoziom++;
+		else if(!itsOkupant&&itsGracz&&itsJednostki)
+			itsPoziom++;
+	};
+	if(itsPoziom<0) itsPoziom=0;
+	if(itsPoziom>OCCUPY_MAX) itsPoziom=OCCUPY_MAX;
 };
