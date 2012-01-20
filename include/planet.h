@@ -10,6 +10,7 @@
  */
 class Planet
 {
+	friend class GameEngine;
 	public:
 		/**
 		 * @brief Tworzy planete
@@ -49,12 +50,15 @@ class Planet
 		 * W przypadku mniejszej ilości jednostek po którejś ze stron, w miejsce rzutu wstawiana jest wartość 0
 		 */
 		FightResult Atak(uint16 ile, uint16 kogo);
+		void SetPlayer(uint16 gracz);
+		void EndTurn();
+	private:
 		/**
 		 * @brief Symuluje zdobywanie flagi na okupowanej planecie
 		 * @details Jeśli planeta jest w posiadaniu innego gracza to jego flaga jest zdejmowana o poziom niżej, natomiast jeśli planeta jest neutralna bądź w posiadaniu gracza, wtedy flaga podnoszona jest o jeden poziom
 		 */
 		void Flaga();
-	private:
+		void Jednostki();
 		uint16 itsGracz;
 		uint16 itsPoziom;
 		uint16 itsJednostki;

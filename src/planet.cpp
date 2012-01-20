@@ -71,7 +71,7 @@ FightResult Planet::Atak(uint16 ile, uint16 kogo)
 	{
 		itsOkupant=kogo;
 		itsJednostki=ile;
-		Flaga();
+//		Flaga();
 	};
 	return wynik;
 };
@@ -80,12 +80,40 @@ void Planet::Flaga()
 	if(itsJednostki)
 	{
 		if(itsOkupant&&itsGracz)
+		{
 			itsPoziom--;
-		else if(itsOkupant&&!itsGracz)
+			if(!itsPoziom)
+				itsGracz=0;
+			if(itsPoziom<0)
+				itsPoziom=0;
+		}
+		else if((itsOkupant&&!itsGracz)||(!itsOkupant&&itsGracz))
+		{
 			itsPoziom++;
-		else if(!itsOkupant&&itsGracz&&itsJednostki)
-			itsPoziom++;
+			if(itsPoziom==OCCUPY_MAX)
+			{
+				if(!itsGracz)
+				{
+					itsGracz=itsOkupant;
+					itsOkupant=0;
+				};
+			};
+			if(itsPoziom>OCCUPY_MAX)
+				itsPoziom=OCCUPY_MAX;
+		};
 	};
-	if(itsPoziom<0) itsPoziom=0;
-	if(itsPoziom>OCCUPY_MAX) itsPoziom=OCCUPY_MAX;
+};
+void Planet::SetPlayer(uint16 gracz)
+{
+	itsGracz=gracz;
+};
+void Planet::EndTurn()
+{
+	Flaga();
+	Jednostki();
+};
+void Planet::Jednostki()
+{
+	if(itsGracz&&!itsOkupant)
+		itsJednostki++;
 };

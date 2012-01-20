@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 GameEngine::GameEngine(uint16 size, uint16 players):
-itsSize(size),itsPlayers(players)
+itsSize(size),itsPlayers(players),itsActPlayer(1)
 {
 	itsPlanety=new Planet**[itsSize];
 	int x,y;
@@ -14,7 +14,7 @@ itsSize(size),itsPlayers(players)
 			itsPlanety[x][y]=new Planet[itsSize];
 		};
 	};
-	for(x=0;x<itsPlayers;x++)
+	for(x=1;x<=itsPlayers;x++)
 	{
 		int px=rand()%itsSize;
 		int py=rand()%itsSize;
@@ -22,6 +22,7 @@ itsSize(size),itsPlayers(players)
 		if(itsPlanety[px][py][pz].RetGracz())
 		{
 			printf("miejsce %d %d %d jest zajete\n",px,py,pz);
+			x--;
 			continue;
 		}
 		else
@@ -44,4 +45,30 @@ GameEngine::~GameEngine()
 	};
 	delete [] itsPlanety;
 };
-
+uint16 GameEngine::EndTurn()
+{
+	int x,y,z;
+	for(x=0;x<itsSize;x++)
+	{
+		for(y=0;y<itsSize;y++)
+		{
+			for(z=0;z<itsSize;z++)
+			{
+				if(itsPlanety[x][y][z].RetGracz())
+				{
+					printf("Gracz na pozycji: %d %d %d\n",x,y,z);
+				};
+			};
+		};
+	}
+	return NextPlayer();
+};
+uint16 GameEngine::ActPlayer() const
+{
+	return itsActPlayer;
+};
+uint16 GameEngine::NextPlayer()
+{
+	if(++itsActPlayer>=itsPlayers) itsActPlayer=1;
+	return itsActPlayer;
+};

@@ -28,13 +28,13 @@ class GameEngine
 		 * @details Metoda kończąca ture danego gracza. W tej chwili dodawane są jednoski dla "jeszcze" aktualnego gracza.
 		 * @return Zwraca numer następnego gracza.
 		 */
-		int EndTurn();
+		uint16 EndTurn();
 		/**
 		 * @brief Aktualny gracz
 		 * @details Zwraca numer aktualnego gracza.
 		 * @return Numer aktualnego gracza.
 		 */
-		int ActPlayer() const;
+		uint16 ActPlayer() const;
 		/**
 		 * @brief Przenosi jednoski z jednej planety na drugą
 		 * @details Wykonuje operacje przeniesienia jednostek z planety źródłowej na docelową. Metoda sprawdza czy dana operacja jest możliwa (np: czy <b>num</b> <= liczba_jednostek-1) 
@@ -52,9 +52,11 @@ class GameEngine
 		 */
 		void RemovePlayer(uint16 player);
 	private:
+		uint16 NextPlayer();
 		Planet*** itsPlanety;
 		uint16 itsSize;
 		uint16 itsPlayers;
+		uint16 itsActPlayer;
 };
 #endif
 
