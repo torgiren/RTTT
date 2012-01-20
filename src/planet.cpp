@@ -89,3 +89,7 @@ void Planet::Flaga()
 	if(itsPoziom<0) itsPoziom=0;
 	if(itsPoziom>OCCUPY_MAX) itsPoziom=OCCUPY_MAX;
 };
+void Planet::SetPlayer(uint16 gracz)
+{
+	itsGracz=gracz;
+};

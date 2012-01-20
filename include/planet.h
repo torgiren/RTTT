@@ -10,6 +10,7 @@
  */
 class Planet
 {
+	friend class GameEngine;
 	public:
 		/**
 		 * @brief Tworzy planete
@@ -55,6 +56,7 @@ class Planet
 		 */
 		void Flaga();
 	private:
+		void SetPlayer(uint16 gracz);
 		uint16 itsGracz;
 		uint16 itsPoziom;
 		uint16 itsJednostki;
