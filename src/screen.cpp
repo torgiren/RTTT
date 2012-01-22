@@ -42,14 +42,14 @@ struct Cube
 		verts[ 3]=Vertex(0, 1, 0);
 	// Tyl
 		verts[ 4]=Vertex(0, 0, 1);
-		verts[ 5]=Vertex(1, 0, 1);
+		verts[ 5]=Vertex(0, 1, 1);
 		verts[ 6]=Vertex(1, 1, 1);
-		verts[ 7]=Vertex(0, 1, 1);
+		verts[ 7]=Vertex(1, 0, 1);
 	// Gora
 		verts[ 8]=Vertex(0, 0, 0);
-		verts[ 9]=Vertex(1, 0, 0);
+		verts[ 9]=Vertex(0, 0, 1);
 		verts[10]=Vertex(1, 0, 1);
-		verts[11]=Vertex(0, 0, 1);
+		verts[11]=Vertex(1, 0, 0);
 	// Dol
 		verts[12]=Vertex(0, 1, 0);
 		verts[13]=Vertex(1, 1, 0);
@@ -57,9 +57,9 @@ struct Cube
 		verts[15]=Vertex(0, 1, 1);
 	// Lewo
 		verts[16]=Vertex(0, 0, 0);
-		verts[17]=Vertex(0, 0, 1);
+		verts[17]=Vertex(0, 1, 0);
 		verts[18]=Vertex(0, 1, 1);
-		verts[19]=Vertex(0, 1, 0);
+		verts[19]=Vertex(0, 0, 1);
 	// Prawo
 		verts[20]=Vertex(1, 0, 0);
 		verts[21]=Vertex(1, 0, 1);

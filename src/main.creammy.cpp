@@ -11,7 +11,7 @@ int main(int , char *[])
 
 	srand(time(NULL));
 
-	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELTA))
+	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
 		{
 		printf("Nie udalo sie stworzyc okienka\n");
 		return 100;
@@ -25,7 +25,7 @@ int main(int , char *[])
 		fpsfr++;
 		if(fpsft+1000<SDL_GetTicks())
 			{
-			//printf("fps: %0.2f (%d/%d)", (fpsfr*1000.0)/(SDL_GetTicks()-fpsft), fpsfr, SDL_GetTicks()-fpsft);
+			printf("fps: %0.2f (%d/%d)", (fpsfr*1000.0)/(SDL_GetTicks()-fpsft), fpsfr, SDL_GetTicks()-fpsft);
 			fpsfr=0;
 			fpsft=SDL_GetTicks();
 			}
@@ -39,11 +39,12 @@ int main(int , char *[])
 
 		Drawing::setColor(0xFF00FF00);
 		Drawing::drawTriangle(Vertex(128, 128, 128), Vertex(160, 100, 128), Vertex(180, 160, 128));
-		Drawing::drawTriangle(Vertex(280, 260, 228), Vertex(260, 200, 228), Vertex(228, 228, 228));
+		Drawing::drawTriangle(Vertex(280, 260, 228), Vertex(260, 200, 228), Vertex(228, 228, 228));*/
 
-		Drawing::setColor(0xFF0000FF);
-		Drawing::drawQuad(Vertex(24, 200, 32), Vertex(8, 216, 32), Vertex(24, 232, 32), Vertex(40, 216, 32));
-		Drawing::drawQuad(Vertex(300, 305, 32), Vertex(315, 420, 64), Vertex(405, 415, 32), Vertex(410, 320, 64));*/
+		//Drawing::setColor(0xFF0000FF);
+		//Drawing::drawQuad(Vertex(24, 200, 32), Vertex(8, 216, 32), Vertex(24, 232, 32), Vertex(40, 216, 32));
+		//Drawing::drawQuad(Vertex(300, 305, 32), Vertex(315, 420, 64), Vertex(405, 415, 32), Vertex(410, 320, 64));
+		//Drawing::drawQuad(Vertex(32, 32, 64), Vertex(74, 30, 64), Vertex(72, 76, 64), Vertex(35, 68, 64));
 
 		Screen::update();
 		Screen::draw();

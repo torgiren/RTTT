@@ -63,7 +63,8 @@ namespace Drawing
 			printf("Drawing.setSurface: NULL zbuff/obuff, oddzialy przygotowac sie na SIGSEGF!");
 			}
 		}
-	SDL_Surface* getSurface()
+
+	SDL_Surface* getSurface()
 		{
 		return srf;
 		}
@@ -88,7 +89,8 @@ namespace Drawing
 		return obuff[x+srf->w*y];
 		}
 
-	/********************************************/	template<class T> inline void swap(T a, T b)
+	/********************************************/
+	template<class T> inline void swap(T a, T b)
 		{
 		T tmp=a;
 		a=b;
@@ -159,6 +161,13 @@ namespace Drawing
 
 	void drawTriangle(const Vertex& a, const Vertex& b, const Vertex& c)
 		{
+		if(a.eq2d(b) || b.eq2d(c) || c.eq2d(a))
+			return;
+		Vertex va=a-b;
+		Vertex vb=a-c;
+		Vertex v=va.cross(vb);
+		if(v.z>0)
+			return;
 		float left, right;
 		float top, bottom;
 		float z=(a.z+b.z+c.z)/3.0f;
@@ -182,7 +191,11 @@ namespace Drawing
 	void drawQuad(const Vertex& a, const Vertex& b, const Vertex& c, const Vertex& d)
 		{
 		drawTriangle(a, b, c);
-		drawTriangle(c, d, a);
+		//drawTriangle(d, c, a);
+		drawTriangle(a, c, d);
+
+		//printf("%0.2f %0.2f %0.2f\t|%0.2f %0.2f %0.2f\t|%0.2f %0.2f %0.2f|\t%0.2f %0.2f %0.2f",
+		//		a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, d.x, d.y, d.z);
 		}
 	}
 
