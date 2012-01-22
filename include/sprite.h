@@ -56,8 +56,8 @@ class Sprite
 				const AnimFrame& getFrame(unsigned int i) {if(i<animFrames.size()) return animFrames[i]; return animFrames.front();};
 
 				/// @brief Ustawia szybkość animacji na podaną wartość
-				void setAspd(float sa) {if(sa<0.0f) podaną; aspd=sa;}
-				/// @brief Ustawia klatkę powrotu na podana
+				void setAspd(float sa) {if(sa<0.0f) return; aspd=sa;}
+				/// @brief Ustawia klatkę powrotu na podaną
 				void setFret(int sa) {if(sa<0 || sa>(int)animFrames.size()) return; fret=sa;}
 				/// @brief Zwraca aktualną predkość animacji
 				float getAspd() {return aspd;}
