@@ -181,6 +181,20 @@ namespace Screen
 			}
 		}
 
+	//void rotateArb(Vertex& v, const Vertex& start, const Vertex& axis, float ang)
+	void rotateArb(Vertex& v, const Vertex& s, const Vertex& a, float ang)
+		{
+		float sn, cs, x, y, z;
+		sincos(ang, sn, cs);
+
+		x=(s.x*(a.y*a.y+a.z*a.z)-a.x*(s.y*a.y+s.z*a.z-a.x*v.x-a.y*v.y-a.z*v.z))*(1-cs)+v.x*cs+(-s.z*a.y + s.y*a.z - a.z*v.y + a.y*v.z)*sn;
+		y=(s.y*(a.x*a.x+a.z*a.z)-a.y*(s.x*a.x+s.z*a.z-a.x*v.x-a.y*v.y-a.z*v.z))*(1-cs)+v.y*cs+( s.z*a.x - s.x*a.z + a.z*v.x - a.x*v.z)*sn;
+		z=(s.z*(a.x*a.x+a.y*a.y)-a.z*(s.x*a.x+s.y*a.y-a.x*v.x-a.y*v.y-a.z*v.z))*(1-cs)+v.z*cs+(-s.y*a.x + s.x*a.y - a.y*v.x + a.x*v.y)*sn;
+		v.x=x;
+		v.y=y;
+		v.z=z;
+		}
+
 	void drawCube(Cube c)
 		{
 		Vertex tl(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
@@ -200,7 +214,7 @@ namespace Screen
 			Vertex& v=c.verts[i];
 			v=v-tl/2;
 
-			float vx, vy, vz;
+			/*float vx, vy, vz;
 
 			vx=v.x;
 			vy=cx*v.y-sx*v.z;
@@ -212,7 +226,10 @@ namespace Screen
 			vy=v.y;
 			vz=-sy*v.x+cx*v.z;
 
-			v.x=vx; v.y=vy; v.z=vz;
+			v.x=vx; v.y=vy; v.z=vz;*/
+
+			rotateArb(v, Vertex(0, 0, 0), Vertex(0, 1, 0), ry*DEGTORAD);
+			rotateArb(v, Vertex(0, 0, 0), Vertex(1, 0, 0), rx*DEGTORAD);
 
 			v=v+tl/2+scrtl;
 			}
