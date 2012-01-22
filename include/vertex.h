@@ -1,6 +1,7 @@
 /**
  * @struct Vertex
  * @brief Prosty vertex/wektor 3D, zawiera podstawowe operacje
+ * @details Funkcje rysujące przystosowane są do ułożenia wertexów przeciwnie do ruchu wskazówek zegara (CCW)
  */
 class Vertex
 {
@@ -17,6 +18,16 @@ class Vertex
 			z=v.z;
 			return *this;
 		}
+
+		bool operator==(const Vertex& v) const
+			{
+			return (int)x==(int)v.x && (int)y==(int)v.y && (int)z==(int)v.z;
+			}
+
+		bool eq2d(const Vertex& v) const
+			{
+			return (int)x==(int)v.x && (int)y==(int)v.y;
+			}
 
 		Vertex operator+(const Vertex& v) const
 		{

@@ -16,7 +16,7 @@
  */
 namespace Drawing
 	{
-	/// @brief Czyszczenie zbuffera oraz bufora obiektów
+	/// @brief Czyszczenie zbuffera oraz bufora obiektÃ³w
 	void clearZBuff();
 
 	/// @brief Ustawia aktualna powierzchnie do rysowania. Nigdzie nie jest sprawdzane, czy nie jest NULLem.
