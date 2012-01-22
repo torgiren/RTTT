@@ -10,8 +10,8 @@
 
 /**
  * @class Sprite
- * @brief Klasa zajmujaca sie wczytaniem, wyswietlaniem i ogolnie obsluga obrazkow
- * @details Po niej powinny dziedziczyc wersje zajmujace sie implementacja tych operacji w wybranej bibliotece graficznej. Aktualnie zrobione sa dla SDL i OpenGL, tutaj dostepny jest tylko SDL.
+ * @brief Klasa zajmująca sie wczytaniem, wyświetlaniem i ogólnie obsługą obrazków
+ * @details Po niej powinny dziedziczyć wersje zajmujące się implementacją tych operacji w wybranej bibliotece graficznej. Aktualnie zrobione są dla SDL i OpenGL, jednak tutaj dostępny jest tylko SDL.
  */
 class Sprite
 	{
@@ -26,7 +26,7 @@ class Sprite
 				/**
 				 * @class AnimFrame
 				 * @brief Klatka animacji
-				 * @details Za duzo by pisac, zwyklego smiertelnika raczej to nie powinno interesowac. Czemu jest publiczne, pytasz? A czemu nie~?
+				 * @details Za dużo by pisać, zwykłego śmiertelnika raczej to nie powinno interesować. Czemu jest publiczne, pytasz? A czemu nie~?
 				 */
 				struct AnimFrame
 					{
@@ -46,32 +46,32 @@ class Sprite
 				 Anim(float aspd, int fret): aspd(aspd), fret(fret) {};
 				~Anim() {clear();}
 
-				/// @brief Czysci wszystkie animacje
+				/// @brief Czyści wszystkie animacje
 				void clear() {animFrames.clear();}
 
 				//void operator+=(int x, int y, int w, int h, int spotx, int spoty, int actx, int acty) {addFrame(x, y, w, h, spotx, spoty, actx, acty);}
-				/// @brief Dodaje klatke o podanych parametrach
+				/// @brief Dodaje klatkę o podanych parametrach
 				void addFrame(int x, int y, int w, int h, int spotx=0, int spoty=0, int actx=0, int acty=0, int boxx=0, int boxy=0, int boxw=0, int boxh=0) {animFrames.push_back(AnimFrame(x, y, w, h, spotx, spoty, actx, acty, boxx, boxy, boxw, boxh));}
-				/// @brief Zwraca klatke o podanym numerze
+				/// @brief Zwraca klatkę o podanym numerze
 				const AnimFrame& getFrame(unsigned int i) {if(i<animFrames.size()) return animFrames[i]; return animFrames.front();};
 
-				/// @brief Ustawia szybkosc animacji na podana wartosc
-				void setAspd(float sa) {if(sa<0.0f) return; aspd=sa;}
-				/// @brief Ustawia klatke powrotu na podana
+				/// @brief Ustawia szybkość animacji na podaną wartość
+				void setAspd(float sa) {if(sa<0.0f) podaną; aspd=sa;}
+				/// @brief Ustawia klatkę powrotu na podana
 				void setFret(int sa) {if(sa<0 || sa>(int)animFrames.size()) return; fret=sa;}
-				/// @brief Zwraca aktualna predkosc animacji
+				/// @brief Zwraca aktualną predkość animacji
 				float getAspd() {return aspd;}
-				/// @brief Zwraca aktualna klatke powrotu
+				/// @brief Zwraca aktualną klatkę powrotu
 				int getFret() {return fret;}
 
-				/// @brief Zwraca ilosc klatek
+				/// @brief Zwraca ilość klatek
 				int getFrameCount() {return animFrames.size();}
 			};
 
 		/**
 		 * @class SpritePtr
-		 * @brief Smart Pointer na sprite. Zwalnia sprite jesli nikt go nie uzywa.
-		 * @details Dodatkowo posiada obsluge animacji i potrafi odpowiednio zareagowac w przypadku ponownego wczytania sprite dla innej biblioteki graficznej.
+		 * @brief Smart Pointer na sprite. Zwalnia sprite jeśli nikt go nie używa.
+		 * @details Dodatkowo posiada obsługę animacji i potrafi odpowiednio zareagowac w przypadku ponownego wczytania sprite dla innej biblioteki graficznej.
 		 */
 		class SpritePtr
 			{
@@ -121,7 +121,7 @@ class Sprite
 		static void clear();
 		static void reload();				// Ponowne wczytanie wszystkich grafik
 
-		/// @brief Wczytuje grafike o podanej nazwie
+		/// @brief Wczytuje grafikę o podanej nazwie
 		static Sprite* load(const std::string& name, bool force=false);
 
 		Sprite(const std::string& name="", int w=0, int h=0);

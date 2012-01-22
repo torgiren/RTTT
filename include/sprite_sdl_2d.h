@@ -7,7 +7,7 @@
 /**
  * @class SpriteSDL2D
  * @brief Klasa sprite oparta na SDLu
- * @details Zajmuje sie wyswietleniem i wczytaniem obrazka uzywajac SDLa. 'Gdzies' jest wersja robiaca to samo dla OpenGLa, ale tutaj nie ma dla niej miejsca.
+ * @details Zajmuje się wyświetleniem i wczytaniem obrazka używajac SDLa. 'Gdzieś' jest wersja robiąca to samo dla OpenGLa, ale tutaj nie ma dla niej miejsca.
  */
 class SpriteSDL2D: public Sprite
 	{
@@ -20,12 +20,12 @@ class SpriteSDL2D: public Sprite
 		virtual ~SpriteSDL2D() {if(sprite) SDL_FreeSurface(sprite);}
 
 		/**
-		 * \param[in] x Wspolrzedna x
-		 * \param[in] y Wspolrzedna y
-		 * \param[in] z Wspolrzedna z
+		 * \param[in] x Współrzędna x
+		 * \param[in] y Współrzędna y
+		 * \param[in] z Współrzędna z
 		 * \param[in] anim Numer animacji
 		 * \param[in] frame Klatka animacji
-		 * \param[in] alpha Przezroczystosc, 0-255
+		 * \param[in] alpha Przeźroczystość, 0-255
 		 * \param[in] px Parallax scrolling, poziomy
 		 * \param[in] py Parallax scrolling, pionowy
 		 * \param[in] r Czerwony
@@ -34,6 +34,7 @@ class SpriteSDL2D: public Sprite
 		 */
 		void print(float x, float y, float z, int anim, int frame, unsigned char alpha=255u, float px=1.0f, float py=1.0f, unsigned char r=255u, unsigned char g=255u, unsigned char b=255u);
 		/// @brief Dobre pytanie. Sam nie wiem.
+		/// @details Tak serio to jest to zrobione pod kątem OpenGl'a (array buffer, vbo).
 		inline void flush() {};
 	};
 
