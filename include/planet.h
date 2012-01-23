@@ -10,7 +10,6 @@
  */
 class Planet
 {
-	friend class GameEngine;
 	public:
 		/**
 		 * @brief Tworzy planete
@@ -50,8 +49,20 @@ class Planet
 		 * W przypadku mniejszej ilości jednostek po którejś ze stron, w miejsce rzutu wstawiana jest wartość 0
 		 */
 		FightResult Atak(uint16 ile, uint16 kogo);
+		/**
+		 * @brief Ustawia nowego właściciela planety
+		 * @details Metoda która ustawia nowego właściciela planety
+		 * @param gracz Numer gracza będącego nowym właścicielem
+		 */
 		void SetPlayer(uint16 gracz);
+		/**
+		 * @brief Kończy turę na danej planecie
+		 * @details W przypadku okupowania planety następuje zdobywanie/zdejmowanie flagi.<br/>
+		 * W przypadku posiadanych planet, następuje tworzenie nowych jednostek
+		 */
 		void EndTurn();
+		RETURNS::MOVE Zabierz(uint16 ile);
+		void Dodaj(uint16 ile);
 	private:
 		/**
 		 * @brief Symuluje zdobywanie flagi na okupowanej planecie

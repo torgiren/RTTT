@@ -1,6 +1,8 @@
 #include "gameengine.h"
+#include <iostream>
 #include <cstdlib>
 #include <cstdio>
+using namespace std;
 GameEngine::GameEngine(uint16 size, uint16 players):
 itsSize(size),itsPlayers(players),itsActPlayer(1)
 {
@@ -54,10 +56,7 @@ uint16 GameEngine::EndTurn()
 		{
 			for(z=0;z<itsSize;z++)
 			{
-				if(itsPlanety[x][y][z].RetGracz())
-				{
-					printf("Gracz na pozycji: %d %d %d\n",x,y,z);
-				};
+				itsPlanety[x][y][z].EndTurn();
 			};
 		};
 	}
@@ -71,4 +70,42 @@ uint16 GameEngine::NextPlayer()
 {
 	if(++itsActPlayer>=itsPlayers) itsActPlayer=1;
 	return itsActPlayer;
+};
+RETURNS::MOVE GameEngine::Move(const Vertex& src, const Vertex& dst, uint16 num)
+{
+	Planet& Psrc=GetPlanet(src);
+	Planet& Pdst=GetPlanet(dst);
+	RETURNS::MOVE wynik;	
+	if(Psrc.RetGracz())
+	{
+		wynik=Psrc.Zabierz(num);
+		//TODO zrobić przesyłanie jednostek, a w przypadku ataku jakoś zwracanie logu z walki
+		if(wynik==RETURNS::MOVE_OK)
+		{
+			cout<<"zabrane"<<endl;
+			if((Psrc.RetGracz()==Pdst.RetGracz())&&(!Pdst.RetOkupant()))
+			{
+				cout<<"warunek 1"<<endl;
+				Pdst.Dodaj(num);
+				return RETURNS::MOVE_OK;
+			};
+			if((Psrc.RetGracz()!=Pdst.RetGracz())&&(Psrc.RetGracz()==Pdst.RetOkupant()))
+			{
+				cout<<"warunek 2"<<endl;
+				Pdst.Dodaj(num);
+				return RETURNS::MOVE_OK;
+			};
+			if((Psrc.RetGracz()!=Pdst.RetGracz())&&(Psrc.RetGracz()!=Pdst.RetOkupant()))
+			{
+				cout<<"warunek 3"<<endl;
+				itsLastFight=Pdst.Atak(num,Psrc.RetGracz());		
+				return RETURNS::MOVE_FIGHT;
+			};
+		}
+	};
+	return wynik;
+};
+Planet& GameEngine::GetPlanet(const Vertex& src)
+{
+	return itsPlanety[(int)src.x][(int)src.y][(int)src.z];
 };

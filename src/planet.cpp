@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <algorithm>
+#include <iostream>
+using namespace std;
 Planet::Planet():
 itsGracz(0),itsPoziom(0),itsOkupant(0)
 {
@@ -106,6 +108,7 @@ void Planet::Flaga()
 void Planet::SetPlayer(uint16 gracz)
 {
 	itsGracz=gracz;
+	itsPoziom=OCCUPY_MAX;
 };
 void Planet::EndTurn()
 {
@@ -116,4 +119,19 @@ void Planet::Jednostki()
 {
 	if(itsGracz&&!itsOkupant)
 		itsJednostki++;
+};
+RETURNS::MOVE Planet::Zabierz(uint16 ile)
+{
+	if(ile<=itsJednostki)
+	{
+		itsJednostki-=ile;
+		cout<<"zabierz ok"<<endl;
+		return RETURNS::MOVE_OK;
+	}
+	cout<<"Zabierz za duzo"<<endl;
+	return RETURNS::TOO_MUCH;
+};
+void Planet::Dodaj(uint16 ile)
+{
+	itsJednostki+=ile;
 };

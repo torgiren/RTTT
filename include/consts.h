@@ -50,9 +50,10 @@ namespace RETURNS
 	 * <li>OUT_OF_AREA - jeśli wybrane źródło i/lub cel jest poza obszarem gry (normalnie nie występuje)
 	 * <li>NOT_ANY - jeśli gracz nie posiada żadnych jednostek na danej planecie źródłowej
 	 * <li>MOVE_OK - jeśli przenoszenie jednostek sie powiodło
+	 * <li>MOVE_FIGHT - jeśli odbyła się walka
 	 * </ul>
 	 */
-	enum MOVE {TOO_MUCH, OUT_OF_AREA, NOT_ANY, MOVE_OK};
+	enum MOVE {TOO_MUCH, OUT_OF_AREA, NOT_ANY, MOVE_OK,MOVE_FIGHT};
 };
 
 #endif // CONST_H
