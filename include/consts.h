@@ -1,12 +1,16 @@
 #ifndef CONSTS_H
 #define CONSTS_H
 #include<stdint.h>
+#include<vector>
+/**
+ * @file consts.h
+ */
 
 const int SCREENWIDTH=640;
 const int SCREENHEIGHT=480;
 const int BPP=32;
 
-const char GAMENAME[]="RTTTT - Bitwa o Alfa Centauri 4000AD";
+const char GAMENAME[]="RTTTT - Risky Tic Tak Toe - Bitwa o Alfa Centauri 4000AD";
 const int FPSDELAY=1000/50;
 
 const float DEGTORAD=3.141592653589793f/180.0f;
@@ -21,11 +25,19 @@ typedef uint32_t uint;
  * Liczba całkowita o rozmiarze 16 bitów
  */
 typedef uint16_t uint16;
+/**
+ * Struktura wiersza logów z walki
+ */
+typedef std::pair<std::vector<uint16>,std::vector<uint16> >FightResultRow;
+/**
+ * Wektor wierszy logów z walki
+ */
+typedef std::vector<FightResultRow> FightResult;
 
 /**
  * Maksymalny poziom okupowanej planety powodujący jej przejęcie
  */
-const int OCUPY_MAX=5;
+const int OCCUPY_MAX=5;
 /**
  * Zawiera komunikaty zwracane z funkcjii
  */
