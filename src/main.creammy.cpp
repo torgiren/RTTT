@@ -11,13 +11,14 @@ int main(int , char *[])
 
 	srand(time(NULL));
 
-	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
+	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELTA))
 		{
 		printf("Nie udalo sie stworzyc okienka\n");
 		return 100;
 		}
 	Drawing::setSurface(WindowEngine::getScreen());
 	Screen::init();
+	Screen::setSize(4);
 
 	unsigned int fpsfr=0, fpsft=SDL_GetTicks();
 	while(WindowEngine::update())
@@ -43,8 +44,8 @@ int main(int , char *[])
 
 		//Drawing::setColor(0xFF0000FF);
 		//Drawing::drawQuad(Vertex(24, 200, 32), Vertex(8, 216, 32), Vertex(24, 232, 32), Vertex(40, 216, 32));
-		//Drawing::drawQuad(Vertex(300, 305, 32), Vertex(315, 420, 64), Vertex(405, 415, 32), Vertex(410, 320, 64));
-		//Drawing::drawQuad(Vertex(32, 32, 64), Vertex(74, 30, 64), Vertex(72, 76, 64), Vertex(35, 68, 64));
+		//Drawing::drawQuad(Vertex(300, 305, 32), Vertex(315, 420, 64), Vertex(405, 415, 64), Vertex(410, 320, 32));
+		//Drawing::drawQuad(Vertex(32, 32, 64), Vertex(35, 68, 32), Vertex(72, 76, 32), Vertex(74, 30, 64));
 
 		Screen::update();
 		Screen::draw();

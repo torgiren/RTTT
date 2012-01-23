@@ -188,14 +188,29 @@ namespace Drawing
 			}
 		}
 
+	const Vertex light(0, 0.7071, -0.701);
+
 	void drawQuad(const Vertex& a, const Vertex& b, const Vertex& c, const Vertex& d)
 		{
+		/*Vertex va=a-b;
+		Vertex vb=a-c;
+		Vertex v=va.crossz(vb);
+		float ang=max(acos(v.dot(light)/(va.len()*vb.len())), 0.0f);
+
+		//printf("%f %f %f %f - %f", v.dot(light), v.len(), va.len(), vb.len(), ang*RADTODEG);
+		//printf("%f %f %f | %f %f %f", v.x, v.y, v.z, light.x, light.y, light.z);
+		unsigned int ctmp=color;
+
+		unsigned char cr=((0x00FF0000&color)>>16)*(1.0-ang);
+		unsigned char cg=((0x0000FF00&color)>> 8)*(1.0-ang);
+		unsigned char cb=((0x000000FF&color)>> 0)*(1.0-ang);
+
+		color=(cr<<16)+(cg<< 8)+(cb<< 0);*/
+
 		drawTriangle(a, b, c);
-		//drawTriangle(d, c, a);
 		drawTriangle(a, c, d);
 
-		//printf("%0.2f %0.2f %0.2f\t|%0.2f %0.2f %0.2f\t|%0.2f %0.2f %0.2f|\t%0.2f %0.2f %0.2f",
-		//		a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, d.x, d.y, d.z);
+		//color=ctmp;
 		}
 	}
 

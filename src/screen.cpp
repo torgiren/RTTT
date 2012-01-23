@@ -8,8 +8,9 @@
 #include "screen.h"
 #include "drawing.h"
 
-const int CUBE_SIZE=64;
-const int CUBE_DIST=64; //CUBE_SIZE*6;
+int CUBE_SIZE=64;
+int CUBE_DIST=CUBE_SIZE; //CUBE_SIZE*6;
+const float CUBE_DIST_RATIO=1.5;
 
 inline void sincos(float ang, float& s, float& c)
 	{
@@ -90,6 +91,8 @@ namespace Screen
 	void mup(int x, int y, int key);
 	void mmove(int x, int y, int key);
 	void mroll(bool down);
+
+	void kpressed(int k);
 	}
 
 /************************************************/
@@ -133,13 +136,18 @@ namespace Screen
 		WindowEngine::addMouseDownEventHandler		(mdown);
 		WindowEngine::addMouseUpEventHandler		(mup);
 		WindowEngine::addMouseMotionEventHandler	(mmove);
-
-		setSize(4);
 		}
 
 	void update()
 		{
-		//
+		if(WindowEngine::getKeyState(SDLK_LEFT))
+			ry++;
+		else if(WindowEngine::getKeyState(SDLK_RIGHT))
+			ry--;
+		if(WindowEngine::getKeyState(SDLK_UP))
+			rx++;
+		else if(WindowEngine::getKeyState(SDLK_DOWN))
+			rx--;
 		}
 
 	void draw()
@@ -163,6 +171,9 @@ namespace Screen
 	void setSize(int ss)
 		{
 		size=ss;
+
+		CUBE_SIZE=(float)SCREENHEIGHT/(size*(CUBE_SIZE+CUBE_DIST*CUBE_DIST_RATIO))/2.0*CUBE_SIZE;
+		CUBE_DIST=CUBE_SIZE*CUBE_DIST_RATIO;
 
 		area.resize(size);
 		for(int x=0; x<size; ++x)
@@ -198,7 +209,9 @@ namespace Screen
 	void drawCube(Cube c)
 		{
 		Vertex tl(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
-		Vertex scrtl(SCREENWIDTH/size, SCREENHEIGHT/size, 0);
+		Vertex scrtl(SCREENWIDTH/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2+	CUBE_SIZE/2,
+					 SCREENHEIGHT/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2+	CUBE_SIZE/2,
+					 0.0f);
 
 		rx+=mx;
 		ry+=my;
@@ -212,21 +225,7 @@ namespace Screen
 		for(int i=0; i<Cube::VERT_COUNT; i++)
 			{
 			Vertex& v=c.verts[i];
-			v=v-tl/2;
-
-			/*float vx, vy, vz;
-
-			vx=v.x;
-			vy=cx*v.y-sx*v.z;
-			vz=sx*v.y+cx*v.z;
-
-			v.x=vx; v.y=vy; v.z=vz;
-
-			vx=cy*v.x+sy*v.z;
-			vy=v.y;
-			vz=-sy*v.x+cx*v.z;
-
-			v.x=vx; v.y=vy; v.z=vz;*/
+			v=v-(tl/2.0f);
 
 			rotateArb(v, Vertex(0, 0, 0), Vertex(0, 1, 0), ry*DEGTORAD);
 			rotateArb(v, Vertex(0, 0, 0), Vertex(1, 0, 0), rx*DEGTORAD);
@@ -299,3 +298,4 @@ namespace Screen
 		//
 		}
 	}
+
