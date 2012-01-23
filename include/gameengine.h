@@ -20,17 +20,21 @@ class GameEngine
 		 */
 		GameEngine(uint16 size,uint16 players);
 		/**
+		 * @brief Destruktor zwalniający pamięć
+		 */
+		~GameEngine();	
+		/**
 		 * @brief Konczy ture
 		 * @details Metoda kończąca ture danego gracza. W tej chwili dodawane są jednoski dla "jeszcze" aktualnego gracza.
 		 * @return Zwraca numer następnego gracza.
 		 */
-		int EndTurn();
+		uint16 EndTurn();
 		/**
 		 * @brief Aktualny gracz
 		 * @details Zwraca numer aktualnego gracza.
 		 * @return Numer aktualnego gracza.
 		 */
-		int ActPlayer() const;
+		uint16 ActPlayer() const;
 		/**
 		 * @brief Przenosi jednoski z jednej planety na drugą
 		 * @details Wykonuje operacje przeniesienia jednostek z planety źródłowej na docelową. Metoda sprawdza czy dana operacja jest możliwa (np: czy <b>num</b> <= liczba_jednostek-1) 
@@ -47,8 +51,14 @@ class GameEngine
 		 * @param[in] player Numer gracza który ma zostać usunięty
 		 */
 		void RemovePlayer(uint16 player);
+		Planet& GetPlanet(const Vertex& src);
 	private:
-		Planet** itsPlanety;
+		uint16 NextPlayer();
+		Planet*** itsPlanety;
+		uint16 itsSize;
+		uint16 itsPlayers;
+		uint16 itsActPlayer;
+		FightResult itsLastFight;
 };
 #endif
 
