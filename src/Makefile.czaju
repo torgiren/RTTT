@@ -2,14 +2,22 @@ SOURCE = Room.cpp Server.cpp Session.cpp
 
 OBJ= $(SOURCE:.cpp=.o)
 
-main: ${SRC}/main.czaju.cpp  ${BIN}/Room.o ${BIN}/Server.o ${BIN}/Session.o
+main: ${SRC}/main.czaju.cpp  ${BIN}/Room.o ${BIN}/Server.o ${BIN}/Session.o ${BIN}/SocketSingleton.o ${BIN}/Client.o ${BIN}/Message.o
 	${CXX} $^ -o ${TMP}/main.czaju ${LDFLAGS} ${CXXFLAGS}
 
 ${BIN}/Room.o : ${SRC}/Room.cpp ${INCLUDE}/Room.hpp
 	${CXX} ${SRC}/Room.cpp -c -o $@ ${CXXFLAGS}
 
-${BIN}/Server.o : ${SRC}/Server.cpp ${INCLUDE}/Server.hpp
+${BIN}/Server.o : ${SRC}/Server.cpp ${INCLUDE}/Server.hpp ${BIN}/Session.o
 	${CXX} ${SRC}/Server.cpp -c -o $@ ${CXXFLAGS}
 
 ${BIN}/Session.o : ${SRC}/Session.cpp ${INCLUDE}/Session.hpp
 	${CXX} ${SRC}/Session.cpp -c -o $@ ${CXXFLAGS}
+${BIN}/Client.o : ${SRC}/Client.cpp ${INCLUDE}/Client.hpp ${BIN}/SocketSingleton.o ${BIN}/Message.o
+	${CXX} ${SRC}/Client.cpp -c -o $@ ${CXXFLAGS}
+
+${BIN}/SocketSingleton.o : ${SRC}/SocketSingleton.cpp ${INCLUDE}/SocketSingleton.hpp
+	${CXX} ${SRC}/SocketSingleton.cpp -c -o $@ ${CXXFLAGS}
+
+${BIN}/Message.o : ${SRC}/Message.cpp ${INCLUDE}/Message.hpp
+	${CXX} ${SRC}/Message.cpp -c -o $@ ${CXXFLAGS}

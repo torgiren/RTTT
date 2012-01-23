@@ -23,7 +23,6 @@ try
 ///////// TYLE JEŚLI CHODZI O SERVER \\\\\\\\\\
 
 boost::asio::io_service io_service_server;
-boost::asio::io_service io_service_client;
 char* port;
 std::string host="localhost";
 
@@ -49,15 +48,15 @@ std::string host="localhost";
 
 ///////////      TEN NAJWAŻNIEJSZY FRAGMENT KLIENCKI                    \\\\\\\\\\\\\ 
 
-    Client c(io_service_client, host.c_str(), port);
-    boost::thread client_t(boost::bind(&boost::asio::io_service::run, &io_service_client)); //\
-\\\\\\\\\\\     I TERAZ JUŻ TYLKO c.write(Message)                      /////////////
+    Client* c=Client::getInstance(host, port);
+//    boost::thread client_t(boost::bind(&boost::asio::io_service::run, &io_service_client)); //\
+\\\\\\\\\\\     I TERAZ JUŻ TYLKO c->write(Message)                      /////////////
 
 
     char line[Message::max_body_length + 1];
     while (std::cin.getline(line, Message::max_body_length + 1))
     {
-        c.send(line);
+        c->send(line);
 //      using namespace std; // For strlen and memcpy.
 //      Message msg;
 //      msg.body_length(strlen(line));
@@ -68,9 +67,9 @@ std::string host="localhost";
 //      c.write(msg);*/
     }
     
-    c.close();
+    c->close();
     server_t.join();
-    client_t.join();
+//    client_t.join();
 
 
   }
