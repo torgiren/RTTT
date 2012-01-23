@@ -51,12 +51,31 @@ class Planet
 		 */
 		FightResult Atak(uint16 ile, uint16 kogo);
 		/**
+		 * @brief Ustawia nowego właściciela planety
+		 * @details Metoda która ustawia nowego właściciela planety
+		 * @param gracz Numer gracza będącego nowym właścicielem
+		 */
+		void SetPlayer(uint16 gracz);
+		/**
+		 * @brief Kończy turę na danej planecie
+		 * @details W przypadku okupowania planety następuje zdobywanie/zdejmowanie flagi.<br/>
+		 * W przypadku posiadanych planet, następuje tworzenie nowych jednostek
+		 */
+		void EndTurn();
+		RETURNS::MOVE Zabierz(uint16 ile);
+		void Dodaj(uint16 ile);
+	private:
+		/**
 		 * @brief Symuluje zdobywanie flagi na okupowanej planecie
 		 * @details Jeśli planeta jest w posiadaniu innego gracza to jego flaga jest zdejmowana o poziom niżej, natomiast jeśli planeta jest neutralna bądź w posiadaniu gracza, wtedy flaga podnoszona jest o jeden poziom
 		 */
 		void Flaga();
+<<<<<<< HEAD
 	private:
 		void SetPlayer(uint16 gracz);
+=======
+		void Jednostki();
+>>>>>>> gameengine
 		uint16 itsGracz;
 		uint16 itsPoziom;
 		uint16 itsJednostki;

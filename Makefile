@@ -31,6 +31,6 @@ creammy_run: creammy
 docs:
 	doxygen Doxyfile
 clean:
-	rm -fr ${BIN}/*.o ${BIN]/utils/*.o
+	rm -fr ${BIN}/*.o ${BIN}/utils/*.o
 
 .PHONY: torgiren creammy czaju clean docs
