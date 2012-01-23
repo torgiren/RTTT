@@ -22,7 +22,7 @@ public:
       msg.encode_header();
       _room.deliver(msg);      
   }
-  Message& receive(){
+  Message receive(){
          _room.todo();
      }
 private:
