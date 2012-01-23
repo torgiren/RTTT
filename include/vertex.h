@@ -51,7 +51,7 @@ class Vertex
 			return Vertex(x/v, y/v, z/v);
 		}
 
-	/// @brief Iloczyn wektorowy. Z pewnych powod�w pomija z. "Taki ficzer".
+	/// @brief Iloczyn wektorowy. Z pewnych powodów pomija z. "Taki ficzer".
 		Vertex cross(const Vertex& v) const
 		{
 			return Vertex(/*y*v.z-z*v.y*/0, /*z*v.x-x*v.z*/0, x*v.y-y*v.x);
