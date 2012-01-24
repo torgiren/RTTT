@@ -135,7 +135,3 @@ void Planet::Dodaj(uint16 ile)
 {
 	itsJednostki+=ile;
 };
-void Planet::SetPlayer(uint16 gracz)
-{
-	itsGracz=gracz;
-};

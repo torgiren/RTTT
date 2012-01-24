@@ -70,12 +70,8 @@ class Planet
 		 * @details Jeśli planeta jest w posiadaniu innego gracza to jego flaga jest zdejmowana o poziom niżej, natomiast jeśli planeta jest neutralna bądź w posiadaniu gracza, wtedy flaga podnoszona jest o jeden poziom
 		 */
 		void Flaga();
-<<<<<<< HEAD
 	private:
-		void SetPlayer(uint16 gracz);
-=======
 		void Jednostki();
->>>>>>> gameengine
 		uint16 itsGracz;
 		uint16 itsPoziom;
 		uint16 itsJednostki;

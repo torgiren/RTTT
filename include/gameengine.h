@@ -1,5 +1,6 @@
 #ifndef __GAMEENGINE_H
 #define __GAMEENGINE_H
+#include <set>
 #include "consts.h"
 #include "vertex.h"
 #include "planet.h"
@@ -52,12 +53,14 @@ class GameEngine
 		 */
 		void RemovePlayer(uint16 player);
 		Planet& GetPlanet(const Vertex& src);
+		uint16 GetSize();
 	private:
 		uint16 NextPlayer();
 		Planet*** itsPlanety;
 		uint16 itsSize;
-		uint16 itsPlayers;
-		uint16 itsActPlayer;
+//		uint16 itsPlayers;
+		std::set<uint16> itsPlayers;
+		std::set<uint16>::iterator itsActPlayer;
 		FightResult itsLastFight;
 };
 #endif

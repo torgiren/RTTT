@@ -4,10 +4,15 @@
 #include <cstdio>
 using namespace std;
 GameEngine::GameEngine(uint16 size, uint16 players):
-itsSize(size),itsPlayers(players),itsActPlayer(1)
+itsSize(size)
 {
 	itsPlanety=new Planet**[itsSize];
 	int x,y;
+	for(x=0;x<players;x++)
+	{
+		itsPlayers.insert(x+1);
+	};
+	itsActPlayer=itsPlayers.begin();
 	for(x=0;x<itsSize;x++)
 	{
 		itsPlanety[x]=new Planet*[itsSize];
@@ -16,7 +21,7 @@ itsSize(size),itsPlayers(players),itsActPlayer(1)
 			itsPlanety[x][y]=new Planet[itsSize];
 		};
 	};
-	for(x=1;x<=itsPlayers;x++)
+	for(x=1;x<=(int)itsPlayers.size();x++)
 	{
 		int px=rand()%itsSize;
 		int py=rand()%itsSize;
@@ -64,12 +69,12 @@ uint16 GameEngine::EndTurn()
 };
 uint16 GameEngine::ActPlayer() const
 {
-	return itsActPlayer;
+	return *itsActPlayer;
 };
 uint16 GameEngine::NextPlayer()
 {
-	if(++itsActPlayer>=itsPlayers) itsActPlayer=1;
-	return itsActPlayer;
+	if(++itsActPlayer==itsPlayers.end()) itsActPlayer=itsPlayers.begin();
+	return *itsActPlayer;
 };
 RETURNS::MOVE GameEngine::Move(const Vertex& src, const Vertex& dst, uint16 num)
 {
@@ -109,3 +114,14 @@ Planet& GameEngine::GetPlanet(const Vertex& src)
 {
 	return itsPlanety[(int)src.x][(int)src.y][(int)src.z];
 };
+void GameEngine::RemovePlayer(uint16 player)
+{
+	if(*itsActPlayer==player)
+		itsActPlayer--;
+	itsPlayers.erase(player);
+};
+uint16 GameEngine::GetSize()
+{
+	return itsSize;
+};
+

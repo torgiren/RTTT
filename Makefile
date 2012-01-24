@@ -5,7 +5,7 @@ SRC=${BASE}/src
 INCLUDE=${BASE}/include
 BIN=${BASE}/bin
 TMP=${BASE}/tmp
-CXXFLAGS= -I${BASE}/include/ -I${BASE}/include/utils/ -O3
+CXXFLAGS= -I${BASE}/include/ -I${BASE}/include/utils/
 export LDFLAGS
 export CXXFLAGS
 export BIN
