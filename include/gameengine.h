@@ -55,7 +55,7 @@ class GameEngine
 		Planet& GetPlanet(const Vertex& src);
 		uint16 GetSize();
 	private:
-		void isWin();
+		bool isWin();
 		uint16 NextPlayer();
 		bool CanMoveFrom(Planet& planet, uint16 gracz);
 		Planet*** itsPlanety;
