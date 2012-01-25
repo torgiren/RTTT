@@ -52,12 +52,12 @@ class GameEngine
 		 * @param[in] player Numer gracza który ma zostać usunięty
 		 */
 		void RemovePlayer(uint16 player);
-		Planet& GetPlanet(const Vertex& src);
-		uint16 GetSize();
+		Planet& GetPlanet(const Vertex& src) const;
+		uint16 GetSize() const;
 	private:
-		bool isWin();
+		bool isWinning(const Vertex& src) const;
 		uint16 NextPlayer();
-		bool CanMoveFrom(Planet& planet, uint16 gracz);
+		bool CanMoveFrom(Planet& planet, uint16 gracz) const;
 		Planet*** itsPlanety;
 		uint16 itsSize;
 //		uint16 itsPlayers;

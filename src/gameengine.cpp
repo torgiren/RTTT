@@ -114,7 +114,7 @@ RETURNS::MOVE GameEngine::Move(const Vertex& src, const Vertex& dst, uint16 num)
 	};
 	return RETURNS::NOT_ANY;
 };
-Planet& GameEngine::GetPlanet(const Vertex& src)
+Planet& GameEngine::GetPlanet(const Vertex& src) const
 {
 	return itsPlanety[(int)src.x][(int)src.y][(int)src.z];
 };
@@ -124,11 +124,11 @@ void GameEngine::RemovePlayer(uint16 player)
 		itsActPlayer--;
 	itsPlayers.erase(player);
 };
-uint16 GameEngine::GetSize()
+uint16 GameEngine::GetSize() const
 {
 	return itsSize;
 };
-bool GameEngine::CanMoveFrom(Planet& planeta, uint16 gracz)
+bool GameEngine::CanMoveFrom(Planet& planeta, uint16 gracz) const
 {
 	uint16 okup=planeta.RetOkupant();
 	if(okup)
