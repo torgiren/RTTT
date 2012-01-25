@@ -23,7 +23,7 @@ public:
       _room.deliver(msg);      
   }
   Message receive(){
-         _room.todo();
+         return _room.todo();
      }
 private:
   boost::asio::io_service& _io_service;
