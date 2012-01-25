@@ -56,6 +56,7 @@ class GameEngine
 		uint16 GetSize();
 	private:
 		uint16 NextPlayer();
+		bool CanMoveFrom(Planet& planet, uint16 gracz);
 		Planet*** itsPlanety;
 		uint16 itsSize;
 //		uint16 itsPlayers;

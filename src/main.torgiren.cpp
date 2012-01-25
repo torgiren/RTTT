@@ -22,7 +22,10 @@ int main()
 		z1=-1;
 		z2=-1;
 		num=0;
+		cout<<"Act: "<<silnik.ActPlayer()<<endl;
 		cin>>c;
+		if(c=='e')
+			silnik.EndTurn();
 		if(c=='m')
 		{
 			cin>>x1>>y1>>z1;
@@ -53,7 +56,6 @@ int main()
 			};
 			cout<<"********"<<endl;
 		};
-		silnik.EndTurn();
 	}while(c!='q');
 
 	for(x=0;x<10;x++)

@@ -61,7 +61,11 @@ uint16 GameEngine::EndTurn()
 		{
 			for(z=0;z<itsSize;z++)
 			{
-				itsPlanety[x][y][z].EndTurn();
+				uint16 gracz=itsPlanety[x][y][z].RetGracz();
+				uint16 okup=itsPlanety[x][y][z].RetOkupant();
+				uint16 act=ActPlayer();
+				if(gracz==act||okup==act)
+					itsPlanety[x][y][z].EndTurn();
 			};
 		};
 	}
@@ -80,11 +84,10 @@ RETURNS::MOVE GameEngine::Move(const Vertex& src, const Vertex& dst, uint16 num)
 {
 	Planet& Psrc=GetPlanet(src);
 	Planet& Pdst=GetPlanet(dst);
-	RETURNS::MOVE wynik;	
-	if(Psrc.RetGracz())
+	if(CanMoveFrom(Psrc,ActPlayer()))
 	{
+		RETURNS::MOVE wynik;	
 		wynik=Psrc.Zabierz(num);
-		//TODO zrobić przesyłanie jednostek, a w przypadku ataku jakoś zwracanie logu z walki
 		if(wynik==RETURNS::MOVE_OK)
 		{
 			cout<<"zabrane"<<endl;
@@ -107,8 +110,9 @@ RETURNS::MOVE GameEngine::Move(const Vertex& src, const Vertex& dst, uint16 num)
 				return RETURNS::MOVE_FIGHT;
 			};
 		}
+		return wynik;
 	};
-	return wynik;
+	return RETURNS::NOT_ANY;
 };
 Planet& GameEngine::GetPlanet(const Vertex& src)
 {
@@ -124,4 +128,21 @@ uint16 GameEngine::GetSize()
 {
 	return itsSize;
 };
+bool GameEngine::CanMoveFrom(Planet& planeta, uint16 gracz)
+{
+	uint16 okup=planeta.RetOkupant();
+	if(okup)
+	{
+		if(okup==gracz)
+			return true;
+		return false;
+	}
+	else
+	{
+		if(planeta.RetGracz()==gracz)
+			return true;
+		return false;
+	};
+};
+
 

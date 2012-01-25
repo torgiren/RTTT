@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 Planet::Planet():
-itsGracz(0),itsPoziom(0),itsOkupant(0)
+itsGracz(0),itsFlagaPoziom(0),itsOkupant(0)
 {
 	itsJednostki=8;
 //	itsJednostki=rand()%5+5;
@@ -20,7 +20,7 @@ uint16 Planet::RetOkupant() const
 };
 uint16 Planet::RetPoziom() const
 {
-	return itsPoziom;
+	return itsFlagaPoziom;
 };
 uint16 Planet::RetJednostki() const
 {
@@ -83,16 +83,16 @@ void Planet::Flaga()
 	{
 		if(itsOkupant&&itsGracz)
 		{
-			itsPoziom--;
-			if(!itsPoziom)
+			itsFlagaPoziom--;
+			if(!itsFlagaPoziom)
 				itsGracz=0;
-			if(itsPoziom<0)
-				itsPoziom=0;
+			if(itsFlagaPoziom<0)
+				itsFlagaPoziom=0;
 		}
 		else if((itsOkupant&&!itsGracz)||(!itsOkupant&&itsGracz))
 		{
-			itsPoziom++;
-			if(itsPoziom==OCCUPY_MAX)
+			itsFlagaPoziom++;
+			if(itsFlagaPoziom==OCCUPY_MAX)
 			{
 				if(!itsGracz)
 				{
@@ -100,15 +100,15 @@ void Planet::Flaga()
 					itsOkupant=0;
 				};
 			};
-			if(itsPoziom>OCCUPY_MAX)
-				itsPoziom=OCCUPY_MAX;
+			if(itsFlagaPoziom>OCCUPY_MAX)
+				itsFlagaPoziom=OCCUPY_MAX;
 		};
 	};
 };
 void Planet::SetPlayer(uint16 gracz)
 {
 	itsGracz=gracz;
-	itsPoziom=OCCUPY_MAX;
+	itsFlagaPoziom=OCCUPY_MAX;
 };
 void Planet::EndTurn()
 {

@@ -30,6 +30,8 @@ creammy_run: creammy
 	./tmp/main.creammy
 docs:
 	doxygen Doxyfile
+	make -C docs/latex
+	cp docs/latex/refman.pdf ./
 clean:
 	rm -fr ${BIN}/*.o ${BIN}/utils/*.o
 

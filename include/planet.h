@@ -73,7 +73,8 @@ class Planet
 	private:
 		void Jednostki();
 		uint16 itsGracz;
-		uint16 itsPoziom;
+		uint16 itsFlagaPoziom;
+		uint16 itsFlagaGracz;
 		uint16 itsJednostki;
 		uint16 itsOkupant;
 };
