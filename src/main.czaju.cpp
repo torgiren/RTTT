@@ -48,7 +48,7 @@ std::string host="localhost";
 
 ///////////      TEN NAJWAŻNIEJSZY FRAGMENT KLIENCKI                    \\\\\\\\\\\\\ 
 
-    Client* c=Client::getInstance(host, port);
+    Client* c=new Client(*SocketSingleton::get(),host.c_str(), port);
 //    boost::thread client_t(boost::bind(&boost::asio::io_service::run, &io_service_client)); //\
 \\\\\\\\\\\     I TERAZ JUŻ TYLKO c->write(Message)                      /////////////
 
