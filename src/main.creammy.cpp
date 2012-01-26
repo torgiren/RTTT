@@ -21,8 +21,6 @@ int main(int , char *[])
 	Screen::init();
 	Screen::setSize(4);
 
-	Text info(0, 32, 32, 0, 0, 0, Sprite::load("data/font_00"), "Pierwszy widoczny tekst, wooo~", SCREENWIDTH-64, SCREENHEIGHT-64);
-
 	unsigned int fpsfr=0, fpsft=SDL_GetTicks();
 	while(WindowEngine::update())
 		{
@@ -52,8 +50,6 @@ int main(int , char *[])
 
 		Screen::update();
 		Screen::draw();
-
-		info.print();
 
 		WindowEngine::print();
 		}

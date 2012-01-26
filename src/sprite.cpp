@@ -69,6 +69,7 @@ void Sprite::reload()
 
 Sprite* Sprite::load(const std::string& name, bool force)
 	{
+	printf("Wczytywanie \"%s\"\n", name.c_str());
 	if(!force && sprites.find(name)!=sprites.end())
 		return sprites[name];
 /**** Sprawdzanie typu obrazka ****/
