@@ -34,6 +34,7 @@ typedef std::pair<std::vector<uint16>,std::vector<uint16> >FightResultRow;
  */
 typedef std::vector<FightResultRow> FightResult;
 
+
 /**
  * Maksymalny poziom okupowanej planety powodujący jej przejęcie
  */
@@ -54,6 +55,15 @@ namespace RETURNS
 	 * </ul>
 	 */
 	enum MOVE {TOO_MUCH, OUT_OF_AREA, NOT_ANY, MOVE_OK,MOVE_FIGHT};
+
+	typedef uint16 ENDTURN;
+	const uint16 NOTHING=1;
+	const uint16 NEW_UNIT=2;
+	const uint16 FLAG_DOWN=4;
+	const uint16 FLAG_UP=8;
+	const uint16 PLAYER_OUT=16;
+	const uint16 PLAYER_IN=32;
+	const uint16 FLAG_ERROR=64;
 };
 
 #endif // CONST_H

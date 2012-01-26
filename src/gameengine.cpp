@@ -65,7 +65,12 @@ uint16 GameEngine::EndTurn()
 				uint16 okup=itsPlanety[x][y][z].RetOkupant();
 				uint16 act=ActPlayer();
 				if(gracz==act||okup==act)
-					itsPlanety[x][y][z].EndTurn();
+				{
+					RETURNS::ENDTURN result=itsPlanety[x][y][z].EndTurn();
+					cout<<"Result: "<<result<<endl;
+					if(result&RETURNS::PLAYER_IN)
+						cout<<"Planeta została podbita"<<endl;
+				}
 			};
 		};
 	}
@@ -143,6 +148,10 @@ bool GameEngine::CanMoveFrom(Planet& planeta, uint16 gracz) const
 			return true;
 		return false;
 	};
+};
+bool IsWinning(const Vertex& src)
+{
+	return true;
 };
 
 

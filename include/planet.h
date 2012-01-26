@@ -61,17 +61,17 @@ class Planet
 		 * @details W przypadku okupowania planety następuje zdobywanie/zdejmowanie flagi.<br/>
 		 * W przypadku posiadanych planet, następuje tworzenie nowych jednostek
 		 */
-		void EndTurn();
+		RETURNS::ENDTURN EndTurn();
 		RETURNS::MOVE Zabierz(uint16 ile);
 		void Dodaj(uint16 ile);
+	private:
 	private:
 		/**
 		 * @brief Symuluje zdobywanie flagi na okupowanej planecie
 		 * @details Jeśli planeta jest w posiadaniu innego gracza to jego flaga jest zdejmowana o poziom niżej, natomiast jeśli planeta jest neutralna bądź w posiadaniu gracza, wtedy flaga podnoszona jest o jeden poziom
 		 */
-		void Flaga();
-	private:
-		void Jednostki();
+		RETURNS::ENDTURN Flaga();
+		bool Jednostki();
 		uint16 itsGracz;
 		uint16 itsFlagaPoziom;
 		uint16 itsFlagaGracz;
