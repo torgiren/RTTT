@@ -9,18 +9,46 @@
 
 bool SpriteSDL2D::loadGfx(const std::string& name)
 	{
-	return false;
 // Wczytywanie grafiki
-	SDL_Surface *tmp;
-	/*char *resGfx=Resource::load(name);
-	if(resGfx==NULL)
+	fstream in;
+	SDL_Surface *tmp=NULL;
+
+	char *resGfx=NULL;
+	unsigned int size=0;
+
+	in.open(name.c_str(), ios::binary|ios::in);
+
+	if(!in.is_open())
 		{
-		printf("Sprite.loadGfx: Nie udalo sie wczytac grafiki \"%s\"\n", name.c_str());
+		printf("Sprite.loadGfx: Nie udalo sie wczytac grafiki (plik nie moze byc otwarty) \"%s\"\n", name.c_str());
 		return 0;
 		}
+
+	in.seekg(0, ios::end);
+	size=in.tellg();
+	in.seekg(0, ios::beg);
+
+	if(size<=0)
+		{
+		printf("Sprite.loadGfx: Nie udalo sie wczytac grafiki (plik pusty) \"%s\"\n", name.c_str());
+		return 0;
+		}
+
+	try
+		{
+		resGfx=new char[size];
+		}
+	catch(bad_alloc&)
+		{
+		printf("Sprite.loadGfx: Nie udalo się zajac miejsca na obrazek \"%s\"\n", name.c_str());
+		return 0;
+		}
+	in.read(resGfx, size);
+	in.close();
+
 // Dekodowanie
-	tmp=IMG_Load_RW(SDL_RWFromMem(resGfx, Resource::getLastSize()), 1);	// Ustawianie gfx do sprite
-	delete [] resGfx;*/
+	tmp=IMG_Load_RW(SDL_RWFromMem(resGfx, size), 1);	// Ustawianie gfx do sprite
+	delete [] resGfx;
 	if(tmp==NULL)
 		{
 		printf("Sprite.loadGfx: Nie udalo sie zdekompresowac grafiki \"%s\"\n", name.c_str());

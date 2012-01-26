@@ -7,6 +7,7 @@
 
 #include "screen.h"
 #include "drawing.h"
+#include "text.h"
 
 int CUBE_SIZE=64;
 int CUBE_DIST=CUBE_SIZE; //CUBE_SIZE*6;
@@ -24,7 +25,7 @@ inline void sincos(float ang, float& s, float& c)
 struct Cube
 	{
 	Cube(int x=0, int y=0, int z=0, unsigned int col=0xFFFFFFFF):
-		x(x), y(y), z(z), col(col)
+		x(x), y(y), z(z), col(col), army(0), pct(0.0f)
 		{
 		reset();
 		}
@@ -77,6 +78,9 @@ struct Cube
 	int x, y, z;
 	unsigned int col;
 
+	int army;
+	float pct;
+
 	Vertex verts[VERT_COUNT];
 	};
 
@@ -103,6 +107,7 @@ namespace Screen
 	bool lmb=false;		// Wcisniety lewy przycisk myszy
 	bool rmb=false;		// Wcisniety prawy przycisk myszy
 	bool mmb=false;		// Wcisnieta rolka
+	bool moved=false;
 
 	int lx=-1;			// Ostatni x myszy
 	int ly=-1;			// Ostatni y myszy
@@ -120,6 +125,15 @@ namespace Screen
 
 	int size=4;
 	vector<vector<vector<Cube> > > area;
+
+// Rozgrywka
+
+	Cube *src=NULL;	// Skad?
+	Cube *dst=NULL;	// Dokad?
+	int army=0;	// Ile?
+
+	Text info(0, 8, 8, 0, 0, 0, NULL, "", SCREENWIDTH-16, SCREENHEIGHT-16);
+	Text curr(0, 8, SCREENHEIGHT-40, 0, 0, 0, NULL, "bzium", SCREENWIDTH-16, 16);
 	}
 
 /************************************************/
@@ -136,6 +150,11 @@ namespace Screen
 		WindowEngine::addMouseDownEventHandler		(mdown);
 		WindowEngine::addMouseUpEventHandler		(mup);
 		WindowEngine::addMouseMotionEventHandler	(mmove);
+
+		info.setFont(Sprite::load("data/font_00"));
+		curr.setFont(Sprite::load("data/font_00"));
+		info.setAlignCenter();
+		curr.setAlignCenter();
 		}
 
 	void update()
@@ -148,6 +167,22 @@ namespace Screen
 			rx++;
 		else if(WindowEngine::getKeyState(SDLK_DOWN))
 			rx--;
+
+	// Wypisanie informacji
+		char csrc[32], cdst[32], carmy[16];
+		if(!src)
+			sprintf(csrc, "[Wybierz planete]");
+		else
+			sprintf(csrc, "%02d:%02d:%02d", src->x, src->y, src->z);
+
+		if(!dst)
+			sprintf(cdst, "[Wybierz planete]");
+		else
+			sprintf(cdst, "%02d:%02d:%02d", dst->x, dst->y, dst->z);
+
+		sprintf(carmy, "%d", army);
+
+		info=(string)"Wyslij "+carmy+" jednostek z "+csrc+" do "+cdst;
 		}
 
 	void draw()
@@ -166,6 +201,9 @@ namespace Screen
 					}
 				}
 			}
+
+		info.print();
+		curr.print();
 		}
 
 	void setSize(int ss)
@@ -276,15 +314,50 @@ namespace Screen
 		else if(key==SDL_BUTTON_RIGHT)
 			rmb=false;
 
+		if(moved)
+			{
+			moved=false;
+			return;
+			}
+
+		if(key==SDL_BUTTON_MIDDLE)
+			{
+			/***********************************************/
+			/***********************************************/
+			/** Wyslij informacje o wybranym celu i armii **/
+			printf("Wziuuuu~");
+			/***********************************************/
+			/***********************************************/
+			return;
+			}
+
 		Cube *c=(Cube *)Drawing::getObj(x, y);
 		if(c)
-			printf("kliknieto x, y, z: %d, %d, %d", c->x, c->y, c->z);
+			{
+			if(key==SDL_BUTTON_LEFT)
+				src=c;
+			else if(key==SDL_BUTTON_RIGHT)
+				dst=c;
+			}
 		}
 
 	void mmove(int x, int y, int key)
 		{
+		Cube *c=(Cube *)Drawing::getObj(x, y);
+		if(c)
+			{
+			char ccube[32], carmy[16];
+			sprintf(ccube, "%02d:%02d:%02d", c->x, c->y, c->z);
+			sprintf(carmy, "%d", c->army);
+			curr=(string)"Planeta: "+ccube+"\nIlosc jednostek: "+carmy;
+			}
+		else
+			curr="";
+
 		if(!lmb)
 			return;
+
+		moved=true;
 
 		mx=-(y-ly);
 		my= (x-lx);
@@ -295,7 +368,10 @@ namespace Screen
 
 	void mroll(bool down)
 		{
-		//
+		if(down && army>0)
+			army--;
+		else if(!down)
+			army++;
 		}
 	}
 

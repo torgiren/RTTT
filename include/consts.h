@@ -16,6 +16,9 @@ const int FPSDELAY=1000/50;
 const float DEGTORAD=3.141592653589793f/180.0f;
 const float RADTODEG=180.0f/3.141592653589793f;
 
+const char IMGEXT[]=".png";
+const char ANIMEXT[]=".txt";
+
 
 /**
  * Liczba całkowita o rozmiarze 32bitów

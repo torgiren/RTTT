@@ -1,5 +1,6 @@
 #include "main.creammy.h"
 #include "sprite.h"
+#include "text.h"
 #include "drawing.h"
 #include "screen.h"
 

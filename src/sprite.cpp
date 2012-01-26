@@ -1,6 +1,7 @@
 #include "main.creammy.h"
 #include "sprite.h"
 #include "sprite_sdl_2d.h"
+#include "utils/parser.h"
 
 void Sprite::SpritePtr::animate()
 	{
@@ -68,14 +69,15 @@ void Sprite::reload()
 
 Sprite* Sprite::load(const std::string& name, bool force)
 	{
+	printf("Wczytywanie \"%s\"\n", name.c_str());
 	if(!force && sprites.find(name)!=sprites.end())
 		return sprites[name];
 /**** Sprawdzanie typu obrazka ****/
 	Sprite *spr=NULL;
 
 	//std::string name3d=name+MDLEXT;
-	std::string nameimg=name;//+IMGEXT;
-	std::string nameani=name;//+ANIMEXT;
+	std::string nameimg=name+IMGEXT;
+	std::string nameani=name+ANIMEXT;
 
 	try
 		{
@@ -139,27 +141,42 @@ bool Sprite::loadMask(void *vpixs, int w, int h, int bpp)	// bpp ignorowane, tyl
 
 bool Sprite::loadAnims(const string& name)
 	{
-	return 0;
-	/*if(name.length()<2)
+	if(name.length()<2)
 		return 0;
 	//printf("> \"%s\"\n", name);
 	map<string, int> animNamesTmp;
-	Parser parsLine;
-	Parser parsSpace;
-	parsLine.setDelimiter("\n\r");
-	parsSpace.setDelimiter(" \t");
+	Parser parsLine("", "\n\r");
+	Parser parsSpace("", " \t");
 
 	anims.clear();
 	animNames.clear();
 
-	char *tmp=Resource::load(name);
-	if(tmp==NULL)
+	unsigned int size=0;
+	char *tmp=NULL;
+	fstream in;
+
+	in.open(name.c_str(), ios::binary|ios::in);
+	in.seekg(0, ios::end);
+	size=in.tellg();
+	in.seekg(0, ios::beg);
+
+	try
 		{
-		printf("Sprite2D.loadAnims: Nie znaleziono informacji o animacjach, uzywanie calego obrazka");
+		if(!in.is_open() || size<=0)
+			throw bad_alloc();
+		tmp=new char[size+1];
+		}
+	catch(bad_alloc&)
+		{
+		printf("Sprite2D.loadAnims: Nie udalo sie zajac miejsca na informacje o animacjach, uzywanie calego obrazka");
 		anims.push_back(Anim(0.0f, 0.0f));
 		anims.back().addFrame(0, 0, w, h, 0, 0, 0, 0);
 		return 1;
 		}
+
+	in.read(tmp, size);
+	tmp[size]='\0';
+	in.close();
 
 	parsLine=tmp;
 	delete [] tmp;
@@ -243,7 +260,7 @@ bool Sprite::loadAnims(const string& name)
 	for(unsigned int i=0; i<anims.size(); i++)
 		if(anims[i].getFrameCount()<1)
 			anims[i].addFrame(0, 0, 0, 0);
-	//printf("INFO: Sprite.loadAnim: Ilosc animacji: %d\n", anims.size());*/
+	//printf("INFO: Sprite.loadAnim: Ilosc animacji: %d\n", anims.size());
 	return 1;
 	}
 
