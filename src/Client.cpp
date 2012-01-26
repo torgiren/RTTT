@@ -1,19 +1,20 @@
-#include "../include/Client.hpp"
+#include "Client.hpp"
 
-  bool Client::is= false;
-  Client* Client::_instance;
+//  bool Client::is= false;
+//  Client* Client::_instance;
 
 /*    void Client::setWindow(MainWindow* w){
         _window=w;
     }
 */
-  Client* Client::getInstance(std::string host, std::string port){
+/*  Client* Client::getInstance(std::string host, std::string port){
       if(!is){
           _instance=new Client(*SocketSingleton::get(), host.c_str(), port.c_str());
           is=true;
       }
       return _instance;
   }
+*/
   ///@brief metoda zamykająca połączenie
   ///@detail metoda binduje handler do_close z metodą post socketu
   void Client::close(){
