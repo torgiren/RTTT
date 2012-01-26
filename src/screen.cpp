@@ -376,6 +376,8 @@ namespace Screen
 			/// @todo /todo \todo --todo ?todo ~~todo~~ \m/todo\m/ to(-_-)do [todo]
 			/***********************************************/
 			/***********************************************/
+			src=NULL;
+			dst=NULL;
 			return;
 			}
 
