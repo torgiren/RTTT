@@ -29,6 +29,8 @@ namespace Drawing
 	void setColor(unsigned int sc);
 	/// @brief Zwraca aktualny kolor
 	unsigned int getColor();
+	/// @brief Miesza kolor \a c1 z \a c2 w stosunku \a alpha (1.0 -> 100% c1)
+	unsigned int getColorBlend(unsigned int c1, unsigned int c2, float alpha);
 
 	/**
 	 * @brief Ustawia aktualny obiekt wpisywany do bufora obiektów

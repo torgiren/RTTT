@@ -240,12 +240,12 @@ namespace WindowEngine
 
 				SDL_Flip(screen);
 
-				SDL_Rect r;
+				/*SDL_Rect r;
 				r.x=0;
 				r.y=0;
 				r.w=SCREENWIDTH;
 				r.h=SCREENHEIGHT;
-				SDL_FillRect(screen, &r, 0x0088FF);
+				SDL_FillRect(screen, &r, 0x0088FF);*/
 			break;
 			}
 

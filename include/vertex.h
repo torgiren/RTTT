@@ -3,6 +3,10 @@
  * @brief Prosty vertex/wektor 3D, zawiera podstawowe operacje
  * @details Funkcje rysujące przystosowane są do ułożenia wertexów przeciwnie do ruchu wskazówek zegara (CCW)
  */
+
+#ifndef VERTEX_H
+#define VERTEX_H
+
 #include <cmath>
 
 class Vertex
@@ -77,3 +81,5 @@ class Vertex
 
 		float x, y, z;
 	};
+
+#endif // VERTEX_H

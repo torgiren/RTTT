@@ -89,7 +89,7 @@ struct Cube
 /************************************************/
 namespace Screen
 	{
-	void drawCube(Cube c);
+	void drawCube(Cube& c);
 
 	void mdown(int x, int y, int key);
 	void mup(int x, int y, int key);
@@ -133,7 +133,14 @@ namespace Screen
 	int army=0;	// Ile?
 
 	Text info(0, 8, 8, 0, 0, 0, NULL, "", SCREENWIDTH-16, SCREENHEIGHT-16);
-	Text curr(0, 8, SCREENHEIGHT-40, 0, 0, 0, NULL, "bzium", SCREENWIDTH-16, 16);
+	Text curr(0, 8, SCREENHEIGHT-60, 0, 0, 0, NULL, "bzium", SCREENWIDTH-16, 16);
+
+	Sprite *bg;
+
+	Vertex tl;//(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
+	Vertex scrtl;//(SCREENWIDTH/ 2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f,
+				// SCREENHEIGHT/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f,
+				// 0.0f);
 	}
 
 /************************************************/
@@ -155,18 +162,20 @@ namespace Screen
 		curr.setFont(Sprite::load("data/font_00"));
 		info.setAlignCenter();
 		curr.setAlignCenter();
+
+		bg=Sprite::load("data/bg_01");
 		}
 
 	void update()
 		{
 		if(WindowEngine::getKeyState(SDLK_LEFT))
-			ry++;
+			my++;
 		else if(WindowEngine::getKeyState(SDLK_RIGHT))
-			ry--;
+			my--;
 		if(WindowEngine::getKeyState(SDLK_UP))
-			rx++;
+			mx++;
 		else if(WindowEngine::getKeyState(SDLK_DOWN))
-			rx--;
+			mx--;
 
 	// Wypisanie informacji
 		char csrc[32], cdst[32], carmy[16];
@@ -188,6 +197,15 @@ namespace Screen
 	void draw()
 		{
 		Drawing::clearZBuff();
+		bg->print(0, 0, 0, 0, 0);
+
+		/*Drawing::setColor(0x00FF0000);
+		Drawing::drawLine(Vertex(0, 0, 0), scrtl);
+		Drawing::drawLine(Vertex(0, 0, 0), Vertex(SCREENWIDTH, SCREENHEIGHT, 0));
+		Drawing::drawLine(Vertex(0, SCREENHEIGHT, 0), Vertex(SCREENWIDTH, 0, 0));*/
+
+		rx+=mx;
+		ry+=my;
 
 		for(int x=0; x<size; ++x)
 			{
@@ -201,6 +219,9 @@ namespace Screen
 					}
 				}
 			}
+
+		mx=0;
+		my=0;
 
 		info.print();
 		curr.print();
@@ -222,12 +243,22 @@ namespace Screen
 				area[x][y].resize(size);
 				for(int z=0; z<size; ++z)
 					{
-					unsigned char col=rand()%255;
+					unsigned char col=0x88;
 					area[x][y][z]=Cube(x, y, z);
-					area[x][y][z].col=(col<<16)+(col<< 8)+col;
+					area[x][y][z].col=(col<<16)+(col<< 8)+col; //PLAYER_COLORS[rand()%8];
+					if(rand()%100>80)
+						{
+						area[x][y][z].col=PLAYER_COLORS[rand()%8];
+						area[x][y][z].pct=(rand()%5)/4.0f;
+						}
 					}
 				}
 			}
+
+		tl=Vertex(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
+		scrtl=Vertex(SCREENWIDTH/ 2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f,
+					 SCREENHEIGHT/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f,
+					 0.0f);
 		}
 
 	//void rotateArb(Vertex& v, const Vertex& start, const Vertex& axis, float ang)
@@ -244,41 +275,57 @@ namespace Screen
 		v.z=z;
 		}
 
-	void drawCube(Cube c)
+	void drawCube(Cube& c)
 		{
-		Vertex tl(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
-		Vertex scrtl(SCREENWIDTH/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2+	CUBE_SIZE/2,
-					 SCREENHEIGHT/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2+	CUBE_SIZE/2,
-					 0.0f);
-
-		rx+=mx;
-		ry+=my;
-
-		float sx, cx;
-		float sy, cy;
-
-		sincos(rx*DEGTORAD, sx, cx);
-		sincos(ry*DEGTORAD, sy, cy);
-
 		for(int i=0; i<Cube::VERT_COUNT; i++)
 			{
 			Vertex& v=c.verts[i];
 			v=v-(tl/2.0f);
 
-			rotateArb(v, Vertex(0, 0, 0), Vertex(0, 1, 0), ry*DEGTORAD);
-			rotateArb(v, Vertex(0, 0, 0), Vertex(1, 0, 0), rx*DEGTORAD);
+			rotateArb(v, Vertex(0, 0, 0), Vertex(0, 1, 0), my*DEGTORAD);
+			rotateArb(v, Vertex(0, 0, 0), Vertex(1, 0, 0), mx*DEGTORAD);
 
-			v=v+tl/2+scrtl;
+			v=v+(tl/2.0f)+scrtl;
 			}
 
 		for(int i=0; i<Cube::VERT_COUNT; i+=4)
 			{
-			Drawing::setColor(c.col);
+			float alpha=max(min(c.verts[i+0].z/(float)((CUBE_SIZE+CUBE_DIST)*size*1.5f), 1.0f), 0.0f);
+			unsigned int col=c.col;
+			col=Drawing::getColorBlend(col, 0xFF888888, c.pct);
+			col=Drawing::getColorBlend(col, 0xFF000000, alpha);
+			Drawing::setColor(col);
 			Drawing::drawQuad(c.verts[i+0], c.verts[i+1], c.verts[i+2], c.verts[i+3]);
+
+			if(src)
+				{
+				if(src->x!=c.x || src->y!=c.y || src->z!=c.z);
+				else
+					{
+					Drawing::setColor(PLANET_SRC_COLOR);
+					Drawing::drawLine(c.verts[i+0], c.verts[i+1]);
+					Drawing::drawLine(c.verts[i+1], c.verts[i+2]);
+					Drawing::drawLine(c.verts[i+2], c.verts[i+3]);
+					Drawing::drawLine(c.verts[i+3], c.verts[i+0]);
+					}
+				}
+			if(dst)
+				{
+				if(dst->x!=c.x || dst->y!=c.y || dst->z!=c.z);
+				else
+					{
+					Drawing::setColor(PLANET_DST_COLOR);
+					Drawing::drawLine(c.verts[i+0], c.verts[i+1]);
+					Drawing::drawLine(c.verts[i+1], c.verts[i+2]);
+					Drawing::drawLine(c.verts[i+2], c.verts[i+3]);
+					Drawing::drawLine(c.verts[i+3], c.verts[i+0]);
+					}
+				}
+
 			}
 
-		mx=0;
-		my=0;
+		for(int i=0; i<Cube::VERT_COUNT; i++)
+			c.verts[i]=c.verts[i]-scrtl;
 		}
 	}
 
@@ -326,6 +373,7 @@ namespace Screen
 			/***********************************************/
 			/** Wyslij informacje o wybranym celu i armii **/
 			printf("Wziuuuu~");
+			/// @todo /todo \todo --todo ?todo ~~todo~~ \m/todo\m/ to(-_-)do [todo]
 			/***********************************************/
 			/***********************************************/
 			return;
@@ -334,9 +382,9 @@ namespace Screen
 		Cube *c=(Cube *)Drawing::getObj(x, y);
 		if(c)
 			{
-			if(key==SDL_BUTTON_LEFT)
+			if(key==SDL_BUTTON_LEFT && dst!=c)
 				src=c;
-			else if(key==SDL_BUTTON_RIGHT)
+			else if(key==SDL_BUTTON_RIGHT && src!=c)
 				dst=c;
 			}
 		}
@@ -346,10 +394,11 @@ namespace Screen
 		Cube *c=(Cube *)Drawing::getObj(x, y);
 		if(c)
 			{
-			char ccube[32], carmy[16];
+			char ccube[32], carmy[16], cpct[16];
 			sprintf(ccube, "%02d:%02d:%02d", c->x, c->y, c->z);
 			sprintf(carmy, "%d", c->army);
-			curr=(string)"Planeta: "+ccube+"\nIlosc jednostek: "+carmy;
+			sprintf(cpct, "%.0f", c->pct*100);
+			curr=(string)"Planeta: "+ccube+"\nIlosc jednostek: "+carmy+"\nPrzejete w "+cpct+"%";
 			}
 		else
 			curr="";
@@ -375,3 +424,20 @@ namespace Screen
 		}
 	}
 
+/************************************************/
+/****************** Aktualizacja pola gry *******/
+/************************************************/
+namespace Screen
+	{
+	void updateArea(vector<pair<Vertex, Planet> >& items)
+		{
+		if(items.size()<1)
+			return;
+		for(vector<pair<Vertex, Planet> >::iterator it=items.begin(); it!=items.end(); ++it)
+			{
+			Cube& c=area[(int)it->first.x][(int)it->first.y][(int)it->first.z];
+			c.pct=it->second.RetPoziom()/(float)OCCUPY_MAX;		// procentowy stopien przejecia
+			c.col=PLAYER_COLORS[min(it->second.RetGracz(), (uint16)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))];
+			}
+		}
+	}

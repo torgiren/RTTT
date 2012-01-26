@@ -9,6 +9,9 @@
 #define SCREEN_H_
 
 #include "main.creammy.h"
+#include "utility"
+#include "planet.h"
+#include "vertex.h"
 
 /**
  * @namespace Screen
@@ -26,6 +29,11 @@ namespace Screen
 
 	/// @brief Ustawia pole gry na zadana wielkosc
 	void setSize(int size);
+
+	/// @brief Aktualizacja pola gry
+	/// @details Wywolywana po otrzymaniu zbiorczych informacji o aktualnym stanie pola gry
+	/// @todo
+	void updateArea(vector<pair<Vertex, Planet> >& items);
 	}
 
 #endif /* SCREEN_H_ */
