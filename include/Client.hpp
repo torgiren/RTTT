@@ -21,7 +21,7 @@ typedef std::deque<Message> Message_queue;
 //class MainWindow;
 class Client{
 public:
-  static Client* getInstance(std::string host="localhost", std::string port="1234");
+//  static Client* getInstance(std::string host="localhost", std::string port="1234");
   ///@brief metoda zamykająca połączenie
   ///@detail metoda binduje handler do_close z metodą post socketu
   
@@ -34,7 +34,7 @@ private:
   ///@param[in] io_service referencja do obiektu boost::asio:io_service reprezentującego swego rodzaju socket
   ///@param[in] endpoint_iterator tcp::resolver::iterator wskazujący na hostname i port
   Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator);
-  
+public:
   ///@brief Konstruktor połączenia
   ///@defails Konstruktor. Ustawia handler połączenia.
   ///@param[in] host hostname
