@@ -1,6 +1,6 @@
 #INCLUDE+= ${BASE}/include/utils/
 LDFLAGS+= -lSDL_image
-main: ${SRC}/main.creammy.cpp ${BIN}/drawing.o ${BIN}/screen.o ${BIN}/sprite.o ${BIN}/sprite_sdl_2d.o ${BIN}/windowengine.o $(BIN)/text.o ${BIN}/utils/log.o $(BIN)/utils/parser.o
+main: ${SRC}/main.creammy.cpp ${BIN}/drawing.o ${BIN}/screen.o ${BIN}/sprite.o ${BIN}/sprite_sdl_2d.o ${BIN}/windowengine.o $(BIN)/text.o $(BIN)/planet.o ${BIN}/utils/log.o $(BIN)/utils/parser.o
 	${CXX}  $^ -o ${TMP}/main.creammy ${CXXFLAGS} ${LDFLAGS}
 		
 ${BIN}/drawing.o: ${SRC}/drawing.cpp ${INCLUDE}/drawing.h
@@ -15,6 +15,8 @@ ${BIN}/windowengine.o: ${SRC}/windowengine.cpp ${INCLUDE}/windowengine.h
 	${CXX} -c ${SRC}/windowengine.cpp -o $@ ${CXXFLAGS} 
 ${BIN}/text.o: ${SRC}/text.cpp ${INCLUDE}/text.h
 	${CXX} -c ${SRC}/text.cpp -o $@ ${CXXFLAGS} 
+${BIN}/planet.o: ${SRC}/planet.cpp ${INCLUDE}/planet.h
+	${CXX} -c ${SRC}/planet.cpp -o $@ ${CXXFLAGS} 
 
 ${BIN}/utils/log.o: ${SRC}/utils/log.cpp ${INCLUDE}/utils/log.h
 	${CXX} -c ${SRC}/utils/log.cpp -o $@ ${CXXFLAGS}
