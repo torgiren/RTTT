@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 	srand(time(NULL));
-	GameEngine silnik(3,5);
+	GameEngine silnik(3,2);
 	int x,y,z;
 
 	char c;

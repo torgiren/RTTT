@@ -69,7 +69,22 @@ uint16 GameEngine::EndTurn()
 					RETURNS::ENDTURN result=itsPlanety[x][y][z].EndTurn();
 					cout<<"Result: "<<result<<endl;
 					if(result&RETURNS::PLAYER_IN)
+					{
+//						gracz=itsPlanety[x][y][z].RetGracz();
 						cout<<"Planeta została podbita"<<endl;
+						if(IsWinning(Vertex(x,y,z)))
+						{
+							cout<<"KONIEC GRY!!!!!!"<<endl;
+						};
+					}
+					if(result&RETURNS::PLAYER_OUT)
+					{
+						cout<<"Gracz na planecie obalony"<<endl;
+						if(IsWinning(okup))
+						{
+							cout<<"KONIEC GRY PRZEZ POKONANIE!!!!!"<<endl;
+						};
+					};
 				}
 			};
 		};
@@ -149,8 +164,53 @@ bool GameEngine::CanMoveFrom(Planet& planeta, uint16 gracz) const
 		return false;
 	};
 };
-bool IsWinning(const Vertex& src)
+bool GameEngine::IsWinning(const Vertex& src) const
 {
+	int x=src.x;
+	int y=src.y;
+	int z=src.z;
+	uint16 gracz=itsPlanety[x][y][z].RetGracz();
+	int i;	
+	int planet=0;
+	for(planet=0,i=0;i<GetSize();i++)
+	{
+		if(itsPlanety[x][i][z].RetGracz()==gracz)
+			planet++;	
+	};
+	if(planet==GetSize())
+		return true;
+	for(planet=0,i=0;i<GetSize();i++)
+	{
+		if(itsPlanety[x][y][i].RetGracz()==gracz)
+			planet++;	
+	};
+	if(planet==GetSize())
+		return true;
+	for(planet=0,i=0;i<GetSize();i++)
+	{
+		if(itsPlanety[i][y][z].RetGracz()==gracz)
+			planet++;	
+	};
+	if(planet==GetSize())
+		return true;
+
+	return false;
+};
+bool GameEngine::IsWinning(const uint16 gracz) const
+{
+	int x,y,z;
+	for(x=0;x<GetSize();x++)
+	{
+		for(y=0;y<GetSize();y++)
+		{
+			for(z=0;z<GetSize();z++)
+			{
+				uint16 tmpgracz=itsPlanety[x][y][z].RetGracz();
+				if(tmpgracz&&(tmpgracz!=gracz))
+					return false;
+			};
+		};
+	};
 	return true;
 };
 
