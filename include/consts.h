@@ -20,6 +20,26 @@ const char IMGEXT[]=".png";
 const char ANIMEXT[]=".txt";
 
 
+/**** Kolory ****/
+/// Kolory graczy 1-8
+const unsigned int PLAYER_COLORS[]=
+		{
+		0x00C00000,		// Czerwony
+		0x00FEA100,		// Pomarańczowy
+		0x00FBFE00,		// Żółty
+		0x003FDE00,		// Zielony
+		0x0017EECD,		// Cyan
+		0x00228FFF,		// Niebieski
+		0x005E1FFF, 	// Fioletowy
+		0x00CF13EB		// Różowy
+		};
+
+/// Kolor wybranej planety zrodlowej
+const unsigned int PLANET_SRC_COLOR=0x0058AF58;
+/// Kolor wybranej planety docelowej
+const unsigned int PLANET_DST_COLOR=0x00C04B4B;
+
+
 /**
  * Liczba całkowita o rozmiarze 32bitów
  */

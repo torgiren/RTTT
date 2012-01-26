@@ -79,6 +79,14 @@ namespace Drawing
 		return color;
 		}
 
+	unsigned int getColorBlend(unsigned int c1, unsigned int c2, float alpha)
+		{
+		unsigned char r=((0x00FF0000&c1)>>16)*alpha+((0x00FF0000&c2)>>16)*(1.0f-alpha);
+		unsigned char g=((0x0000FF00&c1)>> 8)*alpha+((0x0000FF00&c2)>> 8)*(1.0f-alpha);
+		unsigned char b=((0x000000FF&c1)>> 0)*alpha+((0x000000FF&c2)>> 0)*(1.0f-alpha);
+		return 0xFF000000+(r<<16)+(g<< 8)+(b<< 0);
+		}
+
 	void setObj(void *sobj)
 		{
 		obj=sobj;
@@ -113,11 +121,11 @@ namespace Drawing
 			return;
 		unsigned int *pixs=(unsigned int *)srf->pixels;
 		unsigned int cc=pixs[pos];
-		unsigned char r=((0x00FF0000&color)>>16)*c+((0x00FF0000&cc)>>16)*(1.0f-c);	// Alpha blending~
+		/*unsigned char r=((0x00FF0000&color)>>16)*c+((0x00FF0000&cc)>>16)*(1.0f-c);	// Alpha blending~
 		unsigned char g=((0x0000FF00&color)>> 8)*c+((0x0000FF00&cc)>> 8)*(1.0f-c);
-		unsigned char b=((0x000000FF&color)>> 0)*c+((0x000000FF&cc)>> 0)*(1.0f-c);
+		unsigned char b=((0x000000FF&color)>> 0)*c+((0x000000FF&cc)>> 0)*(1.0f-c);*/
 
-		pixs[pos]=0xFF000000+(r<<16)+(g<< 8)+(b<< 0);
+		pixs[pos]=getColorBlend(color, cc, c); //0xFF000000+(r<<16)+(g<< 8)+(b<< 0);
 		zbuff[pos]=z;
 		obuff[pos]=obj;
 		}
@@ -188,29 +196,27 @@ namespace Drawing
 			}
 		}
 
-	const Vertex light(0, 0.7071, -0.701);
+	const Vertex light(0.7071, 0.7071, 0);
 
 	void drawQuad(const Vertex& a, const Vertex& b, const Vertex& c, const Vertex& d)
 		{
-		/*Vertex va=a-b;
+		Vertex va=a-b;
 		Vertex vb=a-c;
 		Vertex v=va.crossz(vb);
-		float ang=max(acos(v.dot(light)/(va.len()*vb.len())), 0.0f);
+		float ang=max(v.dot(light)/(va.len()*vb.len()), 0.0f);
 
-		//printf("%f %f %f %f - %f", v.dot(light), v.len(), va.len(), vb.len(), ang*RADTODEG);
-		//printf("%f %f %f | %f %f %f", v.x, v.y, v.z, light.x, light.y, light.z);
 		unsigned int ctmp=color;
 
 		unsigned char cr=((0x00FF0000&color)>>16)*(1.0-ang);
 		unsigned char cg=((0x0000FF00&color)>> 8)*(1.0-ang);
 		unsigned char cb=((0x000000FF&color)>> 0)*(1.0-ang);
 
-		color=(cr<<16)+(cg<< 8)+(cb<< 0);*/
+		color=(cr<<16)+(cg<< 8)+(cb<< 0);
 
 		drawTriangle(a, b, c);
 		drawTriangle(a, c, d);
 
-		//color=ctmp;
+		color=ctmp;
 		}
 	}
 

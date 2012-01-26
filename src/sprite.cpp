@@ -168,7 +168,7 @@ bool Sprite::loadAnims(const string& name)
 		}
 	catch(bad_alloc&)
 		{
-		printf("Sprite2D.loadAnims: Nie udalo sie zajac miejsca na informacje o animacjach, uzywanie calego obrazka");
+		printf("Sprite2D.loadAnims: Nie udalo sie wczytac informacji o animacjach, uzywanie calego obrazka");
 		anims.push_back(Anim(0.0f, 0.0f));
 		anims.back().addFrame(0, 0, w, h, 0, 0, 0, 0);
 		return 1;
