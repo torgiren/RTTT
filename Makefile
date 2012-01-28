@@ -1,11 +1,11 @@
-LDFLAGS= -lSDL -lboost_filesystem -lboost_thread
+LDFLAGS= -lSDL -lboost_filesystem -lboost_thread -lSDL_image
 CXX=g++
 BASE=${CURDIR}
 SRC=${BASE}/src
 INCLUDE=${BASE}/include
 BIN=${BASE}/bin
 TMP=${BASE}/tmp
-CXXFLAGS= -I${BASE}/include/ -I${BASE}/include/utils/
+CXXFLAGS= -I${BASE}/include/ -I${BASE}/include/utils/ -O3
 export LDFLAGS
 export CXXFLAGS
 export BIN
@@ -14,8 +14,10 @@ export TMP
 export BASE
 export SRC
 export INCLUDE
-RTTT: torgiren creammy czaju
+RTTT: torgiren creammy czaju ${BIN}/main.o
 	${CXX} ${BIN}/*.o ${BIN}/utils/*.o -o $@ ${LDFLAGS}
+${BIN}/main.o: ${SRC}/main.cpp
+	${CXX} ${SRC}/main.cpp -c -o $@ ${CXXFLAGS}
 torgiren:
 	${MAKE} -f src/Makefile.torgiren
 torgiren_run: torgiren

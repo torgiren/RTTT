@@ -1,16 +1,13 @@
 #ifndef __GAMEENGINE_H
 #define __GAMEENGINE_H
-#include <set>
-#include "consts.h"
-#include "vertex.h"
-#include "planet.h"
+#include "gameenginebase.h"
 /**
  *
  * @details Klasa zajmuje się przeliczaniem rozgrywki, położeniem jednostek, systemem walki
  * @author Marcin TORGiren Fabrykowski
  * @brief Główny silnik gry.
  */
-class GameEngine
+class GameEngine: public GameEngineBase
 {
 	public:
 		/**
@@ -21,21 +18,18 @@ class GameEngine
 		 */
 		GameEngine(uint16 size,uint16 players);
 		/**
-		 * @brief Destruktor zwalniający pamięć
-		 */
-		~GameEngine();	
-		/**
 		 * @brief Konczy ture
 		 * @details Metoda kończąca ture danego gracza. W tej chwili dodawane są jednoski dla "jeszcze" aktualnego gracza.
 		 * @return Zwraca numer następnego gracza.
 		 */
 		uint16 EndTurn();
 		/**
-		 * @brief Aktualny gracz
-		 * @details Zwraca numer aktualnego gracza.
-		 * @return Numer aktualnego gracza.
+		 * @brief Usuwa gracza
+		 * @details Metoda usuwajaca gracza z rozgrywki. Wszystkie ewentualne jednostki należące do tego gracza stają się jednosktami neutralnymi. Posiadane planety również stają się neutralne.<br/>
+		 * Możliwe do wykorzystania zarówno czy odłączeniu się gracza jak również czy pokananiu danego gracza
+		 * @param[in] player Numer gracza który ma zostać usunięty
 		 */
-		uint16 ActPlayer() const;
+		void RemovePlayer(uint16 player);
 		/**
 		 * @brief Przenosi jednoski z jednej planety na drugą
 		 * @details Wykonuje operacje przeniesienia jednostek z planety źródłowej na docelową. Metoda sprawdza czy dana operacja jest możliwa (np: czy <b>num</b> <= liczba_jednostek-1) 
@@ -45,24 +39,14 @@ class GameEngine
 		 * @return Zwraca ERRORS::MOVE
 		 */
 		RETURNS::MOVE Move(const Vertex& src,const Vertex& dst,uint16 num);
-		/**
-		 * @brief Usuwa gracza
-		 * @details Metoda usuwajaca gracza z rozgrywki. Wszystkie ewentualne jednostki należące do tego gracza stają się jednosktami neutralnymi. Posiadane planety również stają się neutralne.<br/>
-		 * Możliwe do wykorzystania zarówno czy odłączeniu się gracza jak również czy pokananiu danego gracza
-		 * @param[in] player Numer gracza który ma zostać usunięty
-		 */
-		void RemovePlayer(uint16 player);
-		Planet& GetPlanet(const Vertex& src);
-		uint16 GetSize();
+		std::string PlanetToString(const Planet& planeta);
 	private:
-		bool isWin();
+		void Win(uint16 gracz);
+		bool IsWinning(const Vertex& src) const;
+		bool IsWinning(const uint16 gracz) const;
 		uint16 NextPlayer();
-		bool CanMoveFrom(Planet& planet, uint16 gracz);
-		Planet*** itsPlanety;
-		uint16 itsSize;
+		bool CanMoveFrom(Planet& planet, uint16 gracz) const;
 //		uint16 itsPlayers;
-		std::set<uint16> itsPlayers;
-		std::set<uint16>::iterator itsActPlayer;
 		FightResult itsLastFight;
 };
 #endif
