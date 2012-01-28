@@ -28,6 +28,8 @@ Sprite::~Sprite()
 	{
 	setSpritePtrs(NULL);
 	spritePtrs.clear();
+	if(mask)
+		delete [] mask;
 	}
 
 void Sprite::setSpritePtrs(Sprite *s)
