@@ -34,6 +34,10 @@ namespace Screen
 	/// @details Wywolywana po otrzymaniu zbiorczych informacji o aktualnym stanie pola gry
 	/// @todo
 	void updateArea(vector<pair<Vertex, Planet> >& items);
+	/// @brief Wypisanie wiadomości \a msg.
+	/// @param msg Wiadomość do wypisania
+	/// @details Wiadomości wyskakują od góry, starsze przeskakują w dół. Pierwsza/nowa znika po \a MSG_HIDE_DELAY_FIRST sekundacg, kolejne po \a MSG_HIDE_DELAY_NEXT sekundach. Maksymalna ilość wynosi \a MSG_MAX_COUNT.
+	void addMessage(const string& msg);
 	}
 
 #endif /* SCREEN_H_ */

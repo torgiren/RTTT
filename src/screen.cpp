@@ -5,6 +5,8 @@
  *      Author: crm
  */
 
+#include <list>
+
 #include "screen.h"
 #include "drawing.h"
 #include "text.h"
@@ -130,10 +132,13 @@ namespace Screen
 
 	Cube *src=NULL;	// Skad?
 	Cube *dst=NULL;	// Dokad?
-	int army=0;	// Ile?
+	int army=0;		// Ile?
 
 	Text info(0, 8, 8, 0, 0, 0, NULL, "", SCREENWIDTH-16, SCREENHEIGHT-16);
-	Text curr(0, 8, SCREENHEIGHT-60, 0, 0, 0, NULL, "bzium", SCREENWIDTH-16, 16);
+	Text curr(0, 8, SCREENHEIGHT-60, 0, 0, 0, NULL, "", SCREENWIDTH-16, 16);
+
+	list<Text> msgs;
+	float msgTimer=0;
 
 	Sprite *bg;
 
@@ -158,12 +163,12 @@ namespace Screen
 		WindowEngine::addMouseUpEventHandler		(mup);
 		WindowEngine::addMouseMotionEventHandler	(mmove);
 
-		info.setFont(Sprite::load("data/font_00"));
-		curr.setFont(Sprite::load("data/font_00"));
+		info.setFont(Sprite::load(FONT));
+		curr.setFont(Sprite::load(FONT));
 		info.setAlignCenter();
 		curr.setAlignCenter();
 
-		bg=Sprite::load("data/bg_01");
+		bg=Sprite::load(BACKGROUND);
 		}
 
 	void update()
@@ -192,6 +197,18 @@ namespace Screen
 		sprintf(carmy, "%d", army);
 
 		info=(string)"Wyslij "+carmy+" jednostek z "+csrc+" do "+cdst;
+
+		if(msgs.size()>0)
+			{
+			if(msgTimer>0.0f)
+				msgTimer-=WindowEngine::getDelta();
+			else
+				{
+				msgs.pop_back();
+				if(msgs.size()>0)
+					msgTimer=MSG_HIDE_DELAY_NEXT;
+				}
+			}
 		}
 
 	void draw()
@@ -223,6 +240,14 @@ namespace Screen
 		mx=0;
 		my=0;
 
+		int cy=32;
+		for(list<Text>::iterator it=msgs.begin(); it!=msgs.end(); ++it)
+			{
+			it->setPos(8, cy);
+			it->print();
+			cy+=it->getH();
+			}
+
 		info.print();
 		curr.print();
 		}
@@ -243,14 +268,13 @@ namespace Screen
 				area[x][y].resize(size);
 				for(int z=0; z<size; ++z)
 					{
-					unsigned char col=0x88;
 					area[x][y][z]=Cube(x, y, z);
-					area[x][y][z].col=(col<<16)+(col<< 8)+col; //PLAYER_COLORS[rand()%8];
-					if(rand()%100>80)
+					area[x][y][z].col=0xFF888888;
+					/*if(rand()%100>80)
 						{
 						area[x][y][z].col=PLAYER_COLORS[rand()%8];
 						area[x][y][z].pct=(rand()%5)/4.0f;
-						}
+						}*/
 					}
 				}
 			}
@@ -369,15 +393,22 @@ namespace Screen
 
 		if(key==SDL_BUTTON_MIDDLE)
 			{
-			/***********************************************/
-			/***********************************************/
-			/** Wyslij informacje o wybranym celu i armii **/
-			printf("Wziuuuu~");
-			/// @todo /todo \todo --todo ?todo ~~todo~~ \m/todo\m/ to(-_-)do [todo]
-			/***********************************************/
-			/***********************************************/
-			src=NULL;
-			dst=NULL;
+			if(src && dst && army)
+				{
+				/***********************************************/
+				/***********************************************/
+				/** Wyslij informacje o wybranym celu i armii **/
+				printf("Wziuuuu~");
+				addMessage("Jednostki wyslane.");
+				/// @todo /todo \todo --todo ?todo ~~todo~~ \m/todo\m/ to(-_-)do [todo]
+				/***********************************************/
+				/***********************************************/
+				src=NULL;
+				dst=NULL;
+				army=0;
+				}
+			else
+				addMessage("Wybierz planete zrodlowa, docelowa i ilosc jednostek.");
 			return;
 			}
 
@@ -389,6 +420,8 @@ namespace Screen
 			else if(key==SDL_BUTTON_RIGHT && src!=c)
 				dst=c;
 			}
+		if(src!=NULL && army>src->army)
+			army=src->army;
 		}
 
 	void mmove(int x, int y, int key)
@@ -423,6 +456,9 @@ namespace Screen
 			army--;
 		else if(!down)
 			army++;
+
+		if(src!=NULL && army>src->army)
+			army=src->army;
 		}
 	}
 
@@ -438,8 +474,17 @@ namespace Screen
 		for(vector<pair<Vertex, Planet> >::iterator it=items.begin(); it!=items.end(); ++it)
 			{
 			Cube& c=area[(int)it->first.x][(int)it->first.y][(int)it->first.z];
-			c.pct=it->second.RetPoziom()/(float)OCCUPY_MAX;		// procentowy stopien przejecia
 			c.col=PLAYER_COLORS[min(it->second.RetGracz(), (uint16)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))];
+			c.army=it->second.RetJednostki();
+			c.pct=it->second.RetPoziom()/(float)OCCUPY_MAX;		// procentowy stopien przejecia
 			}
+		}
+
+	void addMessage(const string& msg)
+		{
+		if(msgs.size()>MSG_MAX_COUNT)
+			msgs.pop_back();
+		msgs.push_front(Text(rand(), 8, -32, 0, 0, 0, Sprite::load(FONT), msg.c_str(), SCREENWIDTH-16, 16));
+		msgTimer=MSG_HIDE_DELAY_FIRST;
 		}
 	}

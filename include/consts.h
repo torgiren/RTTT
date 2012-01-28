@@ -18,6 +18,12 @@ const float RADTODEG=180.0f/3.141592653589793f;
 
 const char IMGEXT[]=".png";
 const char ANIMEXT[]=".txt";
+const char FONT[]="data/font_00";
+const char BACKGROUND[]="data/bg_01";
+
+const float MSG_HIDE_DELAY_FIRST=5.0f;	// sekundy
+const float MSG_HIDE_DELAY_NEXT=0.5f;	// sekundy
+const unsigned int MSG_MAX_COUNT=8;
 
 
 /**** Kolory ****/
