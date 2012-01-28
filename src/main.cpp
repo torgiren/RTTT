@@ -155,7 +155,32 @@ int ServerFunc(void* engine)
 			Vertex src(x1,y1,z1);
 			Vertex dst(x2,y2,z2);
 			cout<<x1<<" "<<y1<<" "<<z1<<" "<<x2<<" "<<y2<<" "<<z2<<endl;
-			silnik->Move(src,dst,num);
+			RETURNS::MOVE ret=silnik->Move(src,dst,num);
+			switch(ret)
+			{
+				case RETURNS::TOO_MUCH:
+					cout<<"Za duzo..."<<endl;
+					break;
+				case RETURNS::OUT_OF_AREA:
+					cout<<"Za daleko"<<endl;
+					break;
+				case RETURNS::NOT_ANY:
+					cout<<"Za malo"<<endl;
+					break;
+				case RETURNS::MOVE_OK:
+					cout<<"Ok"<<endl;
+					break;
+				case RETURNS::MOVE_FIGHT:
+					cout<<"Walka"<<endl;
+					break;
+			};
+			ss.clear();
+			ss<<"planet "<<x1<<" "<<y1<<" "<<z1<<" "<<(string)silnik->GetPlanet(src);
+			s->send(ss.str());
+			ss.clear();
+			ss<<"planet "<<x2<<" "<<y2<<" "<<z2<<" "<<(string)silnik->GetPlanet(dst);
+			s->send(ss.str());
+
 			s->send("moving");
 		};
 	};

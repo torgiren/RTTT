@@ -24,6 +24,7 @@ void GameEngineClient::MainLoop()
 		ss>>first;
 		if(!first.compare("planet"))
 		{
+			cout<<"Aktualizacja planety"<<endl;
 			int x,y,z;
 			ss>>x>>y>>z;
 			vector<pair<Vertex,Planet> > tmp;
