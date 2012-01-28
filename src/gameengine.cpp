@@ -4,9 +4,9 @@
 #include <cstdio>
 using namespace std;
 GameEngine::GameEngine(uint16 size, uint16 players):
-itsSize(size)
+GameEngineBase(size)
 {
-	itsPlanety=new Planet**[itsSize];
+//	itsPlanety=new Planet**[itsSize];
 	int x,y;
 	for(x=0;x<players;x++)
 	{
@@ -38,19 +38,6 @@ itsSize(size)
 			printf("umieszczam gracz %d na miejscu %d %d %d\n",x,px,py,pz);
 		};
 	};
-};
-GameEngine::~GameEngine()
-{	
-	int x,y;
-	for(x=0;x<itsSize;x++)
-	{
-		for(y=0;y<itsSize;y++)
-		{
-			delete [] itsPlanety[x][y];
-		}
-		delete [] itsPlanety[x];
-	};
-	delete [] itsPlanety;
 };
 uint16 GameEngine::EndTurn()
 {
@@ -91,10 +78,6 @@ uint16 GameEngine::EndTurn()
 	}
 	return NextPlayer();
 };
-uint16 GameEngine::ActPlayer() const
-{
-	return *itsActPlayer;
-};
 uint16 GameEngine::NextPlayer()
 {
 	if(++itsActPlayer==itsPlayers.end()) itsActPlayer=itsPlayers.begin();
@@ -110,22 +93,22 @@ RETURNS::MOVE GameEngine::Move(const Vertex& src, const Vertex& dst, uint16 num)
 		wynik=Psrc.Zabierz(num);
 		if(wynik==RETURNS::MOVE_OK)
 		{
-			cout<<"zabrane"<<endl;
+//			cout<<"zabrane"<<endl;
 			if((Psrc.RetGracz()==Pdst.RetGracz())&&(!Pdst.RetOkupant()))
 			{
-				cout<<"warunek 1"<<endl;
+//				cout<<"warunek 1"<<endl;
 				Pdst.Dodaj(num);
 				return RETURNS::MOVE_OK;
 			};
 			if((Psrc.RetGracz()!=Pdst.RetGracz())&&(Psrc.RetGracz()==Pdst.RetOkupant()))
 			{
-				cout<<"warunek 2"<<endl;
+//				cout<<"warunek 2"<<endl;
 				Pdst.Dodaj(num);
 				return RETURNS::MOVE_OK;
 			};
 			if((Psrc.RetGracz()!=Pdst.RetGracz())&&(Psrc.RetGracz()!=Pdst.RetOkupant()))
 			{
-				cout<<"warunek 3"<<endl;
+//				cout<<"warunek 3"<<endl;
 				itsLastFight=Pdst.Atak(num,Psrc.RetGracz());		
 				return RETURNS::MOVE_FIGHT;
 			};
@@ -134,19 +117,11 @@ RETURNS::MOVE GameEngine::Move(const Vertex& src, const Vertex& dst, uint16 num)
 	};
 	return RETURNS::NOT_ANY;
 };
-Planet& GameEngine::GetPlanet(const Vertex& src) const
-{
-	return itsPlanety[(int)src.x][(int)src.y][(int)src.z];
-};
 void GameEngine::RemovePlayer(uint16 player)
 {
 	if(*itsActPlayer==player)
 		itsActPlayer--;
 	itsPlayers.erase(player);
-};
-uint16 GameEngine::GetSize() const
-{
-	return itsSize;
 };
 bool GameEngine::CanMoveFrom(Planet& planeta, uint16 gracz) const
 {
