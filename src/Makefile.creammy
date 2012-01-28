@@ -1,5 +1,4 @@
 #INCLUDE+= ${BASE}/include/utils/
-LDFLAGS+= -lSDL_image
 main: ${SRC}/main.creammy.cpp ${BIN}/drawing.o ${BIN}/screen.o ${BIN}/sprite.o ${BIN}/sprite_sdl_2d.o ${BIN}/windowengine.o $(BIN)/text.o $(BIN)/planet.o ${BIN}/utils/log.o $(BIN)/utils/parser.o
 	${CXX}  $^ -o ${TMP}/main.creammy ${CXXFLAGS} ${LDFLAGS}
 		
