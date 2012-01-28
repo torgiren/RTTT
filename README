@@ -2,7 +2,7 @@ Risky Tic Tac Toe jest połączeniem gry "Kółko i Krzyżyk" oraz elementów z 
 
 --ZASADY--
 	--POCZATEK--
-	Na początku, gracz dostaje 3 jednostki, które może dowolnie rozplanować na planszy
+	Na początku, gracz posiada jedna planete na której znaduje się 5 + K6 jednostek.
 	--ROZGRYWKA--
 	Gracz wybiera swoją prowincję na której ma >1 jednosktę z której chce wysłaś jednoski, oraz docelową, którą chce przejąć.
 	Atakujący i obroniący się "rzucają kostką" K6 w liczbie odpowiadająch jednostek walczących w danej potyczce. Porównywane są odpowiednio największe wyniki, np:
