@@ -22,7 +22,7 @@ try
   {
 ///////// TYLE JEŚLI CHODZI O SERVER \\\\\\\\\\
 
-boost::asio::io_service io_service_server;
+//boost::asio::io_service io_service_server;
 char* port;
 std::string host="localhost";
 
@@ -34,10 +34,10 @@ std::string host="localhost";
       return 1;
     }
     port=argv[1];
-    tcp::endpoint endpoint(tcp::v4(), std::atoi(port));
-    s = new Server(io_service_server, endpoint);  // tak wiem bardzo nieładnie
+//    tcp::endpoint endpoint(tcp::v4(), std::atoi(port));
+    s = Server::create(port);
     }
-    boost::thread server_t(boost::bind(&boost::asio::io_service::run, &io_service_server)); 
+  //  boost::thread server_t(boost::bind(&boost::asio::io_service::run, &io_service_server)); 
 //\
 \\\\\\\\\\\ MAMY SERVER TO TERAZ KLIENT ///////////
 
@@ -48,7 +48,7 @@ std::string host="localhost";
 
 ///////////      TEN NAJWAŻNIEJSZY FRAGMENT KLIENCKI                    \\\\\\\\\\\\\ 
 
-    Client* c=new Client(*SocketSingleton::get(),host.c_str(), port);
+    Client* c=Client::create(host, port);
 //    boost::thread client_t(boost::bind(&boost::asio::io_service::run, &io_service_client)); //\
 \\\\\\\\\\\     I TERAZ JUŻ TYLKO c->write(Message)                      /////////////
 
@@ -68,7 +68,7 @@ std::string host="localhost";
     }
     
     c->close();
-    server_t.join();
+//    server_t.join();
 //    client_t.join();
 
 

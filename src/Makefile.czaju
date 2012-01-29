@@ -16,8 +16,5 @@ ${BIN}/Session.o : ${SRC}/Session.cpp ${INCLUDE}/Session.hpp
 ${BIN}/Client.o : ${SRC}/Client.cpp ${INCLUDE}/Client.hpp ${BIN}/SocketSingleton.o ${BIN}/Message.o
 	${CXX} ${SRC}/Client.cpp -c -o $@ ${CXXFLAGS}
 
-${BIN}/SocketSingleton.o : ${SRC}/SocketSingleton.cpp ${INCLUDE}/SocketSingleton.hpp
-	${CXX} ${SRC}/SocketSingleton.cpp -c -o $@ ${CXXFLAGS}
-
 ${BIN}/Message.o : ${SRC}/Message.cpp ${INCLUDE}/Message.hpp
 	${CXX} ${SRC}/Message.cpp -c -o $@ ${CXXFLAGS}

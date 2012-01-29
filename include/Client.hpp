@@ -7,7 +7,6 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include "Message.hpp"
-#include "SocketSingleton.hpp"
 using boost::asio::ip::tcp;
 
 typedef std::deque<Message> Message_queue;
@@ -35,6 +34,8 @@ private:
   ///@param[in] endpoint_iterator tcp::resolver::iterator wskazujący na hostname i port
   Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator);
 public:
+  ///@brief Nazwany konstruktor
+  static Client* create(const std::string host, const std::string port);
   ///@brief Konstruktor połączenia
   ///@defails Konstruktor. Ustawia handler połączenia.
   ///@param[in] host hostname
