@@ -1,6 +1,7 @@
 #ifndef __GAMEENGINE_H
 #define __GAMEENGINE_H
 #include "gameenginebase.h"
+#include <map>
 /**
  *
  * @details Klasa zajmuje się przeliczaniem rozgrywki, położeniem jednostek, systemem walki
@@ -39,6 +40,9 @@ class GameEngine: public GameEngineBase
 		 * @return Zwraca ERRORS::MOVE
 		 */
 		RETURNS::MOVE Move(const Vertex& src,const Vertex& dst,uint16 num);
+		uint16 AddPlayer(uint16 socket_id);
+		bool CanDoAction(uint16 socket_id);
+		bool IsEndGame() const;
 	private:
 		void Win(uint16 gracz);
 		bool IsWinning(const Vertex& src) const;
@@ -47,6 +51,8 @@ class GameEngine: public GameEngineBase
 		bool CanMoveFrom(Planet& planet, uint16 gracz) const;
 //		uint16 itsPlayers;
 		FightResult itsLastFight;
+		std::map<uint16,uint16> itsPlayersMap;
+		bool itsEndGame;
 };
 #endif
 

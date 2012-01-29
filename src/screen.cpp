@@ -120,6 +120,10 @@ namespace Screen
 	/// @brief Obsługa kliknięcia rolką
 	/// @param down Jest \a prawdą jesli rolka została kliknięta, jeśli została puszczona jest \a fałszem
 	void mroll(bool down);
+
+	/// @brief Obsługa puszczenia przycisku na klawiaturze
+	/// @param key Kod puszczonego klawisza
+	void kup(int key);
 	}
 
 /************************************************/
@@ -176,6 +180,9 @@ namespace Screen
 	/// @brief ID gracza
 	/// @details Używane do rysowania kolorowej ramki wokół poziomu
 	int id=0;
+	/// @brief ID gracza wykonującego ruch
+		/// @details Używane do rysowania kolorowego trójkąta
+	int cid=0;
 	/// @brief Wskaźnik na kostkę (planetę) źródłową
 	Cube *src=NULL;
 	/// @brief Wskaźnik na kostkę (planetę) docelową
@@ -216,10 +223,12 @@ namespace Screen
 		WindowEngine::delMouseDownEventHandler		(mdown);
 		WindowEngine::delMouseUpEventHandler		(mup);
 		WindowEngine::delMouseMotionEventHandler	(mmove);
+		WindowEngine::delKeyUpEventHandler			(kup);
 
 		WindowEngine::addMouseDownEventHandler		(mdown);
 		WindowEngine::addMouseUpEventHandler		(mup);
 		WindowEngine::addMouseMotionEventHandler	(mmove);
+		WindowEngine::addKeyUpEventHandler			(kup);
 
 		info.setFont(Sprite::load(FONT));
 		curr.setFont(Sprite::load(FONT));
@@ -294,6 +303,10 @@ namespace Screen
 		Drawing::drawLine(Vertex(SCREENWIDTH, 0, 0),			Vertex(SCREENWIDTH-1, SCREENHEIGHT-1, 0));
 		Drawing::drawLine(Vertex(SCREENWIDTH-1, SCREENHEIGHT-1, 0),	Vertex(0, SCREENHEIGHT-1, 0));
 		Drawing::drawLine(Vertex(0, SCREENHEIGHT-1, 0),	Vertex(0, 0, 0));
+
+		Drawing::setColor(PLAYER_COLORS[cid]);
+		Drawing::drawTriangle(Vertex(SCREENWIDTH-17, 1, 0), Vertex(SCREENWIDTH-1, 17, 0), Vertex(SCREENWIDTH-1, 1, 0));
+
 
 		rx+=mx;
 		ry+=my;
@@ -596,6 +609,21 @@ namespace Screen
 	}
 
 /************************************************/
+/****************** Klawiatura ******************/
+/************************************************/
+namespace Screen
+	{
+	void kup(int key)
+		{
+		if(key==SDLK_ESCAPE || key==SDLK_SPACE)
+			{
+			engine->SendEndTurn();
+			addMessage("Pomijanie tury");
+			}
+		}
+	}
+
+/************************************************/
 /****************** Aktualizacja pola gry *******/
 /************************************************/
 namespace Screen
@@ -648,6 +676,13 @@ namespace Screen
 		if(sid<0 || sid>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
 			return;
 		id=sid;
+		}
+
+	void setCurrentPlayerID(int sid)
+		{
+		if(sid<0 || sid>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
+			return;
+		cid=sid;
 		}
 
 	void setGameEngineClient(GameEngineClient* e)

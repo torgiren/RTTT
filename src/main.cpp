@@ -107,27 +107,29 @@ int ServerFunc(void* engine)
 	ServerReady=true;
 	stringstream ss;
 	int numGracz=0;
-	while(true)
+	bool update=false;
+	while(!silnik->IsEndGame())
 	{
+		update=false;
 //		cout<<"Czekam"<<endl;
 		Message tmp=s->receive();
 		string body=tmp.body();
-		cout<<"Server: "<<body<<endl;
+//		cout<<"Server: "<<body<<endl;
 //		cout<<"Klient nr: "<<tmp.source()<<endl;
 		stringstream ss(body);
 		string first;
 		ss>>first;
-		cout<<"First: "<<first<<endl;
+//		cout<<"First: "<<first<<endl;
+		uint16 client=tmp.source();
 		if(!first.compare("Hello"))
 		{
 			s->send("witam");
 			cout<<"Nowy gracz"<<endl;
-			numGracz++;
-			uint16 client=tmp.source();
+			++numGracz;
 //			stringstream ss;
 			stringstream ss;
-			ss<<"player "<<client;
-			cout<<"ss: "<<ss.str()<<endl;
+			ss<<"player "<<silnik->AddPlayer(client);
+//			cout<<"ss: "<<ss.str()<<endl;
 			s->send(client,ss.str());
 			ss.str("");
 			ss<<"size "<<silnik->GetSize();
@@ -145,18 +147,69 @@ int ServerFunc(void* engine)
 					};
 				};
 			};
+			ss.str("");
+			ss<<"act "<<silnik->ActPlayer();
+			s->send(ss.str());
 		}
 	
-		else if(!first.compare("move"))
+		if(silnik->CanDoAction(client))
 		{
-			cout<<"Server: poruszam jednoski"<<endl;
-			int x1,y1,z1,x2,y2,z2,num;
-			ss>>x1>>y1>>z1>>x2>>y2>>z2>>num;
-			Vertex src(x1,y1,z1);
-			Vertex dst(x2,y2,z2);
-			cout<<x1<<" "<<y1<<" "<<z1<<" "<<x2<<" "<<y2<<" "<<z2<<endl;
-			silnik->Move(src,dst,num);
-			s->send("moving");
+			cout<<"Can do..."<<endl;
+			if(!first.compare("move"))
+			{
+				update=true;
+//				cout<<"Server: poruszam jednoski"<<endl;
+				int x1,y1,z1,x2,y2,z2,num;
+				ss>>x1>>y1>>z1>>x2>>y2>>z2>>num;
+				Vertex src(x1,y1,z1);
+				Vertex dst(x2,y2,z2);
+//				cout<<x1<<" "<<y1<<" "<<z1<<" "<<x2<<" "<<y2<<" "<<z2<<endl;
+				RETURNS::MOVE ret=silnik->Move(src,dst,num);
+				switch(ret)
+				{
+					case RETURNS::TOO_MUCH:
+						cout<<"Za duzo..."<<endl;
+						break;
+					case RETURNS::OUT_OF_AREA:
+						cout<<"Za daleko"<<endl;
+						break;
+					case RETURNS::NOT_ANY:
+						cout<<"Za malo"<<endl;
+						break;
+					case RETURNS::MOVE_OK:
+						cout<<"Ok"<<endl;
+						break;
+					case RETURNS::MOVE_FIGHT:
+						cout<<"Walka"<<endl;
+						break;
+				};
+			}
+			else if(!first.compare("end"))
+			{
+				update=true;
+				silnik->EndTurn();
+				ss.clear();
+				ss<<"act "<<silnik->ActPlayer();
+				s->send(ss.str());		
+			};
+		};
+
+
+		if(update)
+		{
+			int x,y,z;
+			for(x=0;x<silnik->GetSize();x++)
+			{
+				for(y=0;y<silnik->GetSize();y++)
+				{
+					for(z=0;z<silnik->GetSize();z++)
+					{
+								stringstream ss;
+								ss<<"planet "<<x<<" "<<y<<" "<<z<<" "<<(string)silnik->GetPlanet(Vertex(x,y,z));
+								s->send(ss.str());
+					};
+				};
+			};
 		};
 	};
 	cout<<"i po serverze..."<<endl;

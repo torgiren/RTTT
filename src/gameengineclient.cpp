@@ -18,18 +18,25 @@ void GameEngineClient::MainLoop()
 			SDL_Delay(1000);
 			continue;
 		};
-		cout<<"Otrzymałem(client): "<<tmp<<endl;
+//		cout<<"Otrzymałem(client): "<<tmp<<endl;
 		stringstream ss(tmp);
 		string first;
 		ss>>first;
 		if(!first.compare("planet"))
 		{
+//			cout<<"Aktualizacja planety"<<endl;
 			int x,y,z;
 			ss>>x>>y>>z;
 			vector<pair<Vertex,Planet> > tmp;
 			Planet plan=Planet::ToPlanet(ss.str());
 			tmp.push_back(pair<Vertex,Planet>(Vertex(x,y,z),plan));
 			Screen::updateArea(tmp);
+		};
+		if(!first.compare("act"))
+		{
+			uint16 act;
+			ss>>act;
+			Screen::setCurrentPlayerID(act);
 		};
 	};
 };

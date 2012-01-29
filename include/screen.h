@@ -33,6 +33,9 @@ namespace Screen
 	/// @brief Ustawia ID gracza na podane
 	/// @details Zależnie od ID gracza będzie rysowana ramka innego koloru
 	void setPlayerID(int id);
+	/// @brief Ustawia ID gracza aktualnie wykonującego ruch na podane
+		/// @details Zależnie od ID gracza będzie rysowany trójkąt w odpowiednim kolorze
+	void setCurrentPlayerID(int id);
 
 	void setGameEngineClient(GameEngineClient* e);
 

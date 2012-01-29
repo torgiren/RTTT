@@ -7,9 +7,9 @@
  */
 
 /// @brief Szerokość okienka
-const int SCREENWIDTH=640;
+const int SCREENWIDTH=800;
 /// @brief Wysokość okienka
-const int SCREENHEIGHT=480;
+const int SCREENHEIGHT=600;
 /// @brief Głębia koloru
 const int BPP=32;
 
