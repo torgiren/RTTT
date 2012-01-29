@@ -85,7 +85,7 @@
       if (!error){
 
     //    _window->receiveMessage(std::string(_read_msg.body()));
-
+      _incoming.push_back(_read_msg.body());
       std::cout.write(_read_msg.body(), _read_msg.body_length());
       std::cout << "\n";
 
@@ -135,4 +135,12 @@
     _socket.close();
   }
 
+  std::string Client::receive(){
+     if(!_incoming.empty()){
+     std::string tmp(_incoming.front());
+     _incoming.pop_front();
+     return tmp;
+     }
+     else return "empty";
+  }
 

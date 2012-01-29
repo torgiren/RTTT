@@ -42,6 +42,8 @@ public:
   Client(boost::asio::io_service& io_service, const char* host, const char* port);
  
  ~Client();
+  ///@brief metoda zwracająca wiadomosc od serwera
+  std::string receive();
   ///@brief metoda wysyłająca wiadomość
   ///@details metoda bindująca handler do_writer z metodą post socketu
   void write(const Message& msg);
@@ -66,6 +68,7 @@ private:
   boost::thread* _t;
   static Client* _instance;
   static bool is;
+  std::deque<std::string> _incoming;
 //  Drawer* _drawer;
 };
 
