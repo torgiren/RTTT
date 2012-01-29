@@ -12,7 +12,7 @@
   }
   
   void Room::todo(const Message msg){
-      std::cout << "pushbackuje message od: " << msg.source() << std::endl;
+   //   std::cout << "pushbackuje message od: " << msg.source() << std::endl;
       _todo.push_back(msg);
   }
   
@@ -29,7 +29,7 @@
   
   void Room::deliver(const Message& msg){
 ///poczatek przykladu udupiania czesci pakietow
-    std::cout << "od" << msg.source() << std::endl;
+  //  std::cout << "od" << msg.source() << std::endl;
     char tmp[512];
     std::memcpy(tmp,msg.body(),msg.body_length());
     tmp[msg.body_length()]='\0';

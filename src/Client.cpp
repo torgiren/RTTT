@@ -86,8 +86,8 @@
 
     //    _window->receiveMessage(std::string(_read_msg.body()));
       _incoming.push_back(_read_msg.body());
-      std::cout.write(_read_msg.body(), _read_msg.body_length());
-      std::cout << "\n";
+      //std::cout.write(_read_msg.body(), _read_msg.body_length());
+      //std::cout << "\n";
 
       // I TO BY BYŁO NA TYLE
       boost::asio::async_read(_socket, boost::asio::buffer(_read_msg.data(), Message::header_length), boost::bind(&Client::handle_read_header, this,
