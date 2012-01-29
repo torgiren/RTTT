@@ -19,20 +19,20 @@ class GameEngine: public GameEngineBase
 		 */
 		GameEngine(uint16 size,uint16 players);
 		/**
-		 * @brief Konczy ture
-		 * @details Metoda kończąca ture danego gracza. W tej chwili dodawane są jednoski dla "jeszcze" aktualnego gracza.
+		 * @brief Kończy turę
+		 * @details Metoda kończąca turę danego gracza. W tej chwili dodawane są jednostki dla "jeszcze" aktualnego gracza.
 		 * @return Zwraca numer następnego gracza.
 		 */
 		uint16 EndTurn();
 		/**
 		 * @brief Usuwa gracza
-		 * @details Metoda usuwajaca gracza z rozgrywki. Wszystkie ewentualne jednostki należące do tego gracza stają się jednosktami neutralnymi. Posiadane planety również stają się neutralne.<br/>
-		 * Możliwe do wykorzystania zarówno czy odłączeniu się gracza jak również czy pokananiu danego gracza
+		 * @details Metoda usuwająca gracza z rozgrywki. Wszystkie ewentualne jednostki należące do tego gracza stają się jednostkami neutralnymi. Posiadane planety również stają się neutralne.<br/>
+		 * Możliwe do wykorzystania zarówno czy odłączeniu się gracza jak również czy pokonaniu danego gracza
 		 * @param[in] player Numer gracza który ma zostać usunięty
 		 */
 		void RemovePlayer(uint16 player);
 		/**
-		 * @brief Przenosi jednoski z jednej planety na drugą
+		 * @brief Przenosi jednostki z jednej planety na drugą
 		 * @details Wykonuje operacje przeniesienia jednostek z planety źródłowej na docelową. Metoda sprawdza czy dana operacja jest możliwa (np: czy <b>num</b> <= liczba_jednostek-1) 
 		 * @param[in] src Współrzędne planety źródłowej
 		 * @param[in] dst Współrzędne planety docelowej
@@ -40,8 +40,25 @@ class GameEngine: public GameEngineBase
 		 * @return Zwraca ERRORS::MOVE
 		 */
 		RETURNS::MOVE Move(const Vertex& src,const Vertex& dst,uint16 num);
+		/**
+		 * @brief Dodaje nowego gracza do bitwy
+		 * @details Dodaje nowego gracza do bitwy i przyporządkowuje mu id socketa na którym ten klient nadaje
+		 * @param socket_id Id socketa na którym nadaje gracz
+		 * @return Zwraca Numer Gracza jaki dostał nowy gracz
+		 */
 		uint16 AddPlayer(uint16 socket_id);
+		/**
+		 * @brief Sprawdza czy gracz może wykonać jakąkolwiek operacje
+		 * @details Sprawdza czy numer gracza nadającego z socketa o zadanym id, może wykonywać ruch w tej turze.
+		 * @param socket_id Id socketa z którego przyszło żądanie akcji
+		 * @return TRUE jeśli to tura tego gracza, FALSE w przeciwnym wypadku
+		 */
 		bool CanDoAction(uint16 socket_id);
+		/**
+		 * @brief Sprawdza czy to już koniec gry
+		 * @details Sprawdza czy ustawiona jest już flaga zakończenia gry
+		 * @return TRUE jeśli to już koniec gry, FALSE w przeciwnym wypadku
+		 */
 		bool IsEndGame() const;
 	private:
 		void Win(uint16 gracz);
