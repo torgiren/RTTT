@@ -34,7 +34,7 @@ class GameEngineClient: public GameEngineBase
 						ss>>PlayerNum;
 //						cout<<"Wczytałem numer gracza: "<<PlayerNum<<endl;
 						haveNum=true;
-						Screen::setPlayerID(PlayerNum+1);
+						Screen::setPlayerID(PlayerNum);
 					}
 					if(!first.compare("size"))
 					{

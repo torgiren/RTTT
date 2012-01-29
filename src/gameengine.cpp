@@ -4,7 +4,7 @@
 #include <cstdio>
 using namespace std;
 GameEngine::GameEngine(uint16 size, uint16 players):
-GameEngineBase(size)
+GameEngineBase(size),itsEndGame(false)
 {
 //	itsPlanety=new Planet**[itsSize];
 	int x,y;
@@ -54,7 +54,7 @@ uint16 GameEngine::EndTurn()
 				if(gracz==act||okup==act)
 				{
 					RETURNS::ENDTURN result=itsPlanety[x][y][z].EndTurn();
-					cout<<"Result: "<<result<<endl;
+//					cout<<"Result: "<<result<<endl;
 					if(result&RETURNS::PLAYER_IN)
 					{
 //						gracz=itsPlanety[x][y][z].RetGracz();
@@ -62,6 +62,7 @@ uint16 GameEngine::EndTurn()
 						if(IsWinning(Vertex(x,y,z)))
 						{
 							cout<<"KONIEC GRY!!!!!!"<<endl;
+							itsEndGame=true;
 						};
 					}
 					if(result&RETURNS::PLAYER_OUT)
@@ -70,6 +71,7 @@ uint16 GameEngine::EndTurn()
 						if(IsWinning(okup))
 						{
 							cout<<"KONIEC GRY PRZEZ POKONANIE!!!!!"<<endl;
+							itsEndGame=true;
 						};
 					};
 				}
@@ -188,5 +190,17 @@ bool GameEngine::IsWinning(const uint16 gracz) const
 	};
 	return true;
 };
-
-
+uint16 GameEngine::AddPlayer(uint16 socket_id)
+{
+	static uint16 act=1;	
+	itsPlayersMap[socket_id]=act;
+	return act++;
+};
+bool GameEngine::CanDoAction(uint16 socket_id)
+{
+	return ActPlayer()==itsPlayersMap[socket_id];
+};
+bool GameEngine::IsEndGame() const
+{
+	return itsEndGame;
+};

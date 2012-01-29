@@ -81,7 +81,7 @@ FightResult Planet::Atak(uint16 ile, uint16 kogo)
 RETURNS::ENDTURN Planet::Flaga()
 {
 	RETURNS::ENDTURN wynik=RETURNS::NOTHING;
-	cout<<"Flaga1: "<<wynik<<endl;
+//	cout<<"Flaga1: "<<wynik<<endl;
 	if(itsJednostki)
 	{
 		if(itsOkupant&&itsGracz)
@@ -91,14 +91,14 @@ RETURNS::ENDTURN Planet::Flaga()
 			{
 				itsGracz=0;
 				wynik|=RETURNS::PLAYER_OUT;
-				cout<<"Flaga2: "<<wynik<<endl;
+//				cout<<"Flaga2: "<<wynik<<endl;
 			}
 			if(itsFlagaPoziom<0)
 			{
 				itsFlagaPoziom=0;
 //				wynik|=RETURNS::PLAYER_OUT;
 //				wynik|=RETURNS::PLAYER_OUT|RETURNS::FLAG_ERROR;
-				cout<<"Flaga3: "<<wynik<<endl;
+//				cout<<"Flaga3: "<<wynik<<endl;
 			};
 		}
 		else if((itsOkupant&&!itsGracz)||(!itsOkupant&&itsGracz))
@@ -111,7 +111,7 @@ RETURNS::ENDTURN Planet::Flaga()
 					itsGracz=itsOkupant;
 					itsOkupant=0;
 					wynik|=RETURNS::PLAYER_IN;
-					cout<<"Flaga4: "<<wynik<<endl;
+//					cout<<"Flaga4: "<<wynik<<endl;
 				};
 			};
 			if(itsFlagaPoziom>OCCUPY_MAX)
@@ -119,7 +119,7 @@ RETURNS::ENDTURN Planet::Flaga()
 				itsFlagaPoziom=OCCUPY_MAX;
 //				wynik|=RETURNS::PLAYER_IN;
 //				wynik|=RETURNS::PLAYER_IN|RETURNS::FLAG_ERROR;
-				cout<<"Flaga5: "<<wynik<<endl;
+//				cout<<"Flaga5: "<<wynik<<endl;
 			}
 		};
 	};
@@ -134,9 +134,9 @@ void Planet::SetPlayer(uint16 gracz)
 RETURNS::ENDTURN Planet::EndTurn()
 {
 	RETURNS::ENDTURN wynik=RETURNS::NOTHING;
-	cout<<"EndTurn1: "<<wynik<<endl;
+//	cout<<"EndTurn1: "<<wynik<<endl;
 	wynik|=Flaga();
-	cout<<"EndTurn2: "<<wynik<<endl;
+//	cout<<"EndTurn2: "<<wynik<<endl;
 	if(Jednostki())
 		wynik|=RETURNS::NEW_UNIT;
 	return wynik;
