@@ -63,7 +63,7 @@ std::string host="localhost";
 //      memcpy(msg.body(), line, msg.body_length());
 //      msg.encode_header();
       if(choose) s->send("JOKE");
-      if(choose)  std::cout << "\n\nTO JEST Z TODO: " << s->receive().body() << "\n\n\n\n" << std::endl;
+   //   if(choose)  std::cout << "\n\nTO JEST Z TODO: " << s->receive().body() << "\n\n\n\n" << std::endl;
 //      c.write(msg);*/
     }
     

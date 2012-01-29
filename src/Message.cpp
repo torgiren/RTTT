@@ -14,7 +14,7 @@
   }
   
   void Message::operator=(const Message& src){
-    std::cout << "operator=" << std::endl;
+ //   std::cout << "operator=" << std::endl;
     std::memcpy(_data, src.data(), src.length());
     _src=src.source();
     _body_length=src.body_length();
