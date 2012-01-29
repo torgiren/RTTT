@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <SDL/SDL_thread.h>
 #include <SDL/SDL.h>
+#include <vector>
 #include "gameengine.h"
 #include "gameengineclient.h"
 #include "Participant.hpp"
@@ -40,13 +41,8 @@ menu:
 			goto menu;
 	};
 	string ip;
-	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
-	{
-		printf("Nie udalo sie stworzyc okienka\n");
-		return 100;
-	}
-	Drawing::setSurface(WindowEngine::getScreen());
-	Screen::init();
+	int MapSize=3;
+	GameEngine* silnik;
 	if(server)
 	{
 		int size,graczy;
@@ -55,8 +51,9 @@ menu:
 		cout<<"Na ilu przewidujesz przeciwników?"<<endl;	
 		cin>>graczy;
 		cout<<"Tak jest... Przygotowuję odpowiedni obszar..."<<endl;
-		Server_thread=SDL_CreateThread(ServerFunc,(void*)new GameEngine(size,graczy));
-		Screen::setSize(size);
+		silnik=new GameEngine(size,graczy);
+		Server_thread=SDL_CreateThread(ServerFunc,(void*)silnik);
+		MapSize=size;
 		ip="127.0.0.1";
 	}
 	else
@@ -65,7 +62,31 @@ menu:
 		cin>>ip;
 		Screen::setSize(3);
 	};
-
+	
+	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
+	{
+		printf("Nie udalo sie stworzyc okienka\n");
+		return 100;
+	}
+	Drawing::setSurface(WindowEngine::getScreen());
+	Screen::init();
+	Screen::setSize(silnik->GetSize());
+	{
+		vector<pair<Vertex,Planet> >plan;
+		int x,y,z;
+		for(x=0;x<MapSize;x++)
+		{
+			for(y=0;y<MapSize;y++)
+			{
+				for(z=0;z<MapSize;z++)
+				{
+					Vertex v(x,y,z);
+					plan.push_back(pair<Vertex,Planet>(v,silnik->GetPlanet(v)));
+				};
+			};
+		};
+		Screen::updateArea(plan);
+	};
 	while(WindowEngine::update())
 	{
 		Screen::update();
