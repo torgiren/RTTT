@@ -2,7 +2,7 @@ SOURCE = Room.cpp Server.cpp Session.cpp
 
 OBJ= $(SOURCE:.cpp=.o)
 
-main: ${SRC}/main.czaju.cpp  ${BIN}/Room.o ${BIN}/Server.o ${BIN}/Session.o ${BIN}/SocketSingleton.o ${BIN}/Client.o ${BIN}/Message.o
+main: ${SRC}/main.czaju.cpp  ${BIN}/Room.o ${BIN}/Server.o ${BIN}/Session.o ${BIN}/Client.o ${BIN}/Message.o
 	${CXX} $^ -o ${TMP}/main.czaju ${LDFLAGS} ${CXXFLAGS}
 
 ${BIN}/Room.o : ${SRC}/Room.cpp ${INCLUDE}/Room.hpp
@@ -13,7 +13,7 @@ ${BIN}/Server.o : ${SRC}/Server.cpp ${INCLUDE}/Server.hpp ${BIN}/Session.o
 
 ${BIN}/Session.o : ${SRC}/Session.cpp ${INCLUDE}/Session.hpp
 	${CXX} ${SRC}/Session.cpp -c -o $@ ${CXXFLAGS}
-${BIN}/Client.o : ${SRC}/Client.cpp ${INCLUDE}/Client.hpp ${BIN}/SocketSingleton.o ${BIN}/Message.o
+${BIN}/Client.o : ${SRC}/Client.cpp ${INCLUDE}/Client.hpp ${BIN}/Message.o
 	${CXX} ${SRC}/Client.cpp -c -o $@ ${CXXFLAGS}
 
 ${BIN}/Message.o : ${SRC}/Message.cpp ${INCLUDE}/Message.hpp
