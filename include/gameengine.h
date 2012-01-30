@@ -39,7 +39,6 @@ class GameEngine: public GameEngineBase
 		 * @return Zwraca ERRORS::MOVE
 		 */
 		RETURNS::MOVE Move(const Vertex& src,const Vertex& dst,uint16 num);
-		std::string PlanetToString(const Planet& planeta);
 	private:
 		void Win(uint16 gracz);
 		bool IsWinning(const Vertex& src) const;

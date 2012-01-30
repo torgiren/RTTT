@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 using namespace std;
 Planet::Planet():
 itsGracz(0),itsFlagaPoziom(0),itsOkupant(0)
@@ -163,4 +164,21 @@ RETURNS::MOVE Planet::Zabierz(uint16 ile)
 void Planet::Dodaj(uint16 ile)
 {
 	itsJednostki+=ile;
+};
+std::string Planet::ToString()
+{
+	stringstream ss;
+	ss<<itsGracz<<" "<<itsFlagaPoziom<<" "<<itsFlagaGracz<<" "<<itsJednostki<<" "<<itsOkupant;
+	return ss.str();
+};
+Planet::operator std::string()
+{
+	return this->ToString();
+};
+Planet Planet::ToPlanet(std::string str)
+{
+	Planet wynik;
+	stringstream ss(str);
+	ss>>wynik.itsGracz>>wynik.itsFlagaPoziom>>wynik.itsFlagaGracz>>wynik.itsJednostki>>wynik.itsOkupant;
+	return wynik;
 };

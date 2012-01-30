@@ -4,6 +4,7 @@
 #include <SDL/SDL_thread.h>
 #include <SDL/SDL.h>
 #include <vector>
+#include <sstream>
 #include "gameengine.h"
 #include "gameengineclient.h"
 #include "Participant.hpp"
@@ -18,10 +19,14 @@
 #include "screen.h"
 using namespace std;
 int ServerFunc(void* engine);
+int WindowFunc(void* null);
+bool ServerReady=false;
+bool EndGame=false;
 int main(int argc, char* argv[])
 {
 	bool server=false;
 	SDL_Thread* Server_thread=0;
+	SDL_Thread* Window_thread=0;
 	cout<<"Witaj poruczniku...\nPlanujesz swoją własną bitwę czy dołączyć się do innej?\n";
 menu:
 	cout<<"1) Własna bitwa\n";
@@ -42,7 +47,6 @@ menu:
 	};
 	string ip;
 	int MapSize=3;
-	GameEngine* silnik;
 	if(server)
 	{
 		int size,graczy;
@@ -51,8 +55,16 @@ menu:
 		cout<<"Na ilu przewidujesz przeciwników?"<<endl;	
 		cin>>graczy;
 		cout<<"Tak jest... Przygotowuję odpowiedni obszar..."<<endl;
+		GameEngine* silnik;
 		silnik=new GameEngine(size,graczy);
 		Server_thread=SDL_CreateThread(ServerFunc,(void*)silnik);
+		cout<<"Uruchamiam server: ";
+		while(!ServerReady)
+		{
+			cout<<".";
+			SDL_Delay(100);
+		};
+		cout<<endl;
 		MapSize=size;
 		ip="127.0.0.1";
 	}
@@ -60,7 +72,29 @@ menu:
 	{
 		cout<<"Proszę wprowadzić cztery współrzędne bitwy (xxx.xxx.xxx.xxx):"<<endl;
 		cin>>ip;
-		Screen::setSize(3);
+		MapSize=3;
+	};
+    Client* c=Client::create(ip,"2332");
+	bool haveSize=false;
+	cout<<"Przenoszę na pole bitwy..."<<endl;
+	c->send("Hello");
+	while(!haveSize)
+	{
+		string tmp=c->receive();
+		cout<<"Ladowanie: "<<tmp<<endl;
+		if(tmp.compare("empty"))
+		{
+			stringstream ss(tmp);
+			string first;
+			ss>>first;
+			if(!first.compare("size"))
+			{
+				ss>>MapSize;
+				cout<<"Wczytałem rozmiar: "<<MapSize<<endl;
+				haveSize=true;
+			};
+		};
+		SDL_Delay(100);
 	};
 	
 	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
@@ -70,47 +104,70 @@ menu:
 	}
 	Drawing::setSurface(WindowEngine::getScreen());
 	Screen::init();
-	Screen::setSize(silnik->GetSize());
-	while(WindowEngine::update())
-	{
-		Screen::update();
-		Screen::draw();
-		cout<<"*"<<endl;
+	Screen::setSize(MapSize);
+	Window_thread=SDL_CreateThread(WindowFunc,NULL);
 
-		WindowEngine::print();
-	}
-
-	Sprite::clear();
-	WindowEngine::quit();
 //	SDL_Delay(1000);
-    Client* c=new Client(*SocketSingleton::get(),ip.c_str(), "2332");
-	while(true)
+//    Client* c=new Client(*SocketSingleton::get(),ip.c_str(), "2332");
+	c->send("Hello");
+	while(!EndGame)
 	{
-		SDL_Delay(1000);
+		cout<<"*"<<endl;
 		string tmp=c->receive();
-//		if(tmp.length())
-			cout<<"Otrzymalem: "<<tmp<<endl;
+		cout<<"Otrzymalem: "<<tmp<<endl;
+		if(tmp!="empty") continue;
 		c->send("client");
+		SDL_Delay(1000);
 	};
 //	GameEngineClient();
+		
+//	SDL_KillThread(Window_thread);
+	Sprite::clear();
+	WindowEngine::quit();
 	if(server)
-		SDL_WaitThread(Server_thread,NULL);
+		SDL_KillThread(Server_thread);
 	return 0;
 };
 int ServerFunc(void* engine)
 {
-	boost::asio::io_service io_service_server;
-    tcp::endpoint endpoint(tcp::v4(), 2332);
-
-    Server* s = new Server(io_service_server, endpoint);  // tak wiem bardzo nieładnie
-    boost::thread server_t(boost::bind(&boost::asio::io_service::run, &io_service_server)); 
+	GameEngine* silnik=(GameEngine*)engine;
+    Server* s = Server::create("2332");
+	ServerReady=true;
+	stringstream ss;
+	ss.str("");
+	ss<<"size "<<silnik->GetSize();
+	s->send(ss.str());
+	int x,y,z;
+	for(x=0;x<silnik->GetSize();x++)
+	{
+		for(y=0;y<silnik->GetSize();y++)
+		{
+			for(z=0;z<silnik->GetSize();z++)
+			{
+						s->send(silnik->GetPlanet(Vertex(x,y,z)));
+			};
+		};
+	};
+	int numGracz=0;
 	while(true)
 	{
-		cout<<"W serverze: "<<s->receive().body()<<endl;
-		if(rand()%2)
+		Message tmp=s->receive();
+		cout<<"Server: "<<tmp.body()<<endl;
+		string body=tmp.body();
+		if(!body.compare("Hello"))
 		{
-			s->send("send...");
 		};
 	};
 	return 0;
+};
+int WindowFunc(void* null)
+{
+	while(WindowEngine::update())
+	{
+		Screen::update();
+		Screen::draw();
+
+		WindowEngine::print();
+	}
+	EndGame=true;
 };

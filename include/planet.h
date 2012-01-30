@@ -3,6 +3,7 @@
 #include "consts.h"
 #include <list>
 #include <vector>
+#include <string>
 /**
  * @brief Klasa planety
  * @details Opisuje właściwości planety - elementrarnej jednoski przestrzeni
@@ -64,7 +65,9 @@ class Planet
 		RETURNS::ENDTURN EndTurn();
 		RETURNS::MOVE Zabierz(uint16 ile);
 		void Dodaj(uint16 ile);
-	private:
+		std::string ToString();
+		operator std::string();
+		static Planet ToPlanet(std::string str);
 	private:
 		/**
 		 * @brief Symuluje zdobywanie flagi na okupowanej planecie

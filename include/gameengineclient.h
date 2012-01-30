@@ -9,7 +9,6 @@ class GameEngineClient: public GameEngineBase
 {
 	public:
 		GameEngineClient(uint16 size);
-		Planet StringToPlanet(std::string msg);
 		void PlanetUpdate(const Vertex& dst, const Planet& planet);
 	private:
 };
