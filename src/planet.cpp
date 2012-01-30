@@ -8,8 +8,8 @@ using namespace std;
 Planet::Planet():
 itsGracz(0),itsFlagaPoziom(0),itsOkupant(0)
 {
-	itsJednostki=8;
-//	itsJednostki=rand()%5+5;
+//	itsJednostki=8;
+	itsJednostki=rand()%5+5;
 };
 uint16 Planet::RetGracz() const
 {
@@ -178,7 +178,11 @@ Planet::operator std::string()
 Planet Planet::ToPlanet(std::string str)
 {
 	Planet wynik;
-	stringstream ss(str);
-	ss>>wynik.itsGracz>>wynik.itsFlagaPoziom>>wynik.itsFlagaGracz>>wynik.itsJednostki>>wynik.itsOkupant;
+	stringstream ss;
+	ss << str;
+	string tmp;
+	ss>>tmp>>tmp>>tmp>>tmp>>wynik.itsGracz>>wynik.itsFlagaPoziom>>wynik.itsFlagaGracz>>wynik.itsJednostki>>wynik.itsOkupant;
+	cout<<"stringstream - jednoski: "<<wynik.itsJednostki<<endl;
+	cout<<wynik.RetJednostki()<<endl;
 	return wynik;
 };

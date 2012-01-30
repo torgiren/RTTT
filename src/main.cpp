@@ -81,7 +81,7 @@ menu:
 	while(!haveSize)
 	{
 		string tmp=c->receive();
-		cout<<"Ladowanie: "<<tmp<<endl;
+		cout<<"Czekam na rozmiar: "<<tmp<<endl;
 		if(tmp.compare("empty"))
 		{
 			stringstream ss(tmp);
@@ -99,7 +99,7 @@ menu:
 	
 	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
 	{
-		printf("Nie udalo sie stworzyc okienka\n");
+		printf("Nie udało sie utworzyć okienka\n");
 		return 100;
 	}
 	Drawing::setSurface(WindowEngine::getScreen());
@@ -115,9 +115,23 @@ menu:
 		cout<<"*"<<endl;
 		string tmp=c->receive();
 		cout<<"Otrzymalem: "<<tmp<<endl;
-		if(tmp!="empty") continue;
-		c->send("client");
-		SDL_Delay(1000);
+		if(!tmp.compare("empty"))
+			SDL_Delay(1000);
+		stringstream ss(tmp);
+		string first;
+		ss>>first;
+		if(!first.compare("planet"))
+		{
+			cout<<"Aktualizacja planety"<<endl;
+			int x,y,z;
+			ss>>x>>y>>z;
+			vector<pair<Vertex,Planet> > tmp;
+			Planet plan=Planet::ToPlanet(ss.str());
+			tmp.push_back(pair<Vertex,Planet>(Vertex(x,y,z),plan));
+			cout<<"Aktualizacja w "<<x<<" "<<y<<" "<<z<<". Ma "<<plan.RetJednostki()<<" jednostek"<<" oraz gracz: "<<plan.RetGracz()<<endl;
+			Screen::updateArea(tmp);
+		};
+//		c->send("client");
 	};
 //	GameEngineClient();
 		
@@ -132,6 +146,7 @@ int ServerFunc(void* engine)
 {
 	GameEngine* silnik=(GameEngine*)engine;
     Server* s = Server::create("2332");
+	SDL_Delay(1000);
 	ServerReady=true;
 	stringstream ss;
 	ss.str("");
@@ -144,7 +159,9 @@ int ServerFunc(void* engine)
 		{
 			for(z=0;z<silnik->GetSize();z++)
 			{
-						s->send(silnik->GetPlanet(Vertex(x,y,z)));
+						ss.str("");
+						ss<<"planet "<<x<<" "<<y<<" "<<z<<" "<<(string)silnik->GetPlanet(Vertex(x,y,z));
+						s->send(ss.str());
 			};
 		};
 	};
