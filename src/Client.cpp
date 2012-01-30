@@ -7,14 +7,20 @@
         _window=w;
     }
 */
-/*  Client* Client::getInstance(std::string host, std::string port){
+/*  Client* Client::getInstance(const std::string host, const std::string port){
       if(!is){
-          _instance=new Client(*SocketSingleton::get(), host.c_str(), port.c_str());
-          is=true;
+           boost::asio::io_service io=new boost::asio::io_service();
+          _instance=new Client(io::get(), host.c_str(), port.c_str());
       }
       return _instance;
   }
 */
+  ///@brief nazwany konstruktor
+  Client* Client::create(const std::string host, const std::string port){
+     boost::asio::io_service* io=new boost::asio::io_service();
+     return new Client(*io, host.c_str(), port.c_str());
+    
+  } 
   ///@brief metoda zamykająca połączenie
   ///@detail metoda binduje handler do_close z metodą post socketu
   void Client::close(){

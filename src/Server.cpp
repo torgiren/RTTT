@@ -6,3 +6,6 @@
       _acceptor.async_accept(new_session->socket(), boost::bind(&Server::handle_accept, this, new_session, boost::asio::placeholders::error));
     }
   }
+boost::asio::io_service* Server::_io;
+boost::thread* Server::_t;
+
