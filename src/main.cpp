@@ -24,6 +24,7 @@ bool ServerReady=false;
 bool EndGame=false;
 int main(int argc, char* argv[])
 {
+	srand(time(NULL));
 	bool server=false;
 	SDL_Thread* Server_thread=0;
 	SDL_Thread* Window_thread=0;
