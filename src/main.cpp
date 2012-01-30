@@ -71,26 +71,11 @@ menu:
 	Drawing::setSurface(WindowEngine::getScreen());
 	Screen::init();
 	Screen::setSize(silnik->GetSize());
-	{
-		vector<pair<Vertex,Planet> >plan;
-		int x,y,z;
-		for(x=0;x<MapSize;x++)
-		{
-			for(y=0;y<MapSize;y++)
-			{
-				for(z=0;z<MapSize;z++)
-				{
-					Vertex v(x,y,z);
-					plan.push_back(pair<Vertex,Planet>(v,silnik->GetPlanet(v)));
-				};
-			};
-		};
-		Screen::updateArea(plan);
-	};
 	while(WindowEngine::update())
 	{
 		Screen::update();
 		Screen::draw();
+		cout<<"*"<<endl;
 
 		WindowEngine::print();
 	}
@@ -98,7 +83,15 @@ menu:
 	Sprite::clear();
 	WindowEngine::quit();
 //	SDL_Delay(1000);
-//    Client* c=new Client(*SocketSingleton::get(),ip.c_str(), "2332");
+    Client* c=new Client(*SocketSingleton::get(),ip.c_str(), "2332");
+	while(true)
+	{
+		SDL_Delay(1000);
+		string tmp=c->receive();
+//		if(tmp.length())
+			cout<<"Otrzymalem: "<<tmp<<endl;
+		c->send("client");
+	};
 //	GameEngineClient();
 	if(server)
 		SDL_WaitThread(Server_thread,NULL);
@@ -106,5 +99,18 @@ menu:
 };
 int ServerFunc(void* engine)
 {
+	boost::asio::io_service io_service_server;
+    tcp::endpoint endpoint(tcp::v4(), 2332);
+
+    Server* s = new Server(io_service_server, endpoint);  // tak wiem bardzo nieładnie
+    boost::thread server_t(boost::bind(&boost::asio::io_service::run, &io_service_server)); 
+	while(true)
+	{
+		cout<<"W serverze: "<<s->receive().body()<<endl;
+		if(rand()%2)
+		{
+			s->send("send...");
+		};
+	};
 	return 0;
 };
