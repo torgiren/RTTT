@@ -20,7 +20,6 @@ typedef std::deque<Message> Message_queue;
 //class MainWindow;
 class Client{
 public:
-//  static Client* getInstance(std::string host="localhost", std::string port="1234");
   ///@brief metoda zamykająca połączenie
   ///@detail metoda binduje handler do_close z metodą post socketu
   
@@ -68,9 +67,7 @@ private:
   Message_queue _write_msgs;
   boost::thread* _t;
   static Client* _instance;
-  static bool is;
   std::deque<std::string> _incoming;
-//  Drawer* _drawer;
 };
 
 #endif //CLIENT_HPP
