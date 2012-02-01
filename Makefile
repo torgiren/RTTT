@@ -1,4 +1,4 @@
-LDFLAGS= -lSDL -lboost_filesystem -lboost_thread -lSDL_image
+LDFLAGS= -lSDL -lboost_filesystem -lboost_thread -lSDL_image -lboost_system
 CXX=g++
 BASE=${CURDIR}
 SRC=${BASE}/src
@@ -35,6 +35,6 @@ docs:
 	make -C docs/latex
 	cp docs/latex/refman.pdf ./
 clean:
-	rm -fr ${BIN}/*.o ${BIN}/utils/*.o
+	rm -fr ${BIN}/*.o ${BIN}/utils/*.o RTTT
 
 .PHONY: torgiren creammy czaju clean docs
