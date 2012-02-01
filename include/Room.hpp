@@ -28,7 +28,6 @@ class Room {
 		std::vector<std::pair<Participant*, unsigned> > _idents;
 		unsigned _current_id;
 		enum { max_recent_msgs = 100 };
-		Message_queue _recent_msgs;
 		Message_queue _todo;
 		
 };

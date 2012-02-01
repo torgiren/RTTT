@@ -21,7 +21,7 @@ public:
      _t = new boost::thread(boost::bind(&boost::asio::io_service::run, _io));
      return instance;
   }
-  ~Server(){
+~Server(){
       _t->join();
       delete _t;
       delete _io;
@@ -34,6 +34,14 @@ public:
       memcpy(msg.body(), m.c_str(), msg.body_length());
       msg.encode_header();
       _room.deliver(msg);      
+  }
+  void send(unsigned who, std::string m){
+      Message msg;
+      msg.body_length(strlen(m.c_str()));
+      memcpy(msg.body(), m.c_str(), msg.body_length());
+      msg.encode_header();
+      _room.deliver(who,msg);
+
   }
   Message receive(){
          return _room.todo();

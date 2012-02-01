@@ -1,20 +1,4 @@
 #include "Client.hpp"
-
-//  bool Client::is= false;
-//  Client* Client::_instance;
-
-/*    void Client::setWindow(MainWindow* w){
-        _window=w;
-    }
-*/
-/*  Client* Client::getInstance(const std::string host, const std::string port){
-      if(!is){
-           boost::asio::io_service io=new boost::asio::io_service();
-          _instance=new Client(io::get(), host.c_str(), port.c_str());
-      }
-      return _instance;
-  }
-*/
   ///@brief nazwany konstruktor
   Client* Client::create(const std::string host, const std::string port){
      boost::asio::io_service* io=new boost::asio::io_service();
@@ -35,12 +19,13 @@
   }
 
 
-  Client::Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator)
+/*  Client::Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator)
     : _io_service(io_service), _socket(io_service){
     tcp::endpoint endpoint = *endpoint_iterator;
     _socket.async_connect(endpoint, boost::bind(&Client::handle_connect, this, boost::asio::placeholders::error, ++endpoint_iterator));
   }
   
+*/
 
   Client::Client(boost::asio::io_service& io_service, const char* host, const char* port):
    _io_service(io_service), _socket(io_service)
@@ -90,12 +75,7 @@
   void Client::handle_read_body(const boost::system::error_code& error){
       if (!error){
 
-    //    _window->receiveMessage(std::string(_read_msg.body()));
-      _incoming.push_back(_read_msg.body());
-      //std::cout.write(_read_msg.body(), _read_msg.body_length());
-      //std::cout << "\n";
-
-      // I TO BY BYŁO NA TYLE
+      _incoming.push_back(std::string(_read_msg.body(),_read_msg.length()));
       boost::asio::async_read(_socket, boost::asio::buffer(_read_msg.data(), Message::header_length), boost::bind(&Client::handle_read_header, this,
             boost::asio::placeholders::error));
     }
