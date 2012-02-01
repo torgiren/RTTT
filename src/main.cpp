@@ -22,6 +22,9 @@ int ServerFunc(void* engine);
 int WindowFunc(void* null);
 bool ServerReady=false;
 bool EndGame=false;
+
+#undef main
+
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));

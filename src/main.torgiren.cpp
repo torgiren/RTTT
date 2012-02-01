@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 #include "gameengine.h"
 #include "planet.h"
 using namespace std;
