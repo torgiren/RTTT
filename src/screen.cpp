@@ -27,12 +27,12 @@ inline void sincos(float ang, float& s, float& c)
 struct Cube
 	{
 	Cube(int x=0, int y=0, int z=0, unsigned int col=0xFFFFFFFF):
-		x(x), y(y), z(z), col(col), army(0), pct(0.0f)
+		x(x), y(y), z(z), col(col), army(0), pct(0.0f), roll(0.0f)
 		{
 		reset();
 		}
 
-	Cube(const Cube& c): x(c.x), y(c.y), z(c.z), col(c.col)
+	Cube(const Cube& c): x(c.x), y(c.y), z(c.z), col(c.col), roll(0.0f)
 		{
 		reset();
 		}
@@ -83,6 +83,8 @@ struct Cube
 	int army;
 	float pct;
 
+	float roll;
+
 	Vertex verts[VERT_COUNT];
 	};
 
@@ -91,14 +93,27 @@ struct Cube
 /************************************************/
 namespace Screen
 	{
+	/// @brief Rysuje kostkę (planetę) na ekran
 	void drawCube(Cube& c);
 
+	/// @brief Obsługa kliknięcia
+	/// @param x Współrzędna x myszy
+	/// @param y Współrzędna y myszy
+	/// @param key Kod wciśniętego klawisza
 	void mdown(int x, int y, int key);
+	/// @brief Obsługa puszczenia przycisku myszy
+	/// @param x Współrzędna x myszy
+	/// @param y Współrzędna y myszy
+	/// @param key Kod wciśniętego klawisza
 	void mup(int x, int y, int key);
+	/// @brief Obsługa ruchu myszą
+	/// @param x Współrzędna x myszy
+	/// @param y Współrzędna y myszy
+	/// @param key Kod wciśniętego klawisza
 	void mmove(int x, int y, int key);
+	/// @brief Obsługa kliknięcia rolką
+	/// @param down Jest \a prawdą jesli rolka została kliknięta, jeśli została puszczona jest \a fałszem
 	void mroll(bool down);
-
-	void kpressed(int k);
 	}
 
 /************************************************/
@@ -106,46 +121,78 @@ namespace Screen
 /************************************************/
 namespace Screen
 	{
-	bool lmb=false;		// Wcisniety lewy przycisk myszy
-	bool rmb=false;		// Wcisniety prawy przycisk myszy
-	bool mmb=false;		// Wcisnieta rolka
+	/// @brief Wciśnięty lewy przycisk myszy
+	bool lmb=false;
+	/// @brief Wciśnięty prawy przycisk myszy
+	bool rmb=false;
+	/// @brief Wciśnięta rolka
+	bool mmb=false;
+	/// @brief Myszka ruszyła się
 	bool moved=false;
 
-	int lx=-1;			// Ostatni x myszy
-	int ly=-1;			// Ostatni y myszy
-	int mx=0;			// Ostatni ruch w x
-	int my=0;			// Ostatni ruch w y
+	/// @brief Ostatni x myszy
+	int lx=-1;
+	/// @brief Ostatni y myszy
+	int ly=-1;
+	/// @brief Ostatni ruch w x
+	float mx=0;
+	/// @brief Ostatni ruch w y
+	float my=0;
 
-	float rx=	0.0f;	// Aktualny obrot w x
-	float ry=	0.0f;	// Aktualny obrot w y
-	float rz=	0.0f;	// Aktualny obrot w z
-	float scale=0.0f;	// Aktualna skala
+	/// @brief Aktualny obrót w x
+	float rx=	0.0f;
+	/// @brief Aktualny obrót w y
+	float ry=	0.0f;
+	/// @brief Aktualny obrót w z
+	float rz=	0.0f;
+	/// @brief Aktualna skala
+	float scale=0.0f;
 
-	const float FRICTION=0.5f;	// Tarcie, zwalnia obrot
-	float spdx=	0.0f;	// Szybkosc obrotu w x
-	float spdy= 0.0f;	// Szybkosc obrotu w y
+	/// @brief Tarcie, zwalnia obrót
+	const float FRICTION=0.1f;
+	/// @brief Szybkość obrotu w x
+	float spdx=	0.0f;
+	/// @brief Szybkość obrotu w y
+	float spdy= 0.0f;
 
+	float minz, maxz, tminz, tmaxz;
+
+	/// @brief Wielkość pola gry
 	int size=4;
+	/// @brief Tablica trójwymiarowa pola gry
 	vector<vector<vector<Cube> > > area;
 
 // Rozgrywka
+	/// @brief ID gracza
+	/// @details Używane do rysowania kolorowej ramki wokół poziomu
+	int id=0;
+	/// @brief Wskaźnik na kostkę (planetę) źródłową
+	Cube *src=NULL;
+	/// @brief Wskaźnik na kostkę (planetę) docelową
+	Cube *dst=NULL;
+	/// @brief Ilość jednostek do wysłania
+	int army=0;
 
-	Cube *src=NULL;	// Skad?
-	Cube *dst=NULL;	// Dokad?
-	int army=0;		// Ile?
-
+	/// @brief Górny tekst
+	/// @details Informacje o planecie źródłowej, docelowej i ilości jednostek do wysłania
 	Text info(0, 8, 8, 0, 0, 0, NULL, "", SCREENWIDTH-16, SCREENHEIGHT-16);
+	/// @brief Dolny tekst
+	/// @details Informacje o planecie zjandującej się pod kursorem
 	Text curr(0, 8, SCREENHEIGHT-60, 0, 0, 0, NULL, "", SCREENWIDTH-16, 16);
 
+	/// @brief Lista wiadomości
 	list<Text> msgs;
+	/// @brief Odliczanie do zniknięcia kolejnej wiadomości
 	float msgTimer=0;
+	/// @brief Odliczanie do obracania
+	float rotTimer=0;
 
+	/// @brief Wskaźnik na obrazek tła
 	Sprite *bg;
 
-	Vertex tl;//(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
-	Vertex scrtl;//(SCREENWIDTH/ 2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f,
-				// SCREENHEIGHT/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f,
-				// 0.0f);
+
+	Vertex tl;
+	Vertex scrtl;
 	}
 
 /************************************************/
@@ -174,13 +221,13 @@ namespace Screen
 	void update()
 		{
 		if(WindowEngine::getKeyState(SDLK_LEFT))
-			my++;
+			my-=50*WindowEngine::getDelta();
 		else if(WindowEngine::getKeyState(SDLK_RIGHT))
-			my--;
+			my+=50*WindowEngine::getDelta();
 		if(WindowEngine::getKeyState(SDLK_UP))
-			mx++;
+			mx+=50*WindowEngine::getDelta();
 		else if(WindowEngine::getKeyState(SDLK_DOWN))
-			mx--;
+			mx-=50*WindowEngine::getDelta();
 
 	// Wypisanie informacji
 		char csrc[32], cdst[32], carmy[16];
@@ -209,17 +256,33 @@ namespace Screen
 					msgTimer=MSG_HIDE_DELAY_NEXT;
 				}
 			}
+
+		if(!lmb)
+			{
+			mx+=spdx*WindowEngine::getDelta()*100;				// Wartość 100 została otrzymana po wieloletnich obliczeniach.
+			my+=spdy*WindowEngine::getDelta()*100;				// Została w nich uwzględniona ilość milisekund w sekundzie.
+
+			spdx-=spdx*FRICTION*WindowEngine::getDelta()*100;
+			spdy-=spdy*FRICTION*WindowEngine::getDelta()*100;
+			}
 		}
 
 	void draw()
 		{
+		tminz= 1024.0f;
+		tmaxz=-1024.0f;
+
 		Drawing::clearZBuff();
 		bg->print(0, 0, 0, 0, 0);
 
-		/*Drawing::setColor(0x00FF0000);
-		Drawing::drawLine(Vertex(0, 0, 0), scrtl);
-		Drawing::drawLine(Vertex(0, 0, 0), Vertex(SCREENWIDTH, SCREENHEIGHT, 0));
-		Drawing::drawLine(Vertex(0, SCREENHEIGHT, 0), Vertex(SCREENWIDTH, 0, 0));*/
+		//Drawing::drawLine(Vertex(0, 0, 0), Vertex(SCREENWIDTH, SCREENHEIGHT, 0));
+		//Drawing::drawLine(Vertex(0, SCREENHEIGHT, 0), Vertex(SCREENWIDTH, 0, 0));
+
+		Drawing::setColor(PLAYER_COLORS[id]);
+		Drawing::drawLine(Vertex(0, 0, 0),						Vertex(SCREENWIDTH-1, 0, 0));
+		Drawing::drawLine(Vertex(SCREENWIDTH, 0, 0),			Vertex(SCREENWIDTH-1, SCREENHEIGHT-1, 0));
+		Drawing::drawLine(Vertex(SCREENWIDTH-1, SCREENHEIGHT-1, 0),	Vertex(0, SCREENHEIGHT-1, 0));
+		Drawing::drawLine(Vertex(0, SCREENHEIGHT-1, 0),	Vertex(0, 0, 0));
 
 		rx+=mx;
 		ry+=my;
@@ -236,6 +299,9 @@ namespace Screen
 					}
 				}
 			}
+
+		minz=tminz;
+		maxz=tmaxz;
 
 		mx=0;
 		my=0;
@@ -279,13 +345,25 @@ namespace Screen
 				}
 			}
 
-		tl=Vertex(size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE), size*(CUBE_DIST+CUBE_SIZE));
+		/// @todo Wyrownanie obrotu planszy.
+		/// What is this i don't even.
+
+		tl=Vertex(size*(CUBE_DIST+CUBE_SIZE),
+				  size*(CUBE_DIST+CUBE_SIZE),
+				  size*(CUBE_DIST+CUBE_SIZE));
 		scrtl=Vertex(SCREENWIDTH/ 2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f,
 					 SCREENHEIGHT/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f,
-					 0.0f);
+					 	 	 	 	  -	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f);
+		/*printf(" size: %d", size*(CUBE_DIST+CUBE_SIZE));
+		printf("   tl: %.02f %.02f %.02f", tl.x, tl.y, tl.z);
+		printf("scrtl: %.02f %.02f %.02f", scrtl.x, scrtl.y, scrtl.z);*/
 		}
 
-	//void rotateArb(Vertex& v, const Vertex& start, const Vertex& axis, float ang)
+	/// @brief Obrót dowolnego wektora względem dowolny wektor zaczepionego w dowolnym punkcie o dowolny kąt
+	/// @param v Wektor do obrócenia
+	/// @param s Punkt początkowy
+	/// @param a Oś obrotu
+	/// @param ang kąt
 	void rotateArb(Vertex& v, const Vertex& s, const Vertex& a, float ang)
 		{
 		float sn, cs, x, y, z;
@@ -301,20 +379,26 @@ namespace Screen
 
 	void drawCube(Cube& c)
 		{
+		//c.roll=WindowEngine::getDelta();
 		for(int i=0; i<Cube::VERT_COUNT; i++)
 			{
 			Vertex& v=c.verts[i];
+
 			v=v-(tl/2.0f);
 
 			rotateArb(v, Vertex(0, 0, 0), Vertex(0, 1, 0), my*DEGTORAD);
 			rotateArb(v, Vertex(0, 0, 0), Vertex(1, 0, 0), mx*DEGTORAD);
+			//rotateArb(v, Vertex(c.x*(CUBE_DIST+CUBE_SIZE), c.y*(CUBE_DIST+CUBE_SIZE), c.z*(CUBE_DIST+CUBE_SIZE)), Vertex(1, 0, 0), c.roll);
 
 			v=v+(tl/2.0f)+scrtl;
+
+			if(v.z<tminz) tminz=v.z;
+			if(v.z>tmaxz) tmaxz=v.z;
 			}
 
 		for(int i=0; i<Cube::VERT_COUNT; i+=4)
 			{
-			float alpha=max(min(c.verts[i+0].z/(float)((CUBE_SIZE+CUBE_DIST)*size*1.5f), 1.0f), 0.0f);
+			float alpha=max(min(((c.verts[i+0].z-minz)/(maxz-minz)), 1.0f), 0.0f);
 			unsigned int col=c.col;
 			col=Drawing::getColorBlend(col, 0xFF888888, c.pct);
 			col=Drawing::getColorBlend(col, 0xFF000000, alpha);
@@ -385,6 +469,12 @@ namespace Screen
 		else if(key==SDL_BUTTON_RIGHT)
 			rmb=false;
 
+		if(rotTimer<SDL_GetTicks())
+			{
+			spdx=0;
+			spdy=0;
+			}
+
 		if(moved)
 			{
 			moved=false;
@@ -400,7 +490,7 @@ namespace Screen
 				/** Wyslij informacje o wybranym celu i armii **/
 				printf("Wziuuuu~");
 				addMessage("Jednostki wyslane.");
-				/// @todo /todo \todo --todo ?todo ~~todo~~ \m/todo\m/ to(-_-)do [todo]
+				/// @todo Wywolanie funkcji wysylajacej jednostki
 				/***********************************************/
 				/***********************************************/
 				src=NULL;
@@ -446,6 +536,13 @@ namespace Screen
 		mx=-(y-ly);
 		my= (x-lx);
 
+		if(lmb)
+			{
+			spdx=mx;
+			spdy=my;
+			rotTimer=SDL_GetTicks()+200;
+			}
+
 		lx=x;
 		ly=y;
 		}
@@ -486,5 +583,11 @@ namespace Screen
 			msgs.pop_back();
 		msgs.push_front(Text(rand(), 8, -32, 0, 0, 0, Sprite::load(FONT), msg.c_str(), SCREENWIDTH-16, 16));
 		msgTimer=MSG_HIDE_DELAY_FIRST;
+		}
+
+	void setPlayeeID(int id)
+		{
+		if(id<0 || id>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
+			return;
 		}
 	}

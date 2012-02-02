@@ -7,6 +7,7 @@ struct SDL_Surface;
  * @namespace WindowEngine
  * @brief Tworzenie okienka, obsługa zdarzeń
  * @details Obsługuje dowolną ilość bibliotek, po uprzednim dopisaniu ich obsługi. Posiada dwa tryby działania: DELAY - stała przerwa między klatkami oraz DELTA - działa z maksymalną prędkością. DELTA zalecana jest dla OpenGLa, którego tutaj nie ma. Co by nie przeciążać procesora, zalecane jest używanie DELAY.
+ * @author crm
  */
 namespace WindowEngine
 	{

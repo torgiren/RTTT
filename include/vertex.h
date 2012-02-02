@@ -2,6 +2,7 @@
  * @struct Vertex
  * @brief Prosty vertex/wektor 3D, zawiera podstawowe operacje
  * @details Funkcje rysujące przystosowane są do ułożenia wertexów przeciwnie do ruchu wskazówek zegara (CCW)
+ * @author crm
  */
 
 #ifndef VERTEX_H
@@ -30,6 +31,8 @@ class Vertex
 			return (int)x==(int)v.x && (int)y==(int)v.y && (int)z==(int)v.z;
 			}
 
+		/// @brief Porównanie dwóch wektorów z pominięciem współrzędnej \a z
+		/// @details Współrzędne są rzutowane na liczbę całkowitą
 		bool eq2d(const Vertex& v) const
 			{
 			return (int)x==(int)v.x && (int)y==(int)v.y;

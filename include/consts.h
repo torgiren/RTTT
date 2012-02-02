@@ -6,28 +6,54 @@
  * @file consts.h
  */
 
+/// @brief Szerokość okienka
 const int SCREENWIDTH=640;
+/// @brief Wysokość okienka
 const int SCREENHEIGHT=480;
+/// @brief Głębia koloru
 const int BPP=32;
 
+/// @brief Tytuł okienka z grą
 const char GAMENAME[]="RTTTT - Risky Tic Tak Toe - Bitwa o Alfa Centauri 4000AD";
+/// @brief Przerwa między klatkami (tylko dla DELAY)
 const int FPSDELAY=1000/50;
 
+/// @brief Zmienna zamieniająca stopnie na radiany
 const float DEGTORAD=3.141592653589793f/180.0f;
+/// @brief Zmienna zamieniająca radiany na stopnie
 const float RADTODEG=180.0f/3.141592653589793f;
 
+/// @brief Rozszerzenie obrazka
 const char IMGEXT[]=".png";
+/// @brief Rozszerzenie pliku z animacjami
 const char ANIMEXT[]=".txt";
+/// @brief Ścieżka do pliku z czcionką
 const char FONT[]="data/font_00";
+/// @brief Ścieżka do pliku z tłem
 const char BACKGROUND[]="data/bg_01";
 
+/// @brief Czas do schowania pierwszej wiadomości, w sekundach
 const float MSG_HIDE_DELAY_FIRST=5.0f;	// sekundy
+/// @brief Czas do schowania kolejnych wiadomości, w sekundach
 const float MSG_HIDE_DELAY_NEXT=0.5f;	// sekundy
+/// @brief Maksymalna ilość wiadomości
 const unsigned int MSG_MAX_COUNT=8;
 
 
 /**** Kolory ****/
-/// Kolory graczy 1-8
+/// @brief Kolory graczy 1-8
+/**
+ * <ul>
+ * <li>0x00C00000 - <span style="color: #C00000;">Czerwony</span></li>
+ * <li>0x00FEA100 - <span style="color: #FEA100;">Pomarańczowy</span></li>
+ * <li>0x00FBFE00 - <span style="color: #FBFE00;">Żółty</span></li>
+ * <li>0x003FDE00 - <span style="color: #3FDE00;">Zielony</span></li>
+ * <li>0x0017EECD - <span style="color: #17EECD;">Cyan</span></li>
+ * <li>0x00228FFF - <span style="color: #228FFF;">Niebieski</span></li>
+ * <li>0x005E1FFF - <span style="color: #5E1FFF;">Fioletowy</span></li>
+ * <li>0x00CF13EB - <span style="color: #CF13EB;">Różowy</span></li>
+ * </ul>
+ */
 const unsigned int PLAYER_COLORS[]=
 		{
 		0x00C00000,		// Czerwony

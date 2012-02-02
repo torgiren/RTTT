@@ -17,6 +17,7 @@
  * @namespace Screen
  * @brief Chyba cala logika okienka jest tutaj zawarta.
  * @details Obsluga rysowania pola gry, obrotow, klikniecia na klocki~
+ * @author crm
  */
 namespace Screen
 	{
@@ -29,6 +30,9 @@ namespace Screen
 
 	/// @brief Ustawia pole gry na zadana wielkosc
 	void setSize(int size);
+	/// @brief Ustawia ID gracza na podane
+	/// @details Zależnie od ID gracza będzie rysowana ramka innego koloru
+	void setPlayerID(int id);
 
 	/// @brief Aktualizacja pola gry
 	/// @details Wywolywana po otrzymaniu zbiorczych informacji o aktualnym stanie pola gry

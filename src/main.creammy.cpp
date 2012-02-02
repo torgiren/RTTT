@@ -12,7 +12,7 @@ int main(int , char *[])
 
 	srand(time(NULL));
 
-	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
+	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELTA))
 		{
 		printf("Nie udalo sie stworzyc okienka\n");
 		return 100;

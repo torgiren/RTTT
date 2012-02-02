@@ -11,6 +11,7 @@
 /**
  * @namespace Log
  * @brief Wypisywanie ladnie sformatowanych logow do podanego pliku (domyslnie stdout)
+ * @author crm
  */
 namespace Log
 	{

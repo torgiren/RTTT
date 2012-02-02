@@ -17,17 +17,26 @@ template<typename T> int sgn(T val)
 /************************************************/
 namespace Drawing
 	{
+	/// @brief Wskaźnik na ekran
 	SDL_Surface *srf=NULL;
+	/// @brief Wskaźnik wpisywany do bufora obiektów
 	void *obj=NULL;
 
+	/// @brief Bufor głębokości
 	float *zbuff=NULL;
+	/// @brief Bufor obiektów
 	void **obuff=NULL;
 
-	unsigned int color=0xFFFFFFFF;	// Aktualny kolor, AARRGGBB
+	/// @brief Aktualny kolor
+	/// @details Kolejność bajtów: 0xAARRGGBB, gdzie AA to alfa, RR to czerwony, GG zielony i BB niebieski.
+	unsigned int color=0xFFFFFFFF;
+
+	/// @brief Kierunek światła
+	const Vertex light(0.7071, 0.7071, 0);
 	}
 
 /************************************************/
-/****************** Macierze ********************/
+/****************** Bufory **********************/
 /************************************************/
 namespace Drawing
 	{
@@ -153,7 +162,8 @@ namespace Drawing
 			putPix(a.x+stepx*i, a.y+stepy*i, a.z+stepz*i, 1.0f);
 		}
 
-	// Thx, http://www.blackpawn.com/texts/pointinpoly/default.html
+	/// @brief Sprawdza czy punkty \a p1 i \a p2 leżą po tej samej stronie odcinka \a a, \a b
+	/// @details Thx, http://www.blackpawn.com/texts/pointinpoly/default.html
 	bool SameSide(const Vertex& p1, const Vertex& p2, const Vertex& a, const Vertex& b)
 		{
 		Vertex ba(b-a);
@@ -162,6 +172,7 @@ namespace Drawing
 		return cp1.dot(cp2)>=0;
 		}
 
+	/// @brief Sprawdza, czy punkt \a p leży wewnątrz trójkąta \a a, \a b, \a c
     bool PointInTriangle(const Vertex& p, const Vertex& a, const Vertex& b, const Vertex& c)
 		{
     	return (SameSide(p, a, b, c) && SameSide(p, b, a, c) && SameSide(p, c, a, b));
@@ -195,8 +206,6 @@ namespace Drawing
 				}
 			}
 		}
-
-	const Vertex light(0.7071, 0.7071, 0);
 
 	void drawQuad(const Vertex& a, const Vertex& b, const Vertex& c, const Vertex& d)
 		{

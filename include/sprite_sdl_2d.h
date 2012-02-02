@@ -8,6 +8,7 @@
  * @class SpriteSDL2D
  * @brief Klasa sprite oparta na SDLu
  * @details Zajmuje się wyświetleniem i wczytaniem obrazka używajac SDLa. 'Gdzieś' jest wersja robiąca to samo dla OpenGLa, ale tutaj nie ma dla niej miejsca.
+ * @author crm
  */
 class SpriteSDL2D: public Sprite
 	{

@@ -113,6 +113,7 @@ Sprite* Sprite::load(const std::string& name, bool force)
 
 bool Sprite::loadMask(void *vpixs, int w, int h, int bpp)	// bpp ignorowane, tylko 32 (alfa 0 -> maska 0)
 	{
+	return true;
 	int *pixs=reinterpret_cast<int *>(vpixs);
 	int size=w*h;
 
