@@ -50,12 +50,16 @@ class Text
 		~Text();
 
 		/// @brief Przypisanie tekstu \a str
+		/// @param str Tekst
 		Text& operator= (const char *str) {setStr(str); return *this;};
 		/// @brief Przypisanie tekstu \a str
+		/// @param str Tekst
 		Text& operator= (string str) {setStr(str.c_str()); return *this;};
 		/// @brief Dopisanie tekstu \a str
+		/// @param str Tekst
 		Text& operator+=(const char *str) {addStr(str); return *this;};
 		/// @brief Dopisanie tekstu \a str
+		/// @param str Tekst
 		Text& operator+=(string str) {addStr(str.c_str()); return *this;};
 
 		/// @brief Ustawienie nowej pozycji
@@ -82,19 +86,20 @@ class Text
 		/// @param sw Szerokość
 		/// @param sh Wysokość
 		void setDim(unsigned int sw, unsigned int sh) {w=sw; h=sh; upd=1;};
-		//void setText(const char *sText) {setStr(sText);};
-		//void setAddText(const char *sText) {addStr(sText);};
-		/// @param Przypisanie tekstu \a sStr
+		/// @brief Przypisanie tekstu \a sStr
+		/// @param sStr Tekst
 		void setStr(const char *sStr);
-		/// @param Dopisanie tekstu \a sStr
+		/// @brief Dopisanie tekstu \a sStr
+		/// @param sStr Tekst
 		void addStr(const char *sStr);
-		/// @param Ustawienie wyrównania tekstu
+		/// @brief Ustawienie wyrównania tekstu
+		/// @param str Typ wyrównania
 		void setAlign(Align sa) {align=sa;}
-		/// @param Ustawienie wyrównania tekstu do lewej
+		/// @brief Ustawienie wyrównania tekstu do lewej
 		void setAlignLeft() {align=LEFT;};
-		/// @param Ustawienie wyrównania tekstu do środka
+		/// @brief Ustawienie wyrównania tekstu do środka
 		void setAlignCenter() {align=CENTER;};
-		/// @param Ustawienie wyrównania tekstu do prawej
+		/// @brief Ustawienie wyrównania tekstu do prawej
 		void setAlignRight() {align=RIGHT;};
 
 		void getPos(float& gx, float& gy, float& gz) const {gx=x; gy=y; gz=z;};
@@ -125,8 +130,10 @@ class Text
 		void print();
 
 		/// @brief Zwraca długość podanego tekstu (do białego znaku) używając aktualnej czcionki
+		/// @param str Tekst
 		int getWordLen(const char *str);		// Dlugosc wyrazu w pikselach
 		/// @brief Zwraca długość podanej linii tekstu używając aktualnej czcionki
+		/// @param str Tekst
 		int getLineLen(const char *str);		// Dlugosc linii w pikselach
 	};
 
