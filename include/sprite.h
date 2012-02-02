@@ -108,9 +108,14 @@ class Sprite
 
 		/// @brief Wczytywanie grafiki
 		/// @details Do zdefiniowania w klasach poniżej
+		/// @param name Nazwa
 		virtual bool loadGfx(const std::string& name)=0;
 		/// @brief Generowanie maski kolizji
 		/// @details Tutaj wyłączone celem zaoszczędzenia pamięci
+		/// @param pixs Piksele
+		/// @param w Szerokość
+		/// @param h Wysokość
+		/// @param bpp Głębia koloru
 		virtual bool loadMask(void *pixs, int w, int h, int bpp);
 		/// @brief Wczytywanie animacji
 		virtual bool loadAnims(const std::string& name);
@@ -156,9 +161,9 @@ class Sprite
 
 		/// @brief Animuje animację \a anim z prędkością \a spd. Do \a frame wpisuje nową klatkę animacji.
 		/// @details Jeśli \a spd jest mniejsze od 0 to używa standardowej szybkości animacji
-		/// @param anim Animacja
-		/// @param frame Klatka początkowa, zmieniane na kolejną
-		/// @param spd Szybkość animacji
+		/// @param[in] anim Animacja
+		/// @param[in,out] frame Klatka początkowa, zmieniane na kolejną
+		/// @param[in] spd Szybkość animacji
 		virtual void animate(int anim, float& frame, float spd=-1.0f);
 		/// @brief Wyświetla Sprite z animacją \a anim i klatką \a frame na współrzędnych x, y, z.
 		/// @details Pozostałe parametry są opcjonalne i - obecnie - nieużywane.

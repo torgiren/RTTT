@@ -585,9 +585,10 @@ namespace Screen
 		msgTimer=MSG_HIDE_DELAY_FIRST;
 		}
 
-	void setPlayeeID(int id)
+	void setPlayerID(int sid)
 		{
-		if(id<0 || id>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
+		if(sid<0 || sid>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
 			return;
+		id=sid;
 		}
 	}
