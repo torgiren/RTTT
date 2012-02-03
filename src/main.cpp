@@ -22,9 +22,6 @@ int ServerFunc(void* engine);
 int WindowFunc(void* null);
 bool ServerReady=false;
 bool EndGame=false;
-
-#undef main
-
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
@@ -79,18 +76,29 @@ menu:
 		MapSize=3;
 	};
     Client* c=Client::create(ip,"2332");
+
+
+	uint PlayerNum=0;
 	bool haveSize=false;
+	bool haveNum=false;
 	cout<<"Przenoszę na pole bitwy..."<<endl;
 	c->send("Hello");
-	while(!haveSize)
+	while(!haveSize||!haveNum)
 	{
 		string tmp=c->receive();
-		cout<<"Czekam na rozmiar: "<<tmp<<endl;
+		cout<<"Czekam na nr i rozmiar: "<<tmp<<endl;
 		if(tmp.compare("empty"))
 		{
 			stringstream ss(tmp);
 			string first;
 			ss>>first;
+			if(!first.compare("player"))
+			{
+				ss>>PlayerNum;
+				cout<<"Wczytałem numer gracza: "<<PlayerNum<<endl;
+				haveNum=true;
+				Screen::setPlayerID(PlayerNum+1);
+			}
 			if(!first.compare("size"))
 			{
 				ss>>MapSize;
@@ -113,7 +121,6 @@ menu:
 
 //	SDL_Delay(1000);
 //    Client* c=new Client(*SocketSingleton::get(),ip.c_str(), "2332");
-	c->send("Hello");
 	while(!EndGame)
 	{
 		cout<<"*"<<endl;
@@ -126,13 +133,13 @@ menu:
 		ss>>first;
 		if(!first.compare("planet"))
 		{
-			cout<<"Aktualizacja planety"<<endl;
+//			cout<<"Aktualizacja planety"<<endl;
 			int x,y,z;
 			ss>>x>>y>>z;
 			vector<pair<Vertex,Planet> > tmp;
 			Planet plan=Planet::ToPlanet(ss.str());
 			tmp.push_back(pair<Vertex,Planet>(Vertex(x,y,z),plan));
-			cout<<"Aktualizacja w "<<x<<" "<<y<<" "<<z<<". Ma "<<plan.RetJednostki()<<" jednostek"<<" oraz gracz: "<<plan.RetGracz()<<endl;
+//			cout<<"Aktualizacja w "<<x<<" "<<y<<" "<<z<<". Ma "<<plan.RetJednostki()<<" jednostek"<<" oraz gracz: "<<plan.RetGracz()<<endl;
 			Screen::updateArea(tmp);
 		};
 //		c->send("client");
@@ -153,30 +160,36 @@ int ServerFunc(void* engine)
 	SDL_Delay(1000);
 	ServerReady=true;
 	stringstream ss;
-	ss.str("");
-	ss<<"size "<<silnik->GetSize();
-	s->send(ss.str());
-	int x,y,z;
-	for(x=0;x<silnik->GetSize();x++)
-	{
-		for(y=0;y<silnik->GetSize();y++)
-		{
-			for(z=0;z<silnik->GetSize();z++)
-			{
-						ss.str("");
-						ss<<"planet "<<x<<" "<<y<<" "<<z<<" "<<(string)silnik->GetPlanet(Vertex(x,y,z));
-						s->send(ss.str());
-			};
-		};
-	};
 	int numGracz=0;
 	while(true)
 	{
 		Message tmp=s->receive();
 		cout<<"Server: "<<tmp.body()<<endl;
+		cout<<"Klient nr: "<<tmp.source()<<endl;
 		string body=tmp.body();
 		if(!body.compare("Hello"))
 		{
+			numGracz++;
+			uint16 client=tmp.source();
+			ss.str("");
+			ss<<"player "<<client;
+			s->send(client,ss.str());
+			ss.str("");
+			ss<<"size "<<silnik->GetSize();
+			s->send(client,ss.str());
+			int x,y,z;
+			for(x=0;x<silnik->GetSize();x++)
+			{
+				for(y=0;y<silnik->GetSize();y++)
+				{
+					for(z=0;z<silnik->GetSize();z++)
+					{
+								ss.str("");
+								ss<<"planet "<<x<<" "<<y<<" "<<z<<" "<<(string)silnik->GetPlanet(Vertex(x,y,z));
+								s->send(client,ss.str());
+					};
+				};
+			};
 		};
 	};
 	return 0;
