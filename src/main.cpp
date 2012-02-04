@@ -77,6 +77,7 @@ menu:
 	};
 	cout<<"Uruchamian clienta"<<endl;
 	engine=GameEngineClient::Create(ip);
+	Screen::setGameEngineClient(engine);
 //    Client* c=Client::create(ip,"2332");
 	
 
@@ -110,13 +111,13 @@ int ServerFunc(void* engine)
 	{
 //		cout<<"Czekam"<<endl;
 		Message tmp=s->receive();
-		cout<<"Server: "<<tmp.body()<<endl;
-//		cout<<"Klient nr: "<<tmp.source()<<endl;
 		string body=tmp.body();
+		cout<<"Server: "<<body<<endl;
+//		cout<<"Klient nr: "<<tmp.source()<<endl;
 		stringstream ss(body);
 		string first;
 		ss>>first;
-		cout<<"First: "<<ss.str()<<endl;
+		cout<<"First: "<<first<<endl;
 		if(!first.compare("Hello"))
 		{
 			s->send("witam");
@@ -148,12 +149,14 @@ int ServerFunc(void* engine)
 	
 		else if(!first.compare("move"))
 		{
+			cout<<"Server: poruszam jednoski"<<endl;
 			int x1,y1,z1,x2,y2,z2,num;
 			ss>>x1>>y1>>z1>>x2>>y2>>z2>>num;
 			Vertex src(x1,y1,z1);
 			Vertex dst(x2,y2,z2);
 			cout<<x1<<" "<<y1<<" "<<z1<<" "<<x2<<" "<<y2<<" "<<z2<<endl;
 			silnik->Move(src,dst,num);
+			s->send("moving");
 		};
 	};
 	cout<<"i po serverze..."<<endl;

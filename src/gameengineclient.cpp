@@ -18,7 +18,7 @@ void GameEngineClient::MainLoop()
 			SDL_Delay(1000);
 			continue;
 		};
-		cout<<"Otrzymałem: "<<tmp<<endl;
+		cout<<"Otrzymałem(client): "<<tmp<<endl;
 		stringstream ss(tmp);
 		string first;
 		ss>>first;
