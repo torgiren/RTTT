@@ -3,7 +3,11 @@
 #include "Message.hpp"
 #include <boost/shared_ptr.hpp>
 #include <deque>
-
+/**
+* @details Klasa abstrakcyjna reprezentująca połączenie socketów od klientów
+* @author Paweł Ściegienny
+* @brief Interfejs pokoju
+*/
 class Participant
 {
 public:

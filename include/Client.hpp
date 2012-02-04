@@ -22,25 +22,19 @@ class Client{
 public:
   ///@brief metoda zamykająca połączenie
   ///@detail metoda binduje handler do_close z metodą post socketu
-  
   void close();
+  ///@brief metoda wysyłająca wiadomość do serwera
+  ///@detail metoda konwertuje stringa do Message, a następnie wysyła do serwera
+  ///@param[in] m referencja do strina który ma zostać wysłany
   void send(const std::string& m);
 
-private:
-  ///@brief Konstruktor połączenia
-  ///@defails Konstruktor. Ustawia handler połączenia.
-  ///@param[in] io_service referencja do obiektu boost::asio:io_service reprezentującego swego rodzaju socket
-  ///@param[in] endpoint_iterator tcp::resolver::iterator wskazujący na hostname i port
-  Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator);
 public:
   ///@brief Nazwany konstruktor
-  static Client* create(const std::string host, const std::string port);
-  ///@brief Konstruktor połączenia
-  ///@defails Konstruktor. Ustawia handler połączenia.
+  ///@detail Jedyny legalny sposób tworzenia instancji klienckich 
   ///@param[in] host hostname
   ///@param[in] ip adres ip
-  Client(boost::asio::io_service& io_service, const char* host, const char* port);
- 
+  static Client* create(const std::string host, const std::string port);
+  ///@brief destruktor
  ~Client();
   ///@brief metoda zwracająca wiadomosc od serwera
   std::string receive();
@@ -48,6 +42,12 @@ public:
   ///@details metoda bindująca handler do_writer z metodą post socketu
   void write(const Message& msg);
 private:
+  ///@brief Konstruktor połączenia
+  ///@defails Konstruktor. Ustawia handler połączenia.
+  ///@param[in] host hostname
+  ///@param[in] ip adres ip
+  Client(boost::asio::io_service& io_service, const char* host, const char* port);
+
   ///@brief handler łączący
   void handle_connect(const boost::system::error_code& error, tcp::resolver::iterator endpoint_iterator);
   ///@brief handler sczytujący header
@@ -61,12 +61,19 @@ private:
   ///@brief handler zamykający połączenie
   void do_close();
 
+  ///@brief przechowuje socket
   boost::asio::io_service& _io_service;
+  ///@brief przechowuje socket
   tcp::socket _socket;
+  ///@brief miejsce na odczytaną wiadomość
   Message _read_msg;
+  ///@brief historia wysłanych wiadomości
   Message_queue _write_msgs;
+  ///@brief miejsce gdzie trzymamy nasz wątek socketu
   boost::thread* _t;
+  ///@brief bardzo nierozsądne miejsce na instancje
   static Client* _instance;
+  ///@brief kolejka otrzymanych wiadomości
   std::deque<std::string> _incoming;
 };
 
