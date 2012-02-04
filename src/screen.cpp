@@ -120,6 +120,10 @@ namespace Screen
 	/// @brief Obsługa kliknięcia rolką
 	/// @param down Jest \a prawdą jesli rolka została kliknięta, jeśli została puszczona jest \a fałszem
 	void mroll(bool down);
+
+	/// @brief Obsługa puszczenia przycisku na klawiaturze
+	/// @param key Kod puszczonego klawisza
+	void kup(int key);
 	}
 
 /************************************************/
@@ -219,10 +223,12 @@ namespace Screen
 		WindowEngine::delMouseDownEventHandler		(mdown);
 		WindowEngine::delMouseUpEventHandler		(mup);
 		WindowEngine::delMouseMotionEventHandler	(mmove);
+		WindowEngine::delKeyUpEventHandler			(kup);
 
 		WindowEngine::addMouseDownEventHandler		(mdown);
 		WindowEngine::addMouseUpEventHandler		(mup);
 		WindowEngine::addMouseMotionEventHandler	(mmove);
+		WindowEngine::addKeyUpEventHandler			(kup);
 
 		info.setFont(Sprite::load(FONT));
 		curr.setFont(Sprite::load(FONT));
@@ -242,12 +248,6 @@ namespace Screen
 			mx+=50*WindowEngine::getDelta();
 		else if(WindowEngine::getKeyState(SDLK_DOWN))
 			mx-=50*WindowEngine::getDelta();
-
-		if(WindowEngine::getKeyState(SDLK_ESCAPE) || WindowEngine::getKeyState(SDLK_SPACE))
-			{
-			engine->SendEndTurn();
-			addMessage("Pomijanie tury");
-			}
 
 	// Wypisanie informacji
 		char csrc[32], cdst[32], carmy[16];
@@ -605,6 +605,21 @@ namespace Screen
 
 		if(src!=NULL && army>src->army)
 			army=src->army;
+		}
+	}
+
+/************************************************/
+/****************** Klawiatura ******************/
+/************************************************/
+namespace Screen
+	{
+	void kup(int key)
+		{
+		if(key==SDLK_ESCAPE || key==SDLK_SPACE)
+			{
+			engine->SendEndTurn();
+			addMessage("Pomijanie tury");
+			}
 		}
 	}
 
