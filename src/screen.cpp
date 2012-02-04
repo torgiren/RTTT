@@ -15,7 +15,7 @@ int CUBE_SIZE=64;
 int CUBE_DIST=CUBE_SIZE; //CUBE_SIZE*6;
 const float CUBE_DIST_RATIO=1.5;
 
-//extern GameEngineClient* engine;
+extern GameEngineClient* engine;
 
 inline void sincos(float ang, float& s, float& c)
 	{
@@ -499,7 +499,7 @@ namespace Screen
 			{
 			if(src && dst && army)
 				{
-				//engine->SendMove(*src, *dst, army);
+				engine->SendMove(*src, *dst, army);
 				addMessage("Jednostki wyslane.");
 
 				src=NULL;
