@@ -36,7 +36,6 @@ namespace Screen
 
 	/// @brief Aktualizacja pola gry
 	/// @details Wywolywana po otrzymaniu zbiorczych informacji o aktualnym stanie pola gry
-	/// @todo
 	void updateArea(vector<pair<Vertex, Planet> >& items);
 	/// @brief Wypisanie wiadomości \a msg.
 	/// @param msg Wiadomość do wypisania

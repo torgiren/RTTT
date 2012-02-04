@@ -14,7 +14,7 @@ const int SCREENHEIGHT=480;
 const int BPP=32;
 
 /// @brief Tytuł okienka z grą
-const char GAMENAME[]="RTTTT - Risky Tic Tak Toe - Bitwa o Alfa Centauri 4000AD";
+const char GAMENAME[]="RTTT - Risky Tic Tak Toe - Bitwa o Alfa Centauri 4000AD";
 /// @brief Przerwa między klatkami (tylko dla DELAY)
 const int FPSDELAY=1000/50;
 
