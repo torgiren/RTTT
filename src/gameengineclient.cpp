@@ -37,3 +37,13 @@ void GameEngineClient::EndGame()
 {
 	itsEndGame=true;
 };
+void GameEngineClient::SendMove(Vertex src, Vertex dst, uint16 num)
+{
+	stringstream ss;
+	ss<<"move "<<(string)src<<" "<<(string)dst<<" "<<num;
+	itsC->send(ss.str());
+};
+void GameEngineClient::SendEndTurn()
+{
+	itsC->send("end");
+};
