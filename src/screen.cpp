@@ -15,6 +15,8 @@ int CUBE_SIZE=64;
 int CUBE_DIST=CUBE_SIZE; //CUBE_SIZE*6;
 const float CUBE_DIST_RATIO=1.5;
 
+//extern GameEngineClient* engine;
+
 inline void sincos(float ang, float& s, float& c)
 	{
 	asm	(
@@ -146,7 +148,7 @@ namespace Screen
 	/// @brief Aktualny obrót w z
 	float rz=	0.0f;
 	/// @brief Aktualna skala
-	float scale=0.0f;
+	float scale=1.0f;
 
 	/// @brief Tarcie, zwalnia obrót
 	const float FRICTION=0.1f;
@@ -345,12 +347,9 @@ namespace Screen
 				}
 			}
 
-		/// @todo Wyrownanie obrotu planszy.
-		/// What is this i don't even.
-
-		tl=Vertex(size*(CUBE_DIST+CUBE_SIZE),
-				  size*(CUBE_DIST+CUBE_SIZE),
-				  size*(CUBE_DIST+CUBE_SIZE));
+		tl=Vertex(size*(CUBE_DIST+CUBE_SIZE)-(CUBE_DIST+CUBE_SIZE)/2.0f,
+				  size*(CUBE_DIST+CUBE_SIZE)-(CUBE_DIST+CUBE_SIZE)/2.0f,
+				  size*(CUBE_DIST+CUBE_SIZE)-(CUBE_DIST+CUBE_SIZE)/2.0f);
 		scrtl=Vertex(SCREENWIDTH/ 2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f,
 					 SCREENHEIGHT/2.0f-	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f,
 					 	 	 	 	  -	size*(CUBE_DIST+CUBE_SIZE)/2.0f+CUBE_DIST/2.0f);
@@ -379,61 +378,72 @@ namespace Screen
 
 	void drawCube(Cube& c)
 		{
-		//c.roll=WindowEngine::getDelta();
+		float left=1024.0f;
+		float top=1024.0f;
+
 		for(int i=0; i<Cube::VERT_COUNT; i++)
 			{
 			Vertex& v=c.verts[i];
 
-			v=v-(tl/2.0f);
-
-			rotateArb(v, Vertex(0, 0, 0), Vertex(0, 1, 0), my*DEGTORAD);
-			rotateArb(v, Vertex(0, 0, 0), Vertex(1, 0, 0), mx*DEGTORAD);
+			rotateArb(v, tl/2.0f, Vertex(0, 1, 0), my*DEGTORAD);
+			rotateArb(v, tl/2.0f, Vertex(1, 0, 0), mx*DEGTORAD);
 			//rotateArb(v, Vertex(c.x*(CUBE_DIST+CUBE_SIZE), c.y*(CUBE_DIST+CUBE_SIZE), c.z*(CUBE_DIST+CUBE_SIZE)), Vertex(1, 0, 0), c.roll);
 
-			v=v+(tl/2.0f)+scrtl;
+			v=v*scale+scrtl;
+			v=v+tl/2.0f*(1-scale);
 
 			if(v.z<tminz) tminz=v.z;
 			if(v.z>tmaxz) tmaxz=v.z;
+			if(v.x<left) left=v.x;
+			if(v.y<top) top=v.y;
 			}
 
-		for(int i=0; i<Cube::VERT_COUNT; i+=4)
+		if(left>SCREENWIDTH || top>SCREENHEIGHT || left<-(CUBE_DIST+CUBE_SIZE)*scale || top<-(CUBE_DIST+CUBE_SIZE)*scale);
+		else
 			{
-			float alpha=max(min(((c.verts[i+0].z-minz)/(maxz-minz)), 1.0f), 0.0f);
-			unsigned int col=c.col;
-			col=Drawing::getColorBlend(col, 0xFF888888, c.pct);
-			col=Drawing::getColorBlend(col, 0xFF000000, alpha);
-			Drawing::setColor(col);
-			Drawing::drawQuad(c.verts[i+0], c.verts[i+1], c.verts[i+2], c.verts[i+3]);
-
-			if(src)
+			for(int i=0; i<Cube::VERT_COUNT; i+=4)
 				{
-				if(src->x!=c.x || src->y!=c.y || src->z!=c.z);
-				else
+				float alpha=max(min(((c.verts[i+0].z-minz)/(maxz-minz)), 1.0f), 0.0f);
+				unsigned int col=c.col;
+				col=Drawing::getColorBlend(col, 0xFF888888, c.pct);
+				col=Drawing::getColorBlend(col, 0xFF000000, alpha);
+				Drawing::setColor(col);
+				Drawing::drawQuad(c.verts[i+0], c.verts[i+1], c.verts[i+2], c.verts[i+3]);
+
+				if(src)
 					{
-					Drawing::setColor(PLANET_SRC_COLOR);
-					Drawing::drawLine(c.verts[i+0], c.verts[i+1]);
-					Drawing::drawLine(c.verts[i+1], c.verts[i+2]);
-					Drawing::drawLine(c.verts[i+2], c.verts[i+3]);
-					Drawing::drawLine(c.verts[i+3], c.verts[i+0]);
+					if(src->x!=c.x || src->y!=c.y || src->z!=c.z);
+					else
+						{
+						Drawing::setColor(PLANET_SRC_COLOR);
+						Drawing::drawLine(c.verts[i+0], c.verts[i+1]);
+						Drawing::drawLine(c.verts[i+1], c.verts[i+2]);
+						Drawing::drawLine(c.verts[i+2], c.verts[i+3]);
+						Drawing::drawLine(c.verts[i+3], c.verts[i+0]);
+						}
+					}
+				if(dst)
+					{
+					if(dst->x!=c.x || dst->y!=c.y || dst->z!=c.z);
+					else
+						{
+						Drawing::setColor(PLANET_DST_COLOR);
+						Drawing::drawLine(c.verts[i+0], c.verts[i+1]);
+						Drawing::drawLine(c.verts[i+1], c.verts[i+2]);
+						Drawing::drawLine(c.verts[i+2], c.verts[i+3]);
+						Drawing::drawLine(c.verts[i+3], c.verts[i+0]);
+						}
 					}
 				}
-			if(dst)
-				{
-				if(dst->x!=c.x || dst->y!=c.y || dst->z!=c.z);
-				else
-					{
-					Drawing::setColor(PLANET_DST_COLOR);
-					Drawing::drawLine(c.verts[i+0], c.verts[i+1]);
-					Drawing::drawLine(c.verts[i+1], c.verts[i+2]);
-					Drawing::drawLine(c.verts[i+2], c.verts[i+3]);
-					Drawing::drawLine(c.verts[i+3], c.verts[i+0]);
-					}
-				}
-
 			}
 
 		for(int i=0; i<Cube::VERT_COUNT; i++)
-			c.verts[i]=c.verts[i]-scrtl;
+			{
+			Vertex& v=c.verts[i];
+
+			v=v-tl/2.0f*(1-scale);
+			v=(v-scrtl)/scale;
+			}
 		}
 	}
 
@@ -485,14 +495,9 @@ namespace Screen
 			{
 			if(src && dst && army)
 				{
-				/***********************************************/
-				/***********************************************/
-				/** Wyslij informacje o wybranym celu i armii **/
-				printf("Wziuuuu~");
+				//engine->SendMove(*src, *dst, army);
 				addMessage("Jednostki wyslane.");
-				/// @todo Wywolanie funkcji wysylajacej jednostki
-				/***********************************************/
-				/***********************************************/
+
 				src=NULL;
 				dst=NULL;
 				army=0;
@@ -528,20 +533,31 @@ namespace Screen
 		else
 			curr="";
 
-		if(!lmb)
+
+		if(!lmb && !rmb)
 			return;
 
-		moved=true;
-
-		mx=-(y-ly);
-		my= (x-lx);
+		if(!moved)
+			{
+			moved=true;
+			lx=x;
+			ly=y;
+			}
 
 		if(lmb)
 			{
-			spdx=mx;
-			spdy=my;
-			rotTimer=SDL_GetTicks()+200;
+			mx=-(y-ly);
+			my= (x-lx);
+
+			if(lmb)
+				{
+				spdx=mx;
+				spdy=my;
+				rotTimer=SDL_GetTicks()+200;
+				}
 			}
+		else if(rmb)
+			scale=max(0.5f, min(scale+((y-ly)+(x-lx))/100.0f, 5.0f));
 
 		lx=x;
 		ly=y;
@@ -571,7 +587,29 @@ namespace Screen
 		for(vector<pair<Vertex, Planet> >::iterator it=items.begin(); it!=items.end(); ++it)
 			{
 			Cube& c=area[(int)it->first.x][(int)it->first.y][(int)it->first.z];
-			c.col=PLAYER_COLORS[min(it->second.RetGracz(), (uint16)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))];
+			unsigned int ncol=PLAYER_COLORS[min(it->second.RetGracz(), (uint16)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))];
+
+			if(c.col==PLAYER_COLORS[id] && ncol!=c.col)
+				{
+				char ccube[32];
+				sprintf(ccube, "%02d:%02d:%02d", c.x, c.y, c.z);
+				addMessage((std::string)"Planeta "+ccube+" została odbita przez przeciwnika.");
+				}
+			else if(c.col!=PLAYER_COLORS[id] && ncol==PLAYER_COLORS[id])
+				{
+				char ccube[32];
+				sprintf(ccube, "%02d:%02d:%02d", c.x, c.y, c.z);
+				addMessage((std::string)"Planeta "+ccube+" została podbita.");
+				}
+			else if(c.col==PLAYER_COLORS[id] && it->second.RetOkupant()!=id)
+				{
+				char ccube[32], cpct[16];
+				sprintf(ccube, "%02d:%02d:%02d", c.x, c.y, c.z);
+				sprintf(cpct, "%.0f", c.pct*100);
+				addMessage((std::string)"Planeta "+ccube+" została zaatakowana! ("+cpct+")");
+				}
+
+			c.col=ncol;
 			c.army=it->second.RetJednostki();
 			c.pct=it->second.RetPoziom()/(float)OCCUPY_MAX;		// procentowy stopien przejecia
 			}

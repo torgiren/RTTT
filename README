@@ -30,3 +30,22 @@ Risky Tic Tac Toe jest połączeniem gry "Kółko i Krzyżyk" oraz elementów z 
 	Co turę każdy gracz otrzymuje nowe jednostki w liczbie (LiczbaPosiadanychProwincji+LiczbaOkupowanychProwincji/3) które może dowolnie dołożyć do posiadaych lub okupowanych przez siebie prowincji.
 	--KONIEC--
 	Koniec gry następuje gdy jeden z graczy przejmie (postawi w pełni flagę) na 5 prowincjach ułożonych w lini prostej, bądź gdy jeden z graczy się podda.
+
+--STEROWANIE--
+	Wybór planety źródłowej		- Lewy przycisk myszy
+	Wybór planety docelowej		- Prawy przycisk myszy
+	Wybór ilości jednostek		- Rolka (góra - zwiększenie, dół - zmniejszenie)
+	Wysłanie jednostek			- Rolka (wciśnięcie)
+	Obrót pola gry				- Wciśnięty lewy przycisk myszy + ruch, klawisze strzałek
+	Skalowanie pola gry			- Wciśnięty prawy przycisk myszy + ruch
+	
+--WYMAGANIA SPRZĘTOWE--
+	Procesor przynajmniej 1.2GHz
+	Przynajmniej 16MB pamięci RAM
+	System Windows/Linux
+	Mysz
+	Monitor
+	Karta sieciowa
+	Gracz
+	Wygodne siedzisko
+	Przeciwnik (co najmniej 1)
