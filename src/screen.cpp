@@ -37,6 +37,11 @@ struct Cube
 		reset();
 		}
 
+	operator Vertex()
+		{
+		return Vertex(x, y, z);
+		}
+
 	void reset()
 		{
 	// Przod
