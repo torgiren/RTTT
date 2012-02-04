@@ -15,8 +15,6 @@ int CUBE_SIZE=64;
 int CUBE_DIST=CUBE_SIZE; //CUBE_SIZE*6;
 const float CUBE_DIST_RATIO=1.5;
 
-//extern GameEngineClient* engine;
-
 inline void sincos(float ang, float& s, float& c)
 	{
 	asm	(
@@ -196,6 +194,7 @@ namespace Screen
 	/// @brief Wskaźnik na obrazek tła
 	Sprite *bg;
 
+	GameEngineClient *engine;
 
 	Vertex tl;
 	Vertex scrtl;
@@ -499,7 +498,7 @@ namespace Screen
 			{
 			if(src && dst && army)
 				{
-				//engine->SendMove(*src, *dst, army);
+				engine->SendMove(*src, *dst, army);
 				addMessage("Jednostki wyslane.");
 
 				src=NULL;
@@ -643,5 +642,10 @@ namespace Screen
 		if(sid<0 || sid>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
 			return;
 		id=sid;
+		}
+
+	void setGameEngineClient(GameEngineClient* e)
+		{
+		engine=e;
 		}
 	}
