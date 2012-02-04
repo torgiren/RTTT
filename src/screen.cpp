@@ -176,6 +176,9 @@ namespace Screen
 	/// @brief ID gracza
 	/// @details Używane do rysowania kolorowej ramki wokół poziomu
 	int id=0;
+	/// @brief ID gracza wykonującego ruch
+		/// @details Używane do rysowania kolorowego trójkąta
+	int cid=0;
 	/// @brief Wskaźnik na kostkę (planetę) źródłową
 	Cube *src=NULL;
 	/// @brief Wskaźnik na kostkę (planetę) docelową
@@ -240,6 +243,12 @@ namespace Screen
 		else if(WindowEngine::getKeyState(SDLK_DOWN))
 			mx-=50*WindowEngine::getDelta();
 
+		if(WindowEngine::getKeyState(SDLK_ESCAPE) || WindowEngine::getKeyState(SDLK_SPACE))
+			{
+			engine->SendEndTurn();
+			addMessage("Pomijanie tury");
+			}
+
 	// Wypisanie informacji
 		char csrc[32], cdst[32], carmy[16];
 		if(!src)
@@ -294,6 +303,10 @@ namespace Screen
 		Drawing::drawLine(Vertex(SCREENWIDTH, 0, 0),			Vertex(SCREENWIDTH-1, SCREENHEIGHT-1, 0));
 		Drawing::drawLine(Vertex(SCREENWIDTH-1, SCREENHEIGHT-1, 0),	Vertex(0, SCREENHEIGHT-1, 0));
 		Drawing::drawLine(Vertex(0, SCREENHEIGHT-1, 0),	Vertex(0, 0, 0));
+
+		Drawing::setColor(PLAYER_COLORS[cid]);
+		Drawing::drawTriangle(Vertex(SCREENWIDTH-17, 1, 0), Vertex(SCREENWIDTH-1, 17, 0), Vertex(SCREENWIDTH-1, 1, 0));
+
 
 		rx+=mx;
 		ry+=my;
@@ -648,6 +661,13 @@ namespace Screen
 		if(sid<0 || sid>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
 			return;
 		id=sid;
+		}
+
+	void setCurrentPlayerID(int sid)
+		{
+		if(sid<0 || sid>=(int)(sizeof(PLAYER_COLORS)/sizeof(PLAYER_COLORS[0])))
+			return;
+		cid=sid;
 		}
 
 	void setGameEngineClient(GameEngineClient* e)
