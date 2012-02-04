@@ -104,22 +104,29 @@ int ServerFunc(void* engine)
 	GameEngine* silnik=(GameEngine*)engine;
     Server* s = Server::create("2330");
 	ServerReady=true;
-	cout<<"Ja zyje..."<<endl;
 	stringstream ss;
 	int numGracz=0;
 	while(true)
 	{
 //		cout<<"Czekam"<<endl;
 		Message tmp=s->receive();
-//		cout<<"Server: "<<tmp.body()<<endl;
+		cout<<"Server: "<<tmp.body()<<endl;
 //		cout<<"Klient nr: "<<tmp.source()<<endl;
 		string body=tmp.body();
-		if(!body.compare("Hello"))
+		stringstream ss(body);
+		string first;
+		ss>>first;
+		cout<<"First: "<<ss.str()<<endl;
+		if(!first.compare("Hello"))
 		{
+			s->send("witam");
+			cout<<"Nowy gracz"<<endl;
 			numGracz++;
 			uint16 client=tmp.source();
-			ss.str("");
+//			stringstream ss;
+			stringstream ss;
 			ss<<"player "<<client;
+			cout<<"ss: "<<ss.str()<<endl;
 			s->send(client,ss.str());
 			ss.str("");
 			ss<<"size "<<silnik->GetSize();
@@ -137,6 +144,16 @@ int ServerFunc(void* engine)
 					};
 				};
 			};
+		}
+	
+		else if(!first.compare("move"))
+		{
+			int x1,y1,z1,x2,y2,z2,num;
+			ss>>x1>>y1>>z1>>x2>>y2>>z2>>num;
+			Vertex src(x1,y1,z1);
+			Vertex dst(x2,y2,z2);
+			cout<<x1<<" "<<y1<<" "<<z1<<" "<<x2<<" "<<y2<<" "<<z2<<endl;
+			silnik->Move(src,dst,num);
 		};
 	};
 	cout<<"i po serverze..."<<endl;

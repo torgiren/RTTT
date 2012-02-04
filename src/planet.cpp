@@ -182,7 +182,5 @@ Planet Planet::ToPlanet(std::string str)
 	ss << str;
 	string tmp;
 	ss>>tmp>>tmp>>tmp>>tmp>>wynik.itsGracz>>wynik.itsFlagaPoziom>>wynik.itsFlagaGracz>>wynik.itsJednostki>>wynik.itsOkupant;
-//	cout<<"stringstream - jednoski: "<<wynik.itsJednostki<<endl;
-//	cout<<wynik.RetJednostki()<<endl;
 	return wynik;
 };

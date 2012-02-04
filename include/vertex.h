@@ -9,7 +9,7 @@
 #define VERTEX_H
 
 #include <cmath>
-
+#include <sstream>
 class Vertex
 {
 	public:
@@ -57,6 +57,12 @@ class Vertex
 		{
 			return Vertex(x/v, y/v, z/v);
 		}
+		operator std::string()
+		{
+			std::stringstream ss;
+			ss<<x<<" "<<y<<" "<<z;
+			return ss.str();
+		};
 
 	/// @brief Iloczyn wektorowy. Z pewnych powodów pomija z. "Taki ficzer".
 		Vertex cross(const Vertex& v) const

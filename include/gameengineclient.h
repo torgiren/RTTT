@@ -51,6 +51,8 @@ class GameEngineClient: public GameEngineBase
 		void MainLoop();
 		void PlanetUpdate(const Vertex& dst, const Planet& planet);
 		void EndGame();
+		void SendMove(Vertex src, Vertex dst, uint16 num);
+		void SendEndTurn();
 	private:
 		GameEngineClient(uint16 size,uint16 num,Client* client);
 		Client* itsC;
