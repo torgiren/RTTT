@@ -38,6 +38,7 @@ Risky Tic Tac Toe jest połączeniem gry "Kółko i Krzyżyk" oraz elementów z 
 	Wysłanie jednostek			- Rolka (wciśnięcie)
 	Obrót pola gry				- Wciśnięty lewy przycisk myszy + ruch, klawisze strzałek
 	Skalowanie pola gry			- Wciśnięty prawy przycisk myszy + ruch
+	Przesunięcie pola gry		- Wciśnięta rolka + ruch
 	
 --WYMAGANIA SPRZĘTOWE--
 	Procesor przynajmniej 1.2GHz

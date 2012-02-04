@@ -147,6 +147,10 @@ namespace Screen
 	float ry=	0.0f;
 	/// @brief Aktualny obrót w z
 	float rz=	0.0f;
+	/// @brief Aktualne przesunięcie w x
+	float tx=	0.0f;
+	/// @brief Aktualne przesunięcie w y
+	float ty=	0.0f;
 	/// @brief Aktualna skala
 	float scale=1.0f;
 
@@ -389,7 +393,7 @@ namespace Screen
 			rotateArb(v, tl/2.0f, Vertex(1, 0, 0), mx*DEGTORAD);
 			//rotateArb(v, Vertex(c.x*(CUBE_DIST+CUBE_SIZE), c.y*(CUBE_DIST+CUBE_SIZE), c.z*(CUBE_DIST+CUBE_SIZE)), Vertex(1, 0, 0), c.roll);
 
-			v=v*scale+scrtl;
+			v=v*scale+scrtl+Vertex(tx, ty, 0.0f);
 			v=v+tl/2.0f*(1-scale);
 
 			if(v.z<tminz) tminz=v.z;
@@ -442,7 +446,7 @@ namespace Screen
 			Vertex& v=c.verts[i];
 
 			v=v-tl/2.0f*(1-scale);
-			v=(v-scrtl)/scale;
+			v=(v-scrtl-Vertex(tx, ty, 0.0f))/scale;
 			}
 		}
 	}
@@ -534,7 +538,7 @@ namespace Screen
 			curr="";
 
 
-		if(!lmb && !rmb)
+		if(!lmb && !rmb && !mmb)
 			return;
 
 		if(!moved)
@@ -558,6 +562,17 @@ namespace Screen
 			}
 		else if(rmb)
 			scale=max(0.5f, min(scale+((y-ly)+(x-lx))/100.0f, 5.0f));
+		else if(mmb)
+			{
+			tx+=x-lx;
+			ty+=y-ly;
+
+			if(tx<-SCREENWIDTH/2) tx=-SCREENWIDTH/2;
+			else if(tx>SCREENWIDTH/2) tx=SCREENWIDTH/2;
+
+			if(ty<-SCREENHEIGHT/2) ty=-SCREENHEIGHT/2;
+			else if(ty>SCREENHEIGHT/2) ty=SCREENHEIGHT/2;
+			}
 
 		lx=x;
 		ly=y;
