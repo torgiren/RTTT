@@ -12,6 +12,7 @@
 #include "utility"
 #include "planet.h"
 #include "vertex.h"
+#include "gameengineclient.h"
 
 /**
  * @namespace Screen
@@ -33,6 +34,8 @@ namespace Screen
 	/// @brief Ustawia ID gracza na podane
 	/// @details Zależnie od ID gracza będzie rysowana ramka innego koloru
 	void setPlayerID(int id);
+
+	void setGameEngineClient(GameEngineClient* e);
 
 	/// @brief Aktualizacja pola gry
 	/// @details Wywolywana po otrzymaniu zbiorczych informacji o aktualnym stanie pola gry
