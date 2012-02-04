@@ -74,8 +74,9 @@
 
   void Client::handle_read_body(const boost::system::error_code& error){
       if (!error){
-
-      _incoming.push_back(std::string(_read_msg.body(),_read_msg.length()));
+      std::string tmp(_read_msg.body(),_read_msg.body_length());
+      _incoming.push_back(tmp);
+      std::cerr << tmp;
       boost::asio::async_read(_socket, boost::asio::buffer(_read_msg.data(), Message::header_length), boost::bind(&Client::handle_read_header, this,
             boost::asio::placeholders::error));
     }

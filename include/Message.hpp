@@ -43,10 +43,14 @@ class Message {
 		bool decode_header();
 		///@brief metoda zapisująca nagłówek
 		void encode_header();
+                ///@brief metoda dopisująca do wiadomości id klienta
+                ///@param[in] src id klienta
 		void source(unsigned src) { _src=src; }
+                ///@brief metoda zwracająca id klienta z wiadmości
 		unsigned source() const { return _src; }
+                ///@brief metoda konwertująca wiadomość do stringa [depracated]
 		std::string getString() {
-			std::string s(body());
+			std::string s(body(), body_length());
 			return s;
 		}
 
