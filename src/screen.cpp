@@ -10,6 +10,7 @@
 #include "screen.h"
 #include "drawing.h"
 #include "text.h"
+#include "gameengineclient.h"
 
 int CUBE_SIZE=64;
 int CUBE_DIST=CUBE_SIZE; //CUBE_SIZE*6;

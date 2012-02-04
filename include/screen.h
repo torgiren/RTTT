@@ -12,8 +12,7 @@
 #include "utility"
 #include "planet.h"
 #include "vertex.h"
-#include "gameengineclient.h"
-
+class GameEngineClient;
 /**
  * @namespace Screen
  * @brief Chyba cala logika okienka jest tutaj zawarta.
