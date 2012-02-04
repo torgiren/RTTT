@@ -21,7 +21,7 @@ using namespace std;
 int ServerFunc(void* engine);
 int WindowFunc(void* null);
 bool ServerReady=false;
-bool EndGame=false;
+GameEngineClient* engine=NULL;
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
@@ -75,78 +75,24 @@ menu:
 		cin>>ip;
 		MapSize=3;
 	};
-    Client* c=Client::create(ip,"2332");
-
-
-	uint PlayerNum=0;
-	bool haveSize=false;
-	bool haveNum=false;
-	cout<<"Przenoszę na pole bitwy..."<<endl;
-	c->send("Hello");
-	while(!haveSize||!haveNum)
-	{
-		string tmp=c->receive();
-		cout<<"Czekam na nr i rozmiar: "<<tmp<<endl;
-		if(tmp.compare("empty"))
-		{
-			stringstream ss(tmp);
-			string first;
-			ss>>first;
-			if(!first.compare("player"))
-			{
-				ss>>PlayerNum;
-				cout<<"Wczytałem numer gracza: "<<PlayerNum<<endl;
-				haveNum=true;
-				Screen::setPlayerID(PlayerNum+1);
-			}
-			if(!first.compare("size"))
-			{
-				ss>>MapSize;
-				cout<<"Wczytałem rozmiar: "<<MapSize<<endl;
-				haveSize=true;
-			};
-		};
-		SDL_Delay(100);
-	};
+	cout<<"Uruchamian clienta"<<endl;
+	engine=GameEngineClient::Create(ip);
+//    Client* c=Client::create(ip,"2332");
 	
+
+	cout<<"Przenoszę na pole bitwy..."<<endl;
 	if(!WindowEngine::init(WindowEngine::SDL, WindowEngine::DELAY))
 	{
 		printf("Nie udało sie utworzyć okienka\n");
 		return 100;
 	}
-	Drawing::setSurface(WindowEngine::getScreen());
 	Screen::init();
-	Screen::setSize(MapSize);
+	Screen::setSize(engine->GetSize());
+	Drawing::setSurface(WindowEngine::getScreen());
 	Window_thread=SDL_CreateThread(WindowFunc,NULL);
 
-//	SDL_Delay(1000);
+	engine->MainLoop();
 //    Client* c=new Client(*SocketSingleton::get(),ip.c_str(), "2332");
-	while(!EndGame)
-	{
-		cout<<"*"<<endl;
-		string tmp=c->receive();
-		cout<<"Otrzymalem: "<<tmp<<endl;
-		if(!tmp.compare("empty"))
-			SDL_Delay(1000);
-		stringstream ss(tmp);
-		string first;
-		ss>>first;
-		if(!first.compare("planet"))
-		{
-//			cout<<"Aktualizacja planety"<<endl;
-			int x,y,z;
-			ss>>x>>y>>z;
-			vector<pair<Vertex,Planet> > tmp;
-			Planet plan=Planet::ToPlanet(ss.str());
-			tmp.push_back(pair<Vertex,Planet>(Vertex(x,y,z),plan));
-//			cout<<"Aktualizacja w "<<x<<" "<<y<<" "<<z<<". Ma "<<plan.RetJednostki()<<" jednostek"<<" oraz gracz: "<<plan.RetGracz()<<endl;
-			Screen::updateArea(tmp);
-		};
-//		c->send("client");
-	};
-//	GameEngineClient();
-		
-//	SDL_KillThread(Window_thread);
 	Sprite::clear();
 	WindowEngine::quit();
 	if(server)
@@ -156,16 +102,17 @@ menu:
 int ServerFunc(void* engine)
 {
 	GameEngine* silnik=(GameEngine*)engine;
-    Server* s = Server::create("2332");
-	SDL_Delay(1000);
+    Server* s = Server::create("2330");
 	ServerReady=true;
+	cout<<"Ja zyje..."<<endl;
 	stringstream ss;
 	int numGracz=0;
 	while(true)
 	{
+//		cout<<"Czekam"<<endl;
 		Message tmp=s->receive();
-		cout<<"Server: "<<tmp.body()<<endl;
-		cout<<"Klient nr: "<<tmp.source()<<endl;
+//		cout<<"Server: "<<tmp.body()<<endl;
+//		cout<<"Klient nr: "<<tmp.source()<<endl;
 		string body=tmp.body();
 		if(!body.compare("Hello"))
 		{
@@ -192,6 +139,7 @@ int ServerFunc(void* engine)
 			};
 		};
 	};
+	cout<<"i po serverze..."<<endl;
 	return 0;
 };
 int WindowFunc(void* null)
@@ -203,5 +151,5 @@ int WindowFunc(void* null)
 
 		WindowEngine::print();
 	}
-	EndGame=true;
+	engine->EndGame();
 };
