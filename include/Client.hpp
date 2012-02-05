@@ -21,18 +21,18 @@ typedef std::deque<Message> Message_queue;
 class Client{
 public:
   ///@brief metoda zamykająca połączenie
-  ///@detail metoda binduje handler do_close z metodą post socketu
+  ///@details metoda binduje handler do_close z metodą post socketu
   void close();
   ///@brief metoda wysyłająca wiadomość do serwera
-  ///@detail metoda konwertuje stringa do Message, a następnie wysyła do serwera
+  ///@details metoda konwertuje stringa do Message, a następnie wysyła do serwera
   ///@param[in] m referencja do strina który ma zostać wysłany
   void send(const std::string& m);
 
 public:
   ///@brief Nazwany konstruktor
-  ///@detail Jedyny legalny sposób tworzenia instancji klienckich 
+  ///@details Jedyny legalny sposób tworzenia instancji klienckich 
   ///@param[in] host hostname
-  ///@param[in] ip adres ip
+  ///@param[in] port numer portu
   static Client* create(const std::string host, const std::string port);
   ///@brief destruktor
  ~Client();

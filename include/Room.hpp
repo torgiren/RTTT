@@ -36,9 +36,13 @@ class Room {
 		void todo(const Message msg);
 
 	private:
+		///@brief miejsce przetrzymywania użytkowników w celu szybkiego dostarczenia wiadomości
 		std::set<Participant_ptr> _participants;
+                ///@brief kontener który pozwoli znaleźć socket odpowiedni dla danego użytkownika
 		std::vector<std::pair<Participant*, unsigned> > _idents;
+                ///@brief id użytkownika
 		unsigned _current_id;
+                ///@brief bufor wiadomości do wykonania przez serwer
 		Message_queue _todo;
 		
 };
