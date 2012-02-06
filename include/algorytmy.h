@@ -11,14 +11,14 @@
 
  
  
- * \subsection rysowanie_trojkata Rysowanie trójkąta:
+ * \subsection rysowanie_trojkata Rysowanie trojkata:
  * <ol>
  * <li>Znajdź skrajne punkty i utwórz z nich prostokąt zawierający w sobie cały trójkąt</li>
  * <li>Przejdź po wszystkich punktach wewnątrz prostokąta</li>
  * <li>Jeśli punkt jest wewnątrz trójkąta - wstaw piksel, w przeciwnym razie kontynuuj</li>
  * </ol>
  
- * \subsection wyszukiwanie_obiektow Wyszukiwanie obiektów:
+ * \subsection wyszukiwanie_obiektow Wyszukiwanie obiektow:
  * <ol>
  * <li>Ustaw wskaźnik na obiekt</li>
  * <li>Używając ZBuffera sprawdź, czy można wstawić piksel</li>

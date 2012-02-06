@@ -1,8 +1,9 @@
 /**
+ * @title Bitwa
  * @mainpage RTTT - Risky Tic Tac Toe
  * \section description Opis gry
  * Gra strategiczna łącząca elementy gry Ryzyko z gra "Kółko i krzyżyk". Fabuła gry osadzona jest w przestrzeni kosmicznej. Twój zadaniem, jak generała floty, jest odeprzeć inwazję kosmitów, oraz wyeliminować konkurencyjne frakcje
- * \section rules Reguły panujące w kosmosie
+ * \section rules Reguly panujace w kosmosie
  * \subsection zdobywanie_planet Zdobywanie planet
  * Podstawowym elementem gry są posiadane planety. Aby podbić planetę, należy umieścić na niej swoje jednostki.  Wysłane jednostki po dotarciu do celu, walczą z stacjonującymi tam statkami wroga. Po wygranej bitwie, planeta przechodzi w stan okupacji. Jeśli jest to planeta neutralna, należy ją okupować (posiadać tam co najmniej jedną jednostkę) przez 3 tury.<br/>
  * Jeśli natomiast jest to planeta przeciwnika trzeba odczekać 3 tury na obalenie tamtejszego rządu i kolejne 3 tury na utworzenie swojego.<br/>
