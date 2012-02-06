@@ -11,7 +11,4 @@
  * Na każdej pobitej przez gracza planecie produkowane są statki kosmiczne. Tempo tworzenia statków wynosi jeden na turę i zawsze jest tworzony na koniec tury danego gracza. Tak więc po wykonaniu swoich manewrów, na każdej planecie tworzona jest jedna nowa jednostka. Na planetach okupowanych przez przeciwnika nie są Tworzone jednostki.
  * \subsection wygrana Wygrana
  * Aby wygrać rozgrywkę, należy odeprzeć atak kosmitów. Można to zrobić poprzez eliminację wszystkich wrogich jednostek bądź wykorzystanie <i>Broni ostatecznej</i>. Aby móc z niej skorzystać, należy zdobyć planety znajdujące się w jednej linii na przestrzeni całego obszaru bitwy. Zostaje wtedy aktywowana <i>Bron ostateczna</i> i wszystkie wrogie jednostki zostają zniszczone.
- * @page algorytmy Algorytmy
- * \section algorytm_walki Algorytm walki
- * W walce uczestniczy dwóch różnych graczy - atakujący i broniący się. Na każdą rundę walki wystawiana jest maksymalnie flota składająca się z 3 jednostek.
  */
