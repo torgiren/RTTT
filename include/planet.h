@@ -43,7 +43,7 @@ class Planet
 		uint16 RetJednostki() const;
 		/**
 		 * @brief Przeprowadza atak na planetę
-		 * @detail Przeprowadza atak zadanej ilości jednostek na planetę.
+		 * @details Przeprowadza atak zadanej ilości jednostek na planetę.
 		 * @param ile Liczba jednostek wroga, biorąca udział w ataku
 		 * @param kogo Numer gracza który przeprowadza atak
 		 * @return Zwraca wektor reprezentujący kolejne starcia, zawierający pary wektorów rzutów 
@@ -75,8 +75,25 @@ class Planet
 		 * @param ile Liczba jednostek które zostaną dodane do garnizonu planety
 		 */
 		void Dodaj(uint16 ile);
+		/**
+		 * @brief Konwertuje planetę do postaci stringa
+		 * @details Konwertuje obiekt klasy Planeta do postaci stringa. Format to:<br/>Nr_gracza Poziom_flagi Nr_Gracza_Posiadacza Liczba_Jednostek Nr_Gracza_Okupanta
+		 * @return String reprezentujący tą planete
+		 * @see ToPlanet(std::string str)
+		 */
 		std::string ToString();
+		/**
+		 * @brief Konwertuje planetę do postaci stringa 
+		 * @details To samo to ToString();
+		 * @see ToPlanet(std::string str)
+		 */
 		operator std::string();
+		/**
+		 * @brief Tworzy planetę na podstawie stringa
+		 * @details Tworzy planetę na podstawie stringa o formacie: Nr_gracza Poziom_flagi Nr_Gracza_Posiadacza Liczba_Jednostek Nr_Gracza_Okupanta
+		 * @return Klasa planety powstała po interpretacji stringa
+		 * @see ToString()
+		 */
 		static Planet ToPlanet(std::string str);
 	private:
 		/**

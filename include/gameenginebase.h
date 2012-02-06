@@ -5,6 +5,10 @@
 #include "consts.h"
 #include "vertex.h"
 #include "planet.h"
+/**
+ * Klasa bazowa dla klas silnika gry i klienckiego silnika gry
+ * @author Marcin TORGiren Fabrykowski
+ */
 class GameEngineBase
 {
 	public:
@@ -35,9 +39,25 @@ class GameEngineBase
 		 */
 		uint16 GetSize() const;
 	protected:
+		/**
+		 * @brief Lista graczy
+		 * @details Zawiera zbiór numerów graczy biorących udział w rozgrywce. Gracze wyeliminowani są z tej listy usuwani
+		 */
 		std::set<uint16> itsPlayers;
+		/**
+		 * @brief Aktualny gracz
+		 * @details Iterator wskazujący na aktualnego gracza
+		 */
 		std::set<uint16>::iterator itsActPlayer;
+		/**
+		 * @brief Planety na planszy
+		 * @details Tablica trzy wymiarowa zawierająca planety pola bitwy
+		 */
 		Planet*** itsPlanety;
+		/**
+		 * @brief Rozmiar pola bitwy
+		 * @details Długość boku sześciennego pola bitwy
+		 */
 		uint16 itsSize;
 };
 #endif
