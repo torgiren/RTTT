@@ -8,28 +8,44 @@ const float DELTA_MIN=0.000001f;
 
 namespace WindowEngine
 	{
+	/// @brief Inicjalizacja SLD'a
 	bool initSDL();
 
+	/// @brief Informacja o działaniu
 	bool run=true;
+	/// @brief Flagi inicjalizacyjne
 	unsigned int flags=0x0;
+	/// @brief Czas poświęcony na klatkę
 	unsigned int frameTime=0;
 
+	/// @brief Delta
 	float delta=0.0f;
 
+	/// @brief Wskaźniki na funkcje obsługujące wciśnięcie klawisza
 	set<void(*)(int)> keyDownHandles;
+	/// @brief Wskaźniki na funkcje obsługujące puszczenie klawisza
 	set<void(*)(int)> keyUpHandles;
+	/// @brief Wskaźniki na funkcje obsługujące przytrzymanie klawisza
 	set<void(*)(int)> keyPressedHandles;
 
+	/// @brief Wskaźniki na funkcje obsługujące wciśnięcie przycisku myszy
 	set<void(*)(int, int, int)> mouseDownHandles;
+	/// @brief Wskaźniki na funkcje obsługujące puszczenie przycisku myszy
 	set<void(*)(int, int, int)> mouseUpHandles;
+	/// @brief Wskaźniki na funkcje obsługujące ruch myszy
 	set<void(*)(int, int, int)> mouseMotionHandles;
 
+	/// @brief Typ rendera
 	RenderType rt;
+	/// @brief Typ przerwy
 	WaitType wt;
 
+	/// @brief Zdarzenie SDL'a
 	SDL_Event event;
+	/// @brief Ekran
 	SDL_Surface *screen=NULL;
 
+	/// @brief Stan klawiszy
 	Uint8 *keys=SDL_GetKeyState(NULL);
 	}
 

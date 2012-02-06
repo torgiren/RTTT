@@ -44,9 +44,27 @@ class Text
 		int nlSize, spSize, tabSize;	// Wielkosc entera i taba	// Wbrew nazwie nie jest to wielkosc taba tylko rozstaw... 'krawedzi' do ktorych wyrownuje
 		Align align;
 	public:
+		/// @brief Konstruktor domyślny
 		Text();
+		/// @brief Konstruktor
+		/// @param id ID tekstu
+		/// @param x Współrzędna x
+		/// @param y Współrzędna x
+		/// @param z Współrzędna x
+		/// @param px Parallax scrolling, poziomy
+		/// @param py Parallax scrolling, pionowy
+		/// @param sSprite Czcionka
+		/// @param sText Tekst
+		/// @param w Szerokość
+		/// @param h Wysokość (zmienne)
+		/// @param nlSize Wysokość linii
+		/// @param spSize Długość spacji
+		/// @param tabSize Długość tabulatora
 		Text(unsigned int id, float x, float y, float z, float px, float py, Sprite *sSprite, const char *sText, unsigned int w, unsigned int h, int nlSize=16, int spSize=12, int tabSize=32);
+		/// @brief Konstruktor kopiujący
+		/// @param txt Tekst do skopiowania
 		Text(const Text& txt);
+		/// @brief Destruktor
 		~Text();
 
 		/// @brief Przypisanie tekstu \a str
@@ -93,7 +111,7 @@ class Text
 		/// @param sStr Tekst
 		void addStr(const char *sStr);
 		/// @brief Ustawienie wyrównania tekstu
-		/// @param str Typ wyrównania
+		/// @param sa Typ wyrównania
 		void setAlign(Align sa) {align=sa;}
 		/// @brief Ustawienie wyrównania tekstu do lewej
 		void setAlignLeft() {align=LEFT;};
@@ -102,18 +120,37 @@ class Text
 		/// @brief Ustawienie wyrównania tekstu do prawej
 		void setAlignRight() {align=RIGHT;};
 
+		/// @brief Zwraca pozycję tekstu
+		/// @param[out] gx Współrzędna x
+		/// @param[out] gy Współrzędna y
+		/// @param[out] gz Współrzędna z
 		void getPos(float& gx, float& gy, float& gz) const {gx=x; gy=y; gz=z;};
+		/// @brief Zwraca pozycję x
 		float getX() const {return x;};
+		/// @brief Zwraca pozycję y
 		float getY() const {return y;};
+		/// @brief Zwraca pozycję z
 		float getZ() const {return z;};
+		/// @brief Zwraca parametry Parallax scrollingu
+		/// @param[out] gpx Poziomy
+		/// @param[out] gpy Pionowy
 		void getPara(float& gpx, float& gpy) const {gpx=px; gpy=py;};
 		//unsigned char getAlpha() const {return min(255, max(0, (int)alpha));};
+		/// @brief Zwraca czcionkę
 		const Sprite *getSprite() const {return font;};
+		/// @brief Zwraca szerokość
 		unsigned int getW() const {return w;};
+		/// @brief Zwraca wysokość
 		unsigned int getH() const {return h;};
+		/// @brief Zwraca wymiary tekstu
+		/// @param[out] gw Szerokość
+		/// @param[out] gh Wysokość
 		void getDim(unsigned int& gw, unsigned int& gh) const {gw=w; gh=h;};
+		/// @brief Zwraca tekst
 		const char* getText() const {return text;};
+		/// @brief Zwraca tekst
 		const char* getStr() const {return text;};
+		/// @brief Zwraca wyrównanie tekstu
 		int getAlign() const {return align;};
 		//int getFontSize() const {if(!font) return 0; return font->getAnim(0)->h;};
 		/// @brief Zwraca wielkość nowej linii (wysokość linii tekstu)

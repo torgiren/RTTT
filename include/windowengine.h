@@ -11,7 +11,19 @@ struct SDL_Surface;
  */
 namespace WindowEngine
 	{
+	/** @brief Typ rendera
+	 * <ul>
+	 * <li>SDL - Używa biblioteki SDL</li>
+	 * <li>OPENGL - Używa biblioteki OpenGL</li>
+	 * </ul>
+	 */
 	enum RenderType {SDL, OPENGL};
+	/** @brief Typ przerwy między klatkami
+	 * <ul>
+	 * <li>DELAY - Zwykłe uśpienie procesu na \a x milisekund</li>
+	 * <li>DELTA - Działanie z maksymalną prędkością, obliczana jest \a delta, zmienna informująca o czasie poświęconym na ostatnią klatkę.</li>
+	 * </ul>
+	 */
 	enum WaitType {DELAY, DELTA};
 
 	/**
@@ -32,8 +44,11 @@ namespace WindowEngine
 	/// @brief Ustawia sposób reagowania na koniec danej klatki
 	void setWaitType(WaitType wt);
 
+	/// @brief Zwraca typ rendera
 	RenderType getRenderType();
+	/// @brief Zwraca typ przerwy
 	WaitType getWaitType();
+	/// @brief Zwraca deltę
 	float getDelta();
 
 	/// @brief Rejestracja funkcji wywoływanej po wciśnięciu klawisza na klawiaturze

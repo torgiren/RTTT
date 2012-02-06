@@ -25,24 +25,33 @@ inline void sincos(float ang, float& s, float& c)
 		);
 	}
 
+/**
+ * @struct Cube
+ * @brief Kostka widoczna na ekranie
+ * @details Posiada współrzędne, listę vertexów, kolor, wielkość armii i stopień przejęcia
+ */
 struct Cube
 	{
+	/// @brief Konstruktor
 	Cube(int x=0, int y=0, int z=0, unsigned int col=0xFFFFFFFF):
 		x(x), y(y), z(z), col(col), army(0), pct(0.0f), roll(0.0f)
 		{
 		reset();
 		}
 
+	/// @brief Konstruktor kopiujący
 	Cube(const Cube& c): x(c.x), y(c.y), z(c.z), col(c.col), roll(0.0f)
 		{
 		reset();
 		}
 
+	/// @brief Rzutowanie na Vertex
 	operator Vertex()
 		{
 		return Vertex(x, y, z);
 		}
 
+	/// @brief Wyzerowanie współrzędnych Vertexów
 	void reset()
 		{
 	// Przod
@@ -81,16 +90,22 @@ struct Cube
 			verts[i]=verts[i]*CUBE_SIZE+Vertex(x, y, z)*(CUBE_SIZE+CUBE_DIST);
 		}
 
+	/// @brief Ilość Vertexów dla sześcianu (nie zmieniać bez powodu)
 	static const int VERT_COUNT=24;
 
 	int x, y, z;
+	/// @brief Kolor
 	unsigned int col;
 
+	/// @brief Ilość jednostek na 'planecie'
 	int army;
+	/// @brief Stopień przejęcia 'planety'
 	float pct;
 
+	/// @brief Unused
 	float roll;
 
+	/// @brief Lista Vertexów
 	Vertex verts[VERT_COUNT];
 	};
 
@@ -169,7 +184,16 @@ namespace Screen
 	/// @brief Szybkość obrotu w y
 	float spdy= 0.0f;
 
-	float minz, maxz, tminz, tmaxz;
+	/// @brief Minimalne \a z kostki
+	/// @details Używane do cieniowania. Wartość otrzymana w poprzedniej iteracji.
+	float minz;
+	/// @brief Maksymalne \a z kostki
+	/// @details Używane do cieniowania. Wartość otrzymana w poprzedniej iteracji.
+	float maxz;
+	/// @brief Tymczasowe minimalne \a z kostki
+	float tminz;
+	/// @brief Tymczasowe maksymalne \a z kostki
+	float tmaxz;
 
 	/// @brief Wielkość pola gry
 	int size=4;
@@ -207,9 +231,13 @@ namespace Screen
 	/// @brief Wskaźnik na obrazek tła
 	Sprite *bg;
 
+	/// @brief Wskaźnik na GameEngineClient
 	GameEngineClient *engine;
 
+	/// @brief Przesunięcie kostek do (0, 0, 0)
+	/// @details Używane przy obracaniu kostek
 	Vertex tl;
+	/// @brief Przesunięcie kostek do środka ekranu
 	Vertex scrtl;
 	}
 
