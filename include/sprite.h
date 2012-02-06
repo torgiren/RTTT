@@ -31,10 +31,10 @@ class Sprite
 				 */
 				struct AnimFrame
 					{
+					/// @brief Konstruktor
 					AnimFrame(int x, int y, int w, int h, int spotx=0, int spoty=0, int actx=0, int acty=0, int boxx=0, int boxy=0, int boxw=0, int boxh=0):
 						x(x), y(y), w(w), h(h), spotx(spotx), spoty(spoty), actx(actx), acty(acty),
 						boxx(boxx), boxy(boxy), boxw(boxw), boxh(boxh) {}
-
 					// x, y, w, h, hotspot, action point~
 					int x, y, w, h, spotx, spoty, actx, acty, boxx, boxy, boxw, boxh;
 					};
@@ -44,7 +44,9 @@ class Sprite
 				float aspd;
 				int fret;
 			public:
+				/// @brief Konstruktor
 				 Anim(float aspd, int fret): aspd(aspd), fret(fret) {};
+				/// @brief Destruktor
 				~Anim() {clear();}
 
 				/// @brief Czyści wszystkie animacje
@@ -78,23 +80,45 @@ class Sprite
 			{
 			//private:
 			public:
+				/// @brief Wskaźnik na grafikę
 				Sprite *sprite;
 
 			private:
 				int anim;
 				float frame, spd;
 			public:
+				/// @brief Konstruktor domyślny
 				 SpritePtr(): sprite(NULL), anim(0), frame(0.0f), spd(-1.0f) {}
+				/// @brief Konstruktor
+				/// @param s Wskaźnik na grafikę
 				 SpritePtr(Sprite *s): sprite(NULL), anim(0), frame(0.0f), spd(-1.0f) {setSprite(s);}
+				/// @brief Destruktor
 				~SpritePtr() {setSprite(NULL);}
 
+				/// @brief Przypisanie
 				inline void operator=(Sprite *s) {setSprite(s);}
 
+				/// @brief Przypisanie
 				inline void setSprite(Sprite *s) {if(sprite) sprite->delSpritePtr(this); sprite=s; if(sprite) sprite->addSpritePtr(this);}
+				/// @brief Zmiana animacji
 				inline void setAnim(int sa) {anim=sa;};
+				/// @brief Zmiana szybkości animacji
 				inline void setSpd(float ss) {spd=ss;};
 
+				/// @brief Animowanie
 				void animate();
+				/// @brief Wyświetlenie grafiki
+				/**
+				 * \param[in] x Współrzędna x
+				 * \param[in] y Współrzędna y
+				 * \param[in] z Współrzędna z
+				 * \param[in] alpha Przeźroczystość, 0-255
+				 * \param[in] px Parallax scrolling, poziomy
+				 * \param[in] py Parallax scrolling, pionowy
+				 * \param[in] r Czerwony
+				 * \param[in] g Zielony
+				 * \param[in] b Niebieski
+				 */
 				void print(float x, float y, float z, unsigned char alpha=255u, float px=1.0f, float py=1.0f, unsigned char r=255u, unsigned char g=255u, unsigned char b=255u);
 			};
 	protected:
@@ -149,14 +173,28 @@ class Sprite
 		/// @brief Wczytuje grafikę o podanej nazwie
 		static Sprite* load(const std::string& name, bool force=false);
 
+		/// @brief Konstruktor
+		/// @param name Nazwa grafiki
+		/// @param w Szerokość obrazka
+		/// @param h Wysokość obrazka
 		Sprite(const std::string& name="", int w=0, int h=0);
+		/// @brief Destruktor
 		virtual ~Sprite();
 
+		/// @brief Zwraca nazwę grafiki
 		const std::string& getName() {return name;}
+		/// @brief Zwraca wymiary obrazka
+		/// @param[out] gw Szerokość
+		/// @param[out] gh Wysokość
 		void getDim(int& gw, int& gh) {gw=w; gh=h;}
+		/// @brief Zwraca Szerokość
 		int getW() {return w;}
+		/// @brief Zwraca Wysokość
 		int getH() {return h;}
+		/// @brief Zwraca animację o numerze \a i
+		/// @param i Numer animacji
 		Anim& getAnim(unsigned int i) {if(i>anims.size()) return anims[0]; return anims[i];}
+		/// @brief Zwraca ilość animacji
 		unsigned int getAnimCount() {return anims.size();}
 
 		/// @brief Animuje animację \a anim z prędkością \a spd. Do \a frame wpisuje nową klatkę animacji.

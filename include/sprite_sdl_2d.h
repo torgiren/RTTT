@@ -17,7 +17,12 @@ class SpriteSDL2D: public Sprite
 
 		SDL_Surface *sprite;
 	public:
+		/// @param Konstruktor
+		/// @param name Nazwa grafiki
+		/// @param w Szerokość
+		/// @param h Wysokość
 		SpriteSDL2D(const std::string& name="", int w=0, int h=0): Sprite(name, w, h), sprite(NULL) {}
+		/// @param Destruktor
 		virtual ~SpriteSDL2D() {if(sprite) SDL_FreeSurface(sprite);}
 
 		/**
