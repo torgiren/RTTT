@@ -10,27 +10,27 @@ Projekt został wykonany przez trzech studentów Informatyki Stosowanej na Wydzi
  * @subsection opis Opis projektu
 Prymitywna gra w kółko i krzyżyk nawet w 3 wymiarowej przestrzeni, stąd zasady RTTT zostały zmodyfikowane.
 
-@paragraf zasady Zasady
-@subparagraf poczatek Początek
+@paragraf Zasady
+@subparagraf Początek
         Na początku, gracz dostaje 3 jednostki, które może dowolnie rozplanować na planszy
-@subparagraf rozgrywka Rozgrywkka
+@subparagraf  Rozgrywka
         Gracz wybiera swoją prowincję na której ma >1 jednosktę z której chce wysłaś jednoski, oraz docelową, którą chce przejąć.<br/>
         Atakujący i obroniący się "rzucają kostką" K6 w liczbie odpowiadająch jednostek walczących w danej potyczce. Porównywane są odpowiednio największe wyniki, np:<br/>
-        @subsubparagraf nieudany Nieudany<br/>
+        @subsubparagraf Nieudany<br/>
                 Atakujący wyrzuci: 3 4 6 6, natomiast:<br/>
                 Broniący wyrzuci: 5 5 5. porównujemy odpowiednio:<br/>
                 6>5 wygrywa atakujący<br/>
                 6>5 wygrywa atakujący<br/>
                 4<5 przegrywa atakujący<br/>
                 wynik takiej potyczki jest taki, że prowincja broniąca obroniła się, i pozostał jej jeden wojownik, natomiast atakujący stracił 1 wojownika. Wojska które przeżyły atak, wracają na prowincję z której wyruszyły.<br/>
-        @subsubparagraf udany Udany
+        @subsubparagraf Udany
                 Atakujący wyrzuci 3 4 6 6, natomiast:<br/>
                 Broniący wyrzuci: 5 5 3, porównujemy odpowiednio:<br/>
                 6>5 wygrywa atakujący<br/>
                 6>5 wygrywa atakujący<br/>
                 4>3 wygrywa atakujący<br/>
                 broniący sie nie ma już jednostek, dlatego atakujący podbija tą prowincję i przenosi tam swoje jednostki. Liczba przeniesionych jednostek nie może być mniejsza niż pozostałych przy życiu po walce ani większa niż suma jednostek pozostałych na prowincji oraz pozostałych przy życiu minus 1. Jedna jednostka musi zostać na prowincji.<br/>
-        @subparagraf przejmowanie Przejmowanie prowincji
+        @subparagraf Przejmowanie prowincji
                 Po udanym ataku na prowincje, dana prowincja staje się prowincją okupowaną przez danego gracz. Aby ją przejąc, gracz musi zawiesić na niej swoją flagę. Proces trwa 5 tur.<br/>
                 Jeśli gracz podbije prowincje która już należy do innego gracza (już ma jego flagę) gracz ten musi poczekać 5 tur na zdjęcie flagi przeciwnika oraz kolejne 5 tur na zawieszenie swojej.<br/>
                 W przypadku jeżeli jeden gracz wiesza swoją flage i w tym czasie prowincja zostanie przejęta przez innego gracza, podbijający musi poczekać tyle tur na zdjęcie flagi przeciwnika, ile ten poświęcił na jej wzniesienie. np:<br/>
@@ -72,13 +72,13 @@ Nasza unikatowa gra ma być unikatowa dzięki kilku elementom:<br/>
         Skalowanie pola gry                     - Wciśnięty prawy przycisk myszy + ruch
         Przesunięcie pola gry           - Wciśnięta rolka + ruch
 
-@subsection wyodrebione Wyodrebnienie i zdefiniowanie zadań
+@subsection zadania Wyodrebnienie i zdefiniowanie zadań
 - komunikacja z użytkownikiem – mysz, klawiatura
 - wyświetlenie okna, generowanie planszy – SDL
 - komunikacja okna z silnikiem gry – Boost Asio, TCP/IP
 - logika gry kółko i krzyżyk z elementami gry w ryzyko
 
-@subsection decyzje Decyzja o wyborze narzedzi
+@subsection narzedzia Decyzja o wyborze narzedzi
 
 Projekt został wykonany przy użyciu następujących bibliotek:
 - Boost 1.46.1 – ze względu na znakomite możliwości Boost Asio do połączeń TCP/IP
@@ -90,7 +90,7 @@ Projekt został wykonany przy użyciu następujących bibliotek:
 
 
 
-@sectoin analiza_czasowa Podział pracy i analiza czasowa
+@section analiza_czasowa Podział pracy i analiza czasowa
 Ze względu na to, iż nasz projekt dzieli się w naturalny sposób na trzy moduły, barbarzyństwem byłoby nie wykorzystać tego przy podziale obowiązków.<br/>
 Po ustaleniu wspólnych interfejsów i po wielu owocnych dyskusjach (ok 10% czasu projektu), przystąpiliśmy do pracy.<br/>
 
@@ -106,6 +106,4 @@ W ten sposób szacujemy że poniższe zadania w sumie zajęły 90%<br/>
 - Uzupłenienie dokumentacji – 5% [Paweł Ściegienny]
 
 
-@section opisy Tutaj opis algorytmów graficznych...
-@section techniczna Dokumentacja techniczna
 */
