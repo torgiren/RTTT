@@ -1,7 +1,7 @@
 // void drawLine(const Vertex& a, const Vertex& b);
 /** Rysowanie linii:
  * <ol>
- * <li>Z twierdzenia Pitagorasa oblicz d³ugoœæ odcinka(<i>l</i>)</li>
+ * <li>Z twierdzenia Pitagorasa oblicz d¿ugo¿¿ odcinka(<i>l</i>)</li>
  * <li>Oblicz odleg³oœæ w poziomie (<i>dx</i>) i w pionie (<i>dy</i>) a nastêpnie podziel je przez d³ugoœæ odcinka</li>
  * <li>Zapaczynaj¹c od jednego z punktów, odpal pêtlê <i>l</i> razy</li>
  * <li>Dla ka¿dej iteracji wypisz piksel w aktualnym punkcie i przesuñ siê o <i>dx, dy</i></li>
