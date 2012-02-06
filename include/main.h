@@ -1,6 +1,6 @@
 /**
  * @title Bitwa
- * @mainpage RTTT - Risky Tic Tac Toe
+ * @page RTTT - Risky Tic Tac Toe old
  * \section description Opis gry
  * Gra strategiczna łącząca elementy gry Ryzyko z gra "Kółko i krzyżyk". Fabuła gry osadzona jest w przestrzeni kosmicznej. Twój zadaniem, jak generała floty, jest odeprzeć inwazję kosmitów, oraz wyeliminować konkurencyjne frakcje
  * \section rules Reguly panujace w kosmosie

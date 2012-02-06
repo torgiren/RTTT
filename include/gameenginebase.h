@@ -7,6 +7,7 @@
 #include "planet.h"
 /**
  * Klasa bazowa dla klas silnika gry i klienckiego silnika gry
+ * @brief Klasa bazowa dla silników gry
  * @author Marcin TORGiren Fabrykowski
  */
 class GameEngineBase
