@@ -1,12 +1,9 @@
 #include "Client.hpp"
-  ///@brief nazwany konstruktor
   Client* Client::create(const std::string host, const std::string port){
      boost::asio::io_service* io=new boost::asio::io_service();
      return new Client(*io, host.c_str(), port.c_str());
     
   } 
-  ///@brief metoda zamykająca połączenie
-  ///@detail metoda binduje handler do_close z metodą post socketu
   void Client::close(){
     _io_service.post(boost::bind(&Client::do_close, this));
   }
@@ -18,14 +15,6 @@
       write(msg);
   }
 
-
-/*  Client::Client(boost::asio::io_service& io_service, tcp::resolver::iterator endpoint_iterator)
-    : _io_service(io_service), _socket(io_service){
-    tcp::endpoint endpoint = *endpoint_iterator;
-    _socket.async_connect(endpoint, boost::bind(&Client::handle_connect, this, boost::asio::placeholders::error, ++endpoint_iterator));
-  }
-  
-*/
 
   Client::Client(boost::asio::io_service& io_service, const char* host, const char* port):
    _io_service(io_service), _socket(io_service)
@@ -76,7 +65,6 @@
       if (!error){
       std::string tmp(_read_msg.body(),_read_msg.body_length());
       _incoming.push_back(tmp);
-      std::cerr << tmp;
       boost::asio::async_read(_socket, boost::asio::buffer(_read_msg.data(), Message::header_length), boost::bind(&Client::handle_read_header, this,
             boost::asio::placeholders::error));
     }

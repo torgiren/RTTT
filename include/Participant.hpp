@@ -11,7 +11,9 @@
 class Participant
 {
 public:
+  ///@brief wirtualny destruktor
   virtual ~Participant() {}
+  ///@brief metoda czysto wirtualna
   virtual void deliver(const Message& msg) = 0;
 };
 

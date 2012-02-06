@@ -22,7 +22,11 @@ class Message {
 		///@brief Konstruktor
 		///@details Konstruktor domyślny - inicjalizuje długość wiadomości 
 		Message();
+		///@brief Konstruktor
+		///@details Konstruktor kopiujący - w pewnym momencie bardzo istotny element programu
 		Message(const Message& src);
+		///@brief operator przypisania
+  		///@brief operator przypisania [depracated]
 		void operator=(const Message& src);
 		///@brief metoda zwracająca treść wiadomości razem z nagłówkiem
 		const char* data() const { return _data; }
@@ -55,8 +59,11 @@ class Message {
 		}
 
 	private:
+		///@brief istotne dla serwera pole - nadawca wiadomości
 		unsigned _src;
+                ///@brief miejsce do przechowywania bajtów które nadeszły
 		char _data[header_length + max_body_length];
+ 		///@brief przechowuje długość właściwej wiadomości
 		size_t _body_length;
 
 };
